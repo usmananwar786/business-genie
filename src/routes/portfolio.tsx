@@ -42,7 +42,7 @@ const stats: {
   suffix: string;
   label: string;
   desc: string;
-  to: "/portfolio" | "/services" | "/contact";
+  to: "/portfolio"  | "/contact";
 }[] = [
   {
     number: 200,
@@ -56,7 +56,7 @@ const stats: {
     suffix: "+",
     label: "Industries Covered",
     desc: "Retail, services, SaaS, ecommerce, real estate and more.",
-    to: "/services",
+    to: "/contact",
   },
   {
     number: 360,

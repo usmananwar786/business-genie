@@ -43,7 +43,7 @@ const contactEmail = "info@businessgenie.net";
 const whatsappNumber = "+923394050121";
 
 const whatsappUrl = whatsappNumber
-  ? `https://wa.me/${whatsappNumber}`
+  ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}`
   : SITE.whatsappUrl;
 
 export function FloatingActions() {
@@ -107,30 +107,32 @@ export function FloatingActions() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.94 }}
             transition={{ duration: 0.28, ease: "easeOut" }}
-            className="fixed bottom-24 right-5 z-50 w-[350px] max-w-[calc(100vw-40px)] overflow-hidden rounded-3xl border border-white/10 bg-[#070707] shadow-2xl shadow-black/50 sm:right-6"
+            className="fixed bottom-[92px] right-3 z-[9999] flex h-[calc(100dvh-112px)] max-h-[620px] w-[calc(100vw-24px)] max-w-[380px] flex-col overflow-hidden rounded-3xl border border-[var(--brand-orange)]/25 bg-[#070707] text-white shadow-2xl shadow-black/45 sm:bottom-24 sm:right-6 sm:h-[600px]"
           >
             {/* Header */}
-            <div className="relative overflow-hidden bg-gradient-orange px-5 py-4 text-black">
+            <div className="relative shrink-0 overflow-hidden bg-gradient-orange px-5 py-4 text-black">
               <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/25 blur-2xl" />
 
               <div className="relative flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-full bg-black/10">
+                <div className="flex min-w-0 items-center gap-3">
+                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-black/10">
                     <Bot className="h-5 w-5" />
                   </div>
 
-                  <div>
-                    <div className="text-sm font-bold">Business Genie</div>
+                  <div className="min-w-0">
+                    <div className="truncate text-sm font-bold">
+                      Business Genie
+                    </div>
                     <div className="flex items-center gap-1.5 text-xs opacity-80">
-                      <span className="h-2 w-2 rounded-full bg-green-600" />
-                      Online, replies quickly
+                      <span className="h-2 w-2 shrink-0 rounded-full bg-green-600" />
+                      <span className="truncate">Online, replies quickly</span>
                     </div>
                   </div>
                 </div>
 
                 <button
                   onClick={() => setChatOpen(false)}
-                  className="grid h-8 w-8 place-items-center rounded-full bg-black/10 transition hover:bg-black/20"
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-black/10 transition hover:bg-black/20"
                   aria-label="Close chat"
                 >
                   <X className="h-4 w-4" />
@@ -139,7 +141,7 @@ export function FloatingActions() {
             </div>
 
             {/* Messages */}
-            <div className="h-[310px] overflow-y-auto bg-[#050505] px-4 py-5">
+            <div className="min-h-0 flex-1 overflow-y-auto bg-[#0b0b0b] px-4 py-5">
               <div className="space-y-3">
                 {messages.map((msg, index) => (
                   <div
@@ -152,7 +154,7 @@ export function FloatingActions() {
                       className={`max-w-[84%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                         msg.type === "user"
                           ? "rounded-br-sm bg-gradient-orange text-black"
-                          : "rounded-bl-sm bg-white/10 text-white/85"
+                          : "rounded-bl-sm border border-white/10 bg-[#171717] text-[#f5f5f5]"
                       }`}
                     >
                       {msg.text}
@@ -164,14 +166,15 @@ export function FloatingActions() {
               </div>
             </div>
 
-            {/* Quick Options */}
-            <div className="border-t border-white/10 bg-[#080808] px-4 py-3">
+            {/* Quick Options + Input + Contact Actions */}
+            <div className="shrink-0 border-t border-[#262626] bg-[#080808] px-4 py-3">
+              {/* Quick Options */}
               <div className="mb-3 flex flex-wrap gap-2">
                 {options.map((option) => (
                   <button
                     key={option}
                     onClick={() => sendMessage(option)}
-                    className="rounded-full border border-[var(--brand-orange)]/35 px-3 py-1.5 text-[11px] text-[var(--brand-orange)] transition-all duration-300 hover:bg-[var(--brand-orange)] hover:text-black"
+                    className="rounded-full border border-[var(--brand-orange)]/45 bg-[#121212] px-3 py-1.5 text-[11px] font-medium text-[var(--brand-orange)] transition-all duration-300 hover:bg-[var(--brand-orange)] hover:text-black"
                   >
                     {option}
                   </button>
@@ -179,7 +182,12 @@ export function FloatingActions() {
               </div>
 
               {/* Input */}
-              <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2">
+              <div
+                className="flex items-center gap-2 rounded-full border border-[#303030] !bg-[#050505] p-1.5 shadow-inner"
+                style={{
+                  backgroundColor: "#050505",
+                }}
+              >
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -187,15 +195,21 @@ export function FloatingActions() {
                     if (e.key === "Enter") sendMessage();
                   }}
                   placeholder="Type your message..."
-                  className="h-9 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/40"
+                  className="h-11 min-w-0 flex-1 rounded-full !bg-[#050505] px-4 text-sm !text-white outline-none placeholder:!text-white/45 focus:!bg-[#050505]"
+                  style={{
+                    backgroundColor: "#050505",
+                    color: "#ffffff",
+                    boxShadow: "0 0 0 1000px #050505 inset",
+                    WebkitTextFillColor: "#ffffff",
+                  }}
                 />
 
                 <button
                   onClick={() => sendMessage()}
-                  className="grid h-9 w-9 place-items-center rounded-full bg-gradient-orange text-black transition-transform duration-300 hover:scale-105"
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-orange text-black transition-transform duration-300 hover:scale-105"
                   aria-label="Send message"
                 >
-                  <Send className="h-4 w-4" />
+                  <Send className="h-5 w-5" />
                 </button>
               </div>
 
@@ -203,20 +217,20 @@ export function FloatingActions() {
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <a
                   href={`mailto:${contactEmail}`}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-3 py-2 text-xs text-white/65 transition hover:border-[var(--brand-orange)]/50 hover:text-[var(--brand-orange)]"
+                  className="inline-flex min-w-0 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#2f2f2f] bg-[#121212] px-3 py-2 text-xs font-medium text-[#e5e5e5] transition hover:border-[var(--brand-orange)] hover:text-[var(--brand-orange)]"
                 >
-                  <Mail className="h-3.5 w-3.5" />
-                  Email
+                  <Mail className="h-3.5 w-3.5 shrink-0" />
+                  <span>Email</span>
                 </a>
 
                 <a
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-3 py-2 text-xs text-white/65 transition hover:border-[#25D366]/50 hover:text-[#25D366]"
+                  className="inline-flex min-w-0 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#2f2f2f] bg-[#121212] px-3 py-2 text-xs font-medium text-[#e5e5e5] transition hover:border-[#25D366] hover:text-[#25D366]"
                 >
-                  <PhoneCall className="h-3.5 w-3.5" />
-                  WhatsApp
+                  <PhoneCall className="h-3.5 w-3.5 shrink-0" />
+                  <span>WhatsApp</span>
                 </a>
               </div>
             </div>
@@ -229,7 +243,7 @@ export function FloatingActions() {
         onClick={() => setChatOpen((prev) => !prev)}
         whileHover={{ scale: 1.07 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-5 z-50 grid h-16 w-16 place-items-center rounded-full bg-gradient-orange text-black shadow-2xl shadow-[var(--brand-orange)]/30 sm:right-6"
+        className="fixed bottom-5 right-4 z-[10000] grid h-16 w-16 place-items-center rounded-full bg-gradient-orange text-black shadow-2xl shadow-[var(--brand-orange)]/30 sm:bottom-6 sm:right-6"
         aria-label="Open live chat"
       >
         <AnimatePresence mode="wait">
