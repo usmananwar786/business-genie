@@ -253,7 +253,7 @@ function Hero() {
             initial={{ opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.75 }}
-            className="max-w-4xl text-[34px] sm:text-[42px] md:text-[52px] lg:text-[58px] xl:text-[64px] font-semibold leading-[1.12] tracking-[-0.025em] text-[var(--home-hero-title)]"
+            className="max-w-4xl text-[32px] sm:text-[40px] md:text-[50px] lg:text-[56px] xl:text-[62px] font-semibold leading-[1.12] tracking-[-0.025em] text-[var(--home-hero-title)]"
           >
             Smart Solutions for{" "}
             <span className="text-[var(--home-hero-title)] transition-colors duration-300 hover:text-[var(--brand-orange)]">
