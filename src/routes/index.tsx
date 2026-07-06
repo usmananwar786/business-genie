@@ -634,6 +634,9 @@ We partner with organizations to streamline operations, improve visibility, and 
             subtitle="ERP, HRMS, marketing, web and design built to work together, not in silos."
           />
 
+
+
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((s, i) => (
               <motion.div
@@ -815,7 +818,7 @@ We partner with organizations to streamline operations, improve visibility, and 
                 img: "/owner-2.png",
                 n: "Syed Umar Javaid",
                 r: "Entrepreneur | HRMS & Operations Strategist",
-                q: "Umer has a proven track record of success, having worked for several notable companies in the past, including Systems Ltd, Xavor Corporation, and i2C Inc. THRMSoughout his career, he has held various key leadership roles, including Director Strategy and planning and has consistently demonstrated an ability to drive growth, innovation, and profitability.",
+                q: "Umer has a proven track record of success, having worked for several notable companies in the past, including Systems Ltd, Xavor Corporation, and i2C Inc. HRMS throughout his career, he has held various key leadership roles, including Director Strategy and planning and has consistently demonstrated an ability to drive growth, innovation, and profitability.",
                 badge: "Director",
                 status: "Trusted Expert",
                 tags: [ "HRMS", "Leadership", "Trainings", "AI Automation","ERP",],
