@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   ArrowRight,
   ChevronRight,
-  Figma,
   Palette,
   CheckCircle2,
 } from "lucide-react";
@@ -389,11 +388,11 @@ function UX() {
                       whileHover={{ x: 6 }}
                       className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/25 px-4 py-4 transition-all duration-300 hover:border-[var(--brand-orange)]/50 hover:bg-white/[0.05]"
                     >
-                      {tool === "Figma" ? (
+                      {/* {tool === "Figma" ? (
                         <Figma className="h-5 w-5 shrink-0 text-[var(--brand-orange)]" />
                       ) : (
                         <Palette className="h-5 w-5 shrink-0 text-[var(--brand-orange)]" />
-                      )}
+                      )} */}
 
                       <span className="text-sm text-white/75">{tool}</span>
                     </motion.div>
