@@ -55,7 +55,7 @@ const stats: {
     number: 20,
     suffix: "+",
     label: "Industries Covered",
-    desc: "Retail, services, SaaS, ecommerce, real estate and more.",
+    desc: "Retail, , SaaS, ecommerce, real estate and more.",
     to: "/contact",
   },
   {

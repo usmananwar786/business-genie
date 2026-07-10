@@ -9,21 +9,34 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WebhrRouteImport } from './routes/webhr'
 import { Route as WebDevelopmentRouteImport } from './routes/web-development'
 import { Route as UiUxRouteImport } from './routes/ui-ux'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SeoRouteImport } from './routes/seo'
+import { Route as SapBusinessOneRouteImport } from './routes/sap-business-one'
+import { Route as QuickbooksRouteImport } from './routes/quickbooks'
+import { Route as PrimeHrmsRouteImport } from './routes/prime-hrms'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as OdooRouteImport } from './routes/odoo'
+import { Route as MicrosoftDynamics365RouteImport } from './routes/microsoft-dynamics-365'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as ErpSolutionsRouteImport } from './routes/erp-solutions'
+import { Route as EccountantCloudErpRouteImport } from './routes/eccountant-cloud-erp'
 import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing'
+import { Route as DigidocRouteImport } from './routes/digidoc'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as HRMSRouteImport } from './routes/HRMS'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WebhrRoute = WebhrRouteImport.update({
+  id: '/webhr',
+  path: '/webhr',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WebDevelopmentRoute = WebDevelopmentRouteImport.update({
   id: '/web-development',
   path: '/web-development',
@@ -49,9 +62,34 @@ const SeoRoute = SeoRouteImport.update({
   path: '/seo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SapBusinessOneRoute = SapBusinessOneRouteImport.update({
+  id: '/sap-business-one',
+  path: '/sap-business-one',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuickbooksRoute = QuickbooksRouteImport.update({
+  id: '/quickbooks',
+  path: '/quickbooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrimeHrmsRoute = PrimeHrmsRouteImport.update({
+  id: '/prime-hrms',
+  path: '/prime-hrms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OdooRoute = OdooRouteImport.update({
+  id: '/odoo',
+  path: '/odoo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MicrosoftDynamics365Route = MicrosoftDynamics365RouteImport.update({
+  id: '/microsoft-dynamics-365',
+  path: '/microsoft-dynamics-365',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndustriesRoute = IndustriesRouteImport.update({
@@ -64,9 +102,19 @@ const ErpSolutionsRoute = ErpSolutionsRouteImport.update({
   path: '/erp-solutions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EccountantCloudErpRoute = EccountantCloudErpRouteImport.update({
+  id: '/eccountant-cloud-erp',
+  path: '/eccountant-cloud-erp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DigitalMarketingRoute = DigitalMarketingRouteImport.update({
   id: '/digital-marketing',
   path: '/digital-marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DigidocRoute = DigidocRouteImport.update({
+  id: '/digidoc',
+  path: '/digidoc',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -101,15 +149,23 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/digidoc': typeof DigidocRoute
   '/digital-marketing': typeof DigitalMarketingRoute
+  '/eccountant-cloud-erp': typeof EccountantCloudErpRoute
   '/erp-solutions': typeof ErpSolutionsRoute
   '/industries': typeof IndustriesRoute
+  '/microsoft-dynamics-365': typeof MicrosoftDynamics365Route
+  '/odoo': typeof OdooRoute
   '/portfolio': typeof PortfolioRoute
+  '/prime-hrms': typeof PrimeHrmsRoute
+  '/quickbooks': typeof QuickbooksRoute
+  '/sap-business-one': typeof SapBusinessOneRoute
   '/seo': typeof SeoRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ui-ux': typeof UiUxRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/webhr': typeof WebhrRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -117,15 +173,23 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/digidoc': typeof DigidocRoute
   '/digital-marketing': typeof DigitalMarketingRoute
+  '/eccountant-cloud-erp': typeof EccountantCloudErpRoute
   '/erp-solutions': typeof ErpSolutionsRoute
   '/industries': typeof IndustriesRoute
+  '/microsoft-dynamics-365': typeof MicrosoftDynamics365Route
+  '/odoo': typeof OdooRoute
   '/portfolio': typeof PortfolioRoute
+  '/prime-hrms': typeof PrimeHrmsRoute
+  '/quickbooks': typeof QuickbooksRoute
+  '/sap-business-one': typeof SapBusinessOneRoute
   '/seo': typeof SeoRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ui-ux': typeof UiUxRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/webhr': typeof WebhrRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,15 +198,23 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
+  '/digidoc': typeof DigidocRoute
   '/digital-marketing': typeof DigitalMarketingRoute
+  '/eccountant-cloud-erp': typeof EccountantCloudErpRoute
   '/erp-solutions': typeof ErpSolutionsRoute
   '/industries': typeof IndustriesRoute
+  '/microsoft-dynamics-365': typeof MicrosoftDynamics365Route
+  '/odoo': typeof OdooRoute
   '/portfolio': typeof PortfolioRoute
+  '/prime-hrms': typeof PrimeHrmsRoute
+  '/quickbooks': typeof QuickbooksRoute
+  '/sap-business-one': typeof SapBusinessOneRoute
   '/seo': typeof SeoRoute
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/ui-ux': typeof UiUxRoute
   '/web-development': typeof WebDevelopmentRoute
+  '/webhr': typeof WebhrRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -152,15 +224,23 @@ export interface FileRouteTypes {
     | '/about'
     | '/careers'
     | '/contact'
+    | '/digidoc'
     | '/digital-marketing'
+    | '/eccountant-cloud-erp'
     | '/erp-solutions'
     | '/industries'
+    | '/microsoft-dynamics-365'
+    | '/odoo'
     | '/portfolio'
+    | '/prime-hrms'
+    | '/quickbooks'
+    | '/sap-business-one'
     | '/seo'
     | '/services'
     | '/sitemap.xml'
     | '/ui-ux'
     | '/web-development'
+    | '/webhr'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -168,15 +248,23 @@ export interface FileRouteTypes {
     | '/about'
     | '/careers'
     | '/contact'
+    | '/digidoc'
     | '/digital-marketing'
+    | '/eccountant-cloud-erp'
     | '/erp-solutions'
     | '/industries'
+    | '/microsoft-dynamics-365'
+    | '/odoo'
     | '/portfolio'
+    | '/prime-hrms'
+    | '/quickbooks'
+    | '/sap-business-one'
     | '/seo'
     | '/services'
     | '/sitemap.xml'
     | '/ui-ux'
     | '/web-development'
+    | '/webhr'
   id:
     | '__root__'
     | '/'
@@ -184,15 +272,23 @@ export interface FileRouteTypes {
     | '/about'
     | '/careers'
     | '/contact'
+    | '/digidoc'
     | '/digital-marketing'
+    | '/eccountant-cloud-erp'
     | '/erp-solutions'
     | '/industries'
+    | '/microsoft-dynamics-365'
+    | '/odoo'
     | '/portfolio'
+    | '/prime-hrms'
+    | '/quickbooks'
+    | '/sap-business-one'
     | '/seo'
     | '/services'
     | '/sitemap.xml'
     | '/ui-ux'
     | '/web-development'
+    | '/webhr'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -201,19 +297,34 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
+  DigidocRoute: typeof DigidocRoute
   DigitalMarketingRoute: typeof DigitalMarketingRoute
+  EccountantCloudErpRoute: typeof EccountantCloudErpRoute
   ErpSolutionsRoute: typeof ErpSolutionsRoute
   IndustriesRoute: typeof IndustriesRoute
+  MicrosoftDynamics365Route: typeof MicrosoftDynamics365Route
+  OdooRoute: typeof OdooRoute
   PortfolioRoute: typeof PortfolioRoute
+  PrimeHrmsRoute: typeof PrimeHrmsRoute
+  QuickbooksRoute: typeof QuickbooksRoute
+  SapBusinessOneRoute: typeof SapBusinessOneRoute
   SeoRoute: typeof SeoRoute
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   UiUxRoute: typeof UiUxRoute
   WebDevelopmentRoute: typeof WebDevelopmentRoute
+  WebhrRoute: typeof WebhrRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/webhr': {
+      id: '/webhr'
+      path: '/webhr'
+      fullPath: '/webhr'
+      preLoaderRoute: typeof WebhrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/web-development': {
       id: '/web-development'
       path: '/web-development'
@@ -249,11 +360,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SeoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sap-business-one': {
+      id: '/sap-business-one'
+      path: '/sap-business-one'
+      fullPath: '/sap-business-one'
+      preLoaderRoute: typeof SapBusinessOneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quickbooks': {
+      id: '/quickbooks'
+      path: '/quickbooks'
+      fullPath: '/quickbooks'
+      preLoaderRoute: typeof QuickbooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prime-hrms': {
+      id: '/prime-hrms'
+      path: '/prime-hrms'
+      fullPath: '/prime-hrms'
+      preLoaderRoute: typeof PrimeHrmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portfolio': {
       id: '/portfolio'
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/odoo': {
+      id: '/odoo'
+      path: '/odoo'
+      fullPath: '/odoo'
+      preLoaderRoute: typeof OdooRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/microsoft-dynamics-365': {
+      id: '/microsoft-dynamics-365'
+      path: '/microsoft-dynamics-365'
+      fullPath: '/microsoft-dynamics-365'
+      preLoaderRoute: typeof MicrosoftDynamics365RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/industries': {
@@ -270,11 +416,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ErpSolutionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/eccountant-cloud-erp': {
+      id: '/eccountant-cloud-erp'
+      path: '/eccountant-cloud-erp'
+      fullPath: '/eccountant-cloud-erp'
+      preLoaderRoute: typeof EccountantCloudErpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/digital-marketing': {
       id: '/digital-marketing'
       path: '/digital-marketing'
       fullPath: '/digital-marketing'
       preLoaderRoute: typeof DigitalMarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/digidoc': {
+      id: '/digidoc'
+      path: '/digidoc'
+      fullPath: '/digidoc'
+      preLoaderRoute: typeof DigidocRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -321,15 +481,23 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
+  DigidocRoute: DigidocRoute,
   DigitalMarketingRoute: DigitalMarketingRoute,
+  EccountantCloudErpRoute: EccountantCloudErpRoute,
   ErpSolutionsRoute: ErpSolutionsRoute,
   IndustriesRoute: IndustriesRoute,
+  MicrosoftDynamics365Route: MicrosoftDynamics365Route,
+  OdooRoute: OdooRoute,
   PortfolioRoute: PortfolioRoute,
+  PrimeHrmsRoute: PrimeHrmsRoute,
+  QuickbooksRoute: QuickbooksRoute,
+  SapBusinessOneRoute: SapBusinessOneRoute,
   SeoRoute: SeoRoute,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   UiUxRoute: UiUxRoute,
   WebDevelopmentRoute: WebDevelopmentRoute,
+  WebhrRoute: WebhrRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

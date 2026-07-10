@@ -1,26 +1,49 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+
+// Lucide Icons Safe Imports
+import * as LucideIcons from "lucide-react";
+
+const getIcon = (name: string, fallback: any) => {
+  return (LucideIcons as any)[name] || fallback;
+};
+
+const Menu = getIcon("Menu", LucideIcons.Menu || (() => null));
+const X = getIcon("X", LucideIcons.X || (() => null));
+const ChevronDown = getIcon("ChevronDown", LucideIcons.ChevronDown || (() => null));
+const Database = getIcon("Database", LucideIcons.Database || (() => null));
+const Megaphone = getIcon("Megaphone", LucideIcons.Megaphone || (() => null));
+const Search = getIcon("Search", LucideIcons.Search || (() => null));
+const Code2 = getIcon("Code2", LucideIcons.Code || (() => null));
+const Palette = getIcon("Palette", LucideIcons.Paintbrush || (() => null));
+const Workflow = getIcon("Workflow", LucideIcons.GitBranch || (() => null));
+const Sun = getIcon("Sun", LucideIcons.Sun || (() => null));
+const Moon = getIcon("Moon", LucideIcons.Moon || (() => null));
+const Building2 = getIcon("Building2", LucideIcons.Building || (() => null));
+const ReceiptText = getIcon("ReceiptText", LucideIcons.FileText || (() => null));
+const BarChart3 = getIcon("BarChart3", LucideIcons.BarChart || (() => null));
+const UsersRound = getIcon("UsersRound", LucideIcons.Users || (() => null));
+const CloudCog = getIcon("CloudCog", LucideIcons.Cloud || (() => null));
+const UserCheck = getIcon("UserCheck", LucideIcons.User || (() => null));
+const FileText = getIcon("FileText", LucideIcons.FileText || (() => null));
+
+// React Icons Import (Uncommented and Safe)
 import {
-  Menu,
-  X,
-  ChevronDown,
-  Database,
-  Megaphone,
-  Search,
-  Code2,
-  Palette,
-  Workflow,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Sun,
-  Moon,
-  // Youtube,
-} from "lucide-react";
+  FaFacebookF as Facebook,
+  FaInstagram as Instagram,
+  FaLinkedinIn as Linkedin,
+} from "react-icons/fa";
+
 import { SITE } from "@/lib/site";
 
 const THEME_STORAGE_KEY = "business-genie-theme-v2";
+
+// Google favicon service + official product domains.
+// This avoids unreliable copied image URLs and keeps each brand logo tied
+// to the product's official website.
+const getOfficialLogo = (domain: string) =>
+  `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`;
 
 const MAIN_NAV = [
   { label: "Home", to: "/" },
@@ -29,108 +52,150 @@ const MAIN_NAV = [
   { label: "Contact", to: "/contact" },
 ] as const;
 
-const SERVICES = [
+const ERP_SOLUTIONS = [
+{
+  icon: BarChart3,
+  logo: "images2.png",
+  title: "Microsoft Dynamics 365",
+  desc: "Business Central",
+  to: "/microsoft-dynamics-365",
+  iconBox:
+    "border-[#00A6B2]/35 bg-[#00A6B2]/12 text-[#00A6B2] shadow-[0_0_18px_rgba(0,166,178,0.12)]",
+  titleHover: "group-hover:text-[#00A6B2]",
+},
+ {
+  icon: Building2,
+  logo:
+    "/sap.png",
+  title: "SAP Business One",
+  desc: "ERP for finance, sales and inventory.",
+  to: "/sap-business-one",
+  iconBox:
+    "border-[#0A6ED1]/35 bg-[#0A6ED1]/12 text-[#0A6ED1] shadow-[0_0_18px_rgba(10,110,209,0.12)]",
+  titleHover: "group-hover:text-[#0A6ED1]",
+},
   {
     icon: Database,
-    title: "ERP Implementation",
-    desc: "Accounts, inventory, HR, sales & production.",
-    to: "/erp-solutions",
+    logo: getOfficialLogo("odoo.com"),
+    title: "Odoo",
+    desc: "All-in-one ERP for business operations.",
+    to: "/odoo",
+    iconBox: "border-[#875A7B]/35 bg-[#875A7B]/12 text-[#875A7B] shadow-[0_0_18px_rgba(135,90,123,0.14)]",
+    titleHover: "group-hover:text-[#875A7B]",
   },
   {
-    icon: Workflow,
-    title: "HRMS",
-    desc: "Employee onboarding, billing and operations.",
-    to: "/HRMS",
+    icon: ReceiptText,
+    logo:"/QB logo.jpg",
+    title: "QuickBooks",
+    desc: "Simple accounting and invoicing software.",
+    to: "/quickbooks",
+    iconBox: "border-[#2CA01C]/35 bg-[#2CA01C]/12 text-[#2CA01C] shadow-[0_0_18px_rgba(44,160,28,0.12)]",
+    titleHover: "group-hover:text-[#2CA01C]",
   },
-  {
-    icon: Megaphone,
-    title: "Digital Marketing",
-    desc: "Performance campaigns & lead generation.",
-    to: "/digital-marketing",
-  },
-  {
-    icon: Code2,
-    title: "Web Development",
-    desc: "Modern websites, platforms & CMS.",
-    to: "/web-development",
-  },
-  {
-    icon: Search,
-    title: "SEO Services",
-    desc: "Technical, on-page & local SEO growth.",
-    to: "/seo",
-  },
-  {
-    icon: Palette,
-    title: "UI / UX Design",
-    desc: "Conversion-focused, premium interfaces.",
-    to: "/ui-ux",
-  },
-];
+ 
+] as const;
 
+const BUSINESS_SOLUTIONS = [
+  
+   {
+    icon: CloudCog,
+    logo: "Eccountant_Cloud_ERP-removebg-preview (1).png",
+    title: "Eccountant Cloud ERP",
+    desc: "Cloud ERP for accounts and inventory.",
+    to: "/eccountant-cloud-erp",
+    iconBox: "border-[#4B88D8]/35 bg-[#4B88D8]/12 text-[#4B88D8] shadow-[0_0_18px_rgba(75,136,216,0.12)]",
+    titleHover: "group-hover:text-[#4B88D8]",
+  },
+  {
+    icon: UsersRound,
+    logo: getOfficialLogo("primehrms.com"),
+    title: "Prime HRMS",
+    desc: "HR, payroll and attendance management.",
+    to: "/prime-hrms",
+    iconBox: "border-[#2F75D6]/35 bg-[#2F75D6]/12 text-[#2F75D6] shadow-[0_0_18px_rgba(47,117,214,0.12)]",
+    titleHover: "group-hover:text-[#2F75D6]",
+  },
+  {
+    icon: UserCheck,
+    logo: getOfficialLogo("web.hr"),
+    title: "WebHR",
+    desc: "HR software for teams and employees.",
+    to: "/webhr",
+    iconBox: "border-[#1D4ED8]/35 bg-[#1D4ED8]/12 text-[#1D4ED8] shadow-[0_0_18px_rgba(29,78,216,0.12)]",
+    titleHover: "group-hover:text-[#1D4ED8]",
+  },
+  {
+    icon: FileText,
+    logo: getOfficialLogo("digidoccloud.com"),
+    title: "DIGIDOC",
+    desc: "Digital document and workflow system.",
+    to: "/digidoc",
+    iconBox: "border-[#35B6B2]/35 bg-[#35B6B2]/12 text-[#35B6B2] shadow-[0_0_18px_rgba(53,182,178,0.12)]",
+    titleHover: "group-hover:text-[#35B6B2]",
+  },
+ ] as const;
+
+const SERVICES = [
+  { icon: Database, title: "ERP Implementation", desc: "Accounts, inventory, HR, sales & production.", to: "/erp-solutions" },
+  { icon: Workflow, title: "HRMS", desc: "Employee onboarding, billing and operations.", to: "/HRMS" },
+  { icon: Megaphone, title: "Digital Marketing", desc: "Performance campaigns & lead generation.", to: "/digital-marketing" },
+  { icon: Code2, title: "Web Development", desc: "Modern websites, platforms & CMS.", to: "/web-development" },
+  { icon: Search, title: "SEO Services", desc: "Technical, on-page & local SEO growth.", to: "/seo" },
+  { icon: Palette, title: "UI / UX Design", desc: "Conversion-focused, premium interfaces.", to: "/ui-ux" },
+] as const;
+
+// SOCIALS array active kar diya hai taake loop error na de
 const SOCIALS = [
-  {
-    label: "Facebook",
-    href: "https://www.facebook.com/businessgenieconsulting/",
-    icon: Facebook,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/businessgenieconsulting/",
-    icon: Instagram,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/104830846/",
-    icon: Linkedin,
-  },
-  // {
-  //   label: "YouTube",
-  //   href: "#",
-  //   icon: Youtube,
-  // },
-];
+  { label: "Facebook", href: "https://www.facebook.com/businessgenieconsulting/", icon: Facebook },
+  { label: "Instagram", href: "https://www.instagram.com/businessgenieconsulting/", icon: Instagram },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/104830846/", icon: Linkedin },
+] as const;
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [solOpen, setSolOpen] = useState(false);
   const [svcOpen, setSvcOpen] = useState(false);
+  const [mSolOpen, setMSolOpen] = useState(false);
   const [mSvcOpen, setMSvcOpen] = useState(false);
-
-  // Default website open par cream/off-white theme hogi
   const [creamTheme, setCreamTheme] = useState(true);
 
   useLayoutEffect(() => {
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-
-    // Agar user ne pehle dark select kiya hai to dark rahega,
-    // warna by default cream/off-white theme open hogi.
     const shouldUseCreamTheme = savedTheme !== "dark";
-
     setCreamTheme(shouldUseCreamTheme);
     document.body.classList.toggle("cream-theme", shouldUseCreamTheme);
     document.documentElement.classList.toggle("cream-theme", shouldUseCreamTheme);
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const handleScroll = () => { setScrolled(window.scrollY > 24); };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", handleScroll); };
   }, []);
 
-  const handleThemeToggle = () => {
-    setCreamTheme((current) => {
-      const nextTheme = !current;
+  useEffect(() => {
+    if (!open) {
+      setMSolOpen(false);
+      setMSvcOpen(false);
+    }
+  }, [open]);
 
+  const handleThemeToggle = () => {
+    setCreamTheme((currentTheme) => {
+      const nextTheme = !currentTheme;
       document.body.classList.toggle("cream-theme", nextTheme);
       document.documentElement.classList.toggle("cream-theme", nextTheme);
-
       localStorage.setItem(THEME_STORAGE_KEY, nextTheme ? "cream" : "dark");
-
       return nextTheme;
     });
+  };
+
+  const closeMobileMenu = () => {
+    setOpen(false);
+    setMSolOpen(false);
+    setMSvcOpen(false);
   };
 
   return (
@@ -138,55 +203,89 @@ export function Header() {
       initial={{ y: -40, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[var(--header-bg-scrolled)] backdrop-blur-xl border-b border-[var(--header-border)] shadow-[0_10px_40px_rgba(0,0,0,0.12)]"
+          ? "border-b border-[var(--header-border)] bg-[var(--header-bg-scrolled)] shadow-[0_10px_40px_rgba(0,0,0,0.12)] backdrop-blur-xl"
           : "bg-[var(--header-bg)] backdrop-blur-sm"
       }`}
     >
       <div className="container-x flex h-[74px] items-center justify-between py-2">
-   <Link to="/" className="flex items-center gap-2 shrink-0">
-  <div className="header-logo-wrap relative grid place-items-center overflow-hidden bg-transparent">
-    {/* Logo 2: Dark / black theme */}
-    <img
-      src={SITE.logo2}
-      alt={SITE.name}
-      className={`header-logo-img header-logo-dark absolute inset-0 transition-opacity duration-300 ${
-        creamTheme ? "opacity-0" : "opacity-100"
-      }`}
-    />
+        <Link to="/" className="flex shrink-0 items-center gap-2" onClick={closeMobileMenu}>
+          <div className="header-logo-wrap relative grid place-items-center overflow-hidden bg-transparent">
+            <img
+              src={SITE.logo2}
+              alt={`${SITE.name} dark logo`}
+              className={`header-logo-img header-logo-dark absolute inset-0 transition-opacity duration-300 ${creamTheme ? "opacity-0" : "opacity-100"}`}
+            />
+            <img
+              src="/logo3.png"
+              alt={`${SITE.name} light logo`}
+              className={`header-logo-img header-logo-cream absolute inset-0 transition-opacity duration-300 ${creamTheme ? "opacity-100" : "opacity-0"}`}
+            />
+          </div>
+        </Link>
 
-    {/* Logo 3: Cream / off-white theme */}
-    <img
-      src="/logo3.png"
-      alt={SITE.name}
-      className={`header-logo-img header-logo-cream absolute inset-0 transition-opacity duration-300 ${
-        creamTheme ? "opacity-100" : "opacity-0"
-      }`}
-    />
-  </div>
-</Link>
-        <nav className="hidden lg:flex items-center gap-0.5">
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-0.5 lg:flex">
           {MAIN_NAV.slice(0, 2).map((item) => (
             <NavLink key={item.to} {...item} />
           ))}
 
-          <div
-            className="relative"
-            onMouseEnter={() => setSvcOpen(true)}
-            onMouseLeave={() => setSvcOpen(false)}
-          >
+          {/* Solutions Dropdown */}
+          <div className="relative" onMouseEnter={() => setSolOpen(true)} onMouseLeave={() => setSolOpen(false)}>
             <button
               type="button"
-              className="flex items-center gap-1 px-3 py-2 text-[13px] font-medium text-[var(--nav-text)] hover:text-[var(--brand-orange)] transition-colors"
-              onClick={() => setSvcOpen((open) => !open)}
+              aria-expanded={solOpen}
+              aria-haspopup="menu"
+              className="flex items-center gap-1 px-3 py-2 text-[13px] font-medium text-[var(--nav-text)] transition-colors hover:text-[var(--brand-orange)]"
+              onClick={() => setSolOpen((current) => !current)}
+            >
+              Solutions
+              <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${solOpen ? "rotate-180" : ""}`} />
+            </button>
+
+            <AnimatePresence>
+              {solOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.97 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute left-1/2 top-full w-[760px] -translate-x-1/2 pt-3"
+                >
+                  <div className="grid grid-cols-2 gap-1 rounded-2xl border border-[var(--header-border)] bg-[var(--dropdown-bg)] p-3 shadow-2xl backdrop-blur-xl">
+                    <div className="grid gap-1">
+                      {ERP_SOLUTIONS.map((solution, index) => (
+                        <motion.div key={solution.to} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }}>
+                          <SolutionDropdownItem solution={solution} onClick={() => setSolOpen(false)} />
+                        </motion.div>
+                      ))}
+                    </div>
+
+                    <div className="grid gap-1">
+                      {BUSINESS_SOLUTIONS.map((solution, index) => (
+                        <motion.div key={solution.to} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }}>
+                          <SolutionDropdownItem solution={solution} onClick={() => setSolOpen(false)} />
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Services Dropdown */}
+          <div className="relative" onMouseEnter={() => setSvcOpen(true)} onMouseLeave={() => setSvcOpen(false)}>
+            <button
+              type="button"
+              aria-expanded={svcOpen}
+              aria-haspopup="menu"
+              className="flex items-center gap-1 px-3 py-2 text-[13px] font-medium text-[var(--nav-text)] transition-colors hover:text-[var(--brand-orange)]"
+              onClick={() => setSvcOpen((current) => !current)}
             >
               Services
-              <ChevronDown
-                className={`h-3.5 w-3.5 transition-transform ${
-                  svcOpen ? "rotate-180" : ""
-                }`}
-              />
+              <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${svcOpen ? "rotate-180" : ""}`} />
             </button>
 
             <AnimatePresence>
@@ -196,37 +295,25 @@ export function Header() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.97 }}
                   transition={{ duration: 0.18 }}
-                  className="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[640px]"
+                  className="absolute left-1/2 top-full w-[640px] -translate-x-1/2 pt-3"
                 >
-                  <div className="rounded-2xl bg-[var(--dropdown-bg)] border border-[var(--header-border)] shadow-2xl backdrop-blur-xl p-3 grid grid-cols-2 gap-1">
-                    {SERVICES.map((service, index) => (
-                      <motion.div
-                        key={service.to}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.03 }}
-                      >
-                        <Link
-                          to={service.to}
-                          onClick={() => setSvcOpen(false)}
-                          className="group flex items-start gap-3 p-3 rounded-xl hover:bg-[var(--nav-hover-bg)] transition-colors"
-                        >
-                          <div className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-orange text-black shrink-0 group-hover:scale-110 transition-transform">
-                            <service.icon className="h-[18px] w-[18px]" />
-                          </div>
-
-                          <div className="min-w-0">
-                            <div className="text-sm font-semibold text-[var(--dropdown-text)] group-hover:text-[var(--brand-orange)] transition-colors">
-                              {service.title}
+                  <div className="grid grid-cols-2 gap-1 rounded-2xl border border-[var(--header-border)] bg-[var(--dropdown-bg)] p-3 shadow-2xl backdrop-blur-xl">
+                    {SERVICES.map((service, index) => {
+                      const ServiceIcon = service.icon;
+                      return (
+                        <motion.div key={service.to} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }}>
+                          <Link to={service.to} onClick={() => setSvcOpen(false)} className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-[var(--nav-hover-bg)]">
+                            <div className="bg-gradient-orange grid h-9 w-9 shrink-0 place-items-center rounded-lg text-black transition-transform duration-300 group-hover:scale-110">
+                              <ServiceIcon className="h-[18px] w-[18px]" />
                             </div>
-
-                            <div className="text-xs text-[var(--dropdown-muted)] mt-0.5">
-                              {service.desc}
+                            <div className="min-w-0">
+                              <div className="text-sm font-semibold text-[var(--dropdown-text)] transition-colors group-hover:text-[var(--brand-orange)]">{service.title}</div>
+                              <div className="mt-0.5 text-xs leading-relaxed text-[var(--dropdown-muted)]">{service.desc}</div>
                             </div>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    ))}
+                          </Link>
+                        </motion.div>
+                      );
+                    })}
                   </div>
                 </motion.div>
               )}
@@ -238,126 +325,139 @@ export function Header() {
           ))}
         </nav>
 
+        {/* Right Side Controls */}
         <div className="flex items-center gap-2">
-          {/* Icon right = cream, icon left = dark */}
           <ThemeToggle creamTheme={creamTheme} onToggle={handleThemeToggle} />
 
-          <div className="hidden sm:flex items-center gap-2">
-            {SOCIALS.map((social, index) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.15 + index * 0.05,
-                  duration: 0.35,
-                }}
-                whileHover={{ y: -3, scale: 1.08 }}
-                className="group grid h-9 w-9 place-items-center rounded-full border border-[var(--header-border)] bg-[var(--social-bg)] text-[var(--brand-orange)] transition-all duration-300 hover:border-[var(--brand-orange)]/60 hover:bg-[var(--social-hover-bg)]"
-              >
-                <social.icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
-              </motion.a>
-            ))}
+          <div className="hidden items-center gap-2 sm:flex">
+            {SOCIALS.map((social, index) => {
+              const SocialIcon = social.icon;
+              return (
+                <motion.a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 + index * 0.05, duration: 0.35 }}
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  className="group grid h-9 w-9 place-items-center rounded-full border border-[var(--header-border)] bg-[var(--social-bg)] text-[var(--brand-orange)] transition-all duration-300 hover:border-[var(--brand-orange)]/60 hover:bg-[var(--social-hover-bg)]"
+                >
+                  <SocialIcon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                </motion.a>
+              );
+            })}
           </div>
 
           <button
             type="button"
-            onClick={() => setOpen((open) => !open)}
-            className="lg:hidden grid h-9 w-9 place-items-center rounded-md bg-[var(--social-bg)] border border-[var(--header-border)] text-[var(--nav-text)]"
-            aria-label="Menu"
+            onClick={() => setOpen((current) => !current)}
+            className="grid h-9 w-9 place-items-center rounded-md border border-[var(--header-border)] bg-[var(--social-bg)] text-[var(--nav-text)] lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
 
+      {/* Mobile Navigation Panel */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden overflow-hidden bg-[var(--mobile-menu-bg)] backdrop-blur-xl border-t border-[var(--header-border)]"
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden border-t border-[var(--header-border)] bg-[var(--mobile-menu-bg)] backdrop-blur-xl lg:hidden"
           >
-            <div className="container-x py-3 flex flex-col gap-0.5">
+            <div className="container-x flex flex-col gap-0.5 py-3">
               {MAIN_NAV.slice(0, 2).map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  onClick={() => setOpen(false)}
-                  className="px-3 py-2.5 rounded-md text-sm text-[var(--nav-text)] hover:bg-[var(--nav-hover-bg)]"
-                >
+                <Link key={item.to} to={item.to} onClick={closeMobileMenu} className="rounded-md px-3 py-2.5 text-sm text-[var(--nav-text)] hover:bg-[var(--nav-hover-bg)]">
                   {item.label}
                 </Link>
               ))}
 
+              {/* Mobile Solutions Trigger */}
               <button
                 type="button"
-                onClick={() => setMSvcOpen((open) => !open)}
-                className="flex items-center justify-between px-3 py-2.5 rounded-md text-sm text-[var(--nav-text)] hover:bg-[var(--nav-hover-bg)]"
+                onClick={() => { setMSolOpen((current) => !current); setMSvcOpen(false); }}
+                className="flex items-center justify-between rounded-md px-3 py-2.5 text-sm text-[var(--nav-text)] hover:bg-[var(--nav-hover-bg)]"
+                aria-expanded={mSolOpen}
+              >
+                Solutions
+                <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${mSolOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              <AnimatePresence>
+                {mSolOpen && (
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden pl-3">
+                    <div className="py-1">
+                      {ERP_SOLUTIONS.map((solution) => (
+                        <MobileSolutionItem key={solution.to} solution={solution} onClick={closeMobileMenu} />
+                      ))}
+                    </div>
+                    <div className="py-1">
+                      {BUSINESS_SOLUTIONS.map((solution) => (
+                        <MobileSolutionItem key={solution.to} solution={solution} onClick={closeMobileMenu} />
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Mobile Services Trigger */}
+              <button
+                type="button"
+                onClick={() => { setMSvcOpen((current) => !current); setMSolOpen(false); }}
+                className="flex items-center justify-between rounded-md px-3 py-2.5 text-sm text-[var(--nav-text)] hover:bg-[var(--nav-hover-bg)]"
+                aria-expanded={mSvcOpen}
               >
                 Services
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${
-                    mSvcOpen ? "rotate-180" : ""
-                  }`}
-                />
+                <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${mSvcOpen ? "rotate-180" : ""}`} />
               </button>
 
               <AnimatePresence>
                 {mSvcOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden pl-3"
-                  >
-                    {SERVICES.map((service) => (
-                      <Link
-                        key={service.to}
-                        to={service.to}
-                        onClick={() => {
-                          setOpen(false);
-                          setMSvcOpen(false);
-                        }}
-                        className="flex items-center gap-2.5 px-3 py-2 text-sm text-[var(--nav-muted)] hover:text-[var(--brand-orange)]"
-                      >
-                        <service.icon className="h-4 w-4 text-[var(--brand-orange)]" />
-                        {service.title}
-                      </Link>
-                    ))}
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden pl-3">
+                    {SERVICES.map((service) => {
+                      const ServiceIcon = service.icon;
+                      return (
+                        <Link key={service.to} to={service.to} onClick={closeMobileMenu} className="flex items-center gap-2.5 px-3 py-2 text-sm text-[var(--nav-muted)] hover:text-[var(--brand-orange)]">
+                          <ServiceIcon className="h-4 w-4 text-[var(--brand-orange)]" />
+                          {service.title}
+                        </Link>
+                      );
+                    })}
                   </motion.div>
                 )}
               </AnimatePresence>
 
               {MAIN_NAV.slice(2).map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  onClick={() => setOpen(false)}
-                  className="px-3 py-2.5 rounded-md text-sm text-[var(--nav-text)] hover:bg-[var(--nav-hover-bg)]"
-                >
+                <Link key={item.to} to={item.to} onClick={closeMobileMenu} className="rounded-md px-3 py-2.5 text-sm text-[var(--nav-text)] hover:bg-[var(--nav-hover-bg)]">
                   {item.label}
                 </Link>
               ))}
 
+              {/* Mobile Socials Block */}
               <div className="mt-3 flex items-center justify-center gap-3 border-t border-[var(--header-border)] pt-4">
-                {SOCIALS.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="grid h-10 w-10 place-items-center rounded-full border border-[var(--header-border)] bg-[var(--social-bg)] text-[var(--brand-orange)] transition-all duration-300 hover:border-[var(--brand-orange)]/60 hover:bg-[var(--social-hover-bg)]"
-                  >
-                    <social.icon className="h-4.5 w-4.5" />
-                  </a>
-                ))}
+                {SOCIALS.map((social) => {
+                  const SocialIcon = social.icon;
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="grid h-10 w-10 place-items-center rounded-full border border-[var(--header-border)] bg-[var(--social-bg)] text-[var(--brand-orange)] transition-all duration-300 hover:border-[var(--brand-orange)]/60 hover:bg-[var(--social-hover-bg)]"
+                    >
+                      <SocialIcon className="h-[18px] w-[18px]" />
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
@@ -367,50 +467,85 @@ export function Header() {
   );
 }
 
-function ThemeToggle({
-  creamTheme,
-  onToggle,
+type SolutionItem = (typeof ERP_SOLUTIONS)[number] | (typeof BUSINESS_SOLUTIONS)[number];
+
+function SolutionDropdownItem({ solution, onClick }: { solution: SolutionItem; onClick: () => void; }) {
+  return (
+    <Link to={solution.to} onClick={onClick} className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-[var(--nav-hover-bg)]">
+      <BrandMark solution={solution} size="desktop" />
+      <div className="min-w-0">
+        <div className={`text-sm font-semibold text-[var(--dropdown-text)] transition-colors ${solution.titleHover}`}>{solution.title}</div>
+        <div className="mt-0.5 text-xs leading-relaxed text-[var(--dropdown-muted)]">{solution.desc}</div>
+      </div>
+    </Link>
+  );
+}
+
+function MobileSolutionItem({ solution, onClick }: { solution: SolutionItem; onClick: () => void; }) {
+  return (
+    <Link to={solution.to} onClick={onClick} className="flex items-center gap-2.5 px-3 py-2 text-sm text-[var(--nav-muted)] hover:text-[var(--brand-orange)]">
+      <BrandMark solution={solution} size="mobile" />
+      {solution.title}
+    </Link>
+  );
+}
+
+function BrandMark({
+  solution,
+  size,
 }: {
-  creamTheme: boolean;
-  onToggle: () => void;
+  solution: SolutionItem;
+  size: "desktop" | "mobile";
 }) {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const Icon = solution.icon;
+  const isDesktop = size === "desktop";
+
+  return (
+    <span
+      className={`grid shrink-0 place-items-center overflow-hidden border bg-white transition-transform duration-300 ${
+        isDesktop
+          ? "h-10 w-10 rounded-xl p-1.5 group-hover:scale-110"
+          : "h-8 w-8 rounded-lg p-1"
+      } ${solution.iconBox}`}
+    >
+      {!logoFailed ? (
+        <img
+          src={solution.logo}
+          alt={`${solution.title} official logo`}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={() => setLogoFailed(true)}
+          className="h-full w-full object-contain"
+        />
+      ) : (
+        <Icon className={isDesktop ? "h-[18px] w-[18px]" : "h-3.5 w-3.5"} />
+      )}
+    </span>
+  );
+}
+
+function ThemeToggle({ creamTheme, onToggle }: { creamTheme: boolean; onToggle: () => void; }) {
   return (
     <button
       type="button"
       onClick={onToggle}
-      aria-label="Toggle website color theme"
+      aria-label={creamTheme ? "Switch to dark theme" : "Switch to light theme"}
       aria-pressed={creamTheme}
-      className={`relative h-9 w-[68px] shrink-0 rounded-full border transition-all duration-300 ${
-        creamTheme
-          ? "border-[var(--brand-orange)] bg-[#ffffff]"
-          : "border-white/10 bg-white/[0.04]"
-      }`}
+      className={`relative h-9 w-[68px] shrink-0 rounded-full border transition-all duration-300 ${creamTheme ? "border-[var(--brand-orange)] bg-white" : "border-white/10 bg-white/[0.04]"}`}
     >
-      <span
-        className={`absolute left-1 top-1 grid h-7 w-7 place-items-center rounded-full bg-[var(--brand-orange)] text-black shadow-lg transition-transform duration-300 ${
-          creamTheme ? "translate-x-8" : "translate-x-0"
-        }`}
-      >
-        {creamTheme ? (
-          <Sun className="h-3.5 w-3.5" />
-        ) : (
-          <Moon className="h-3.5 w-3.5" />
-        )}
+      <span className={`absolute left-1 top-1 grid h-7 w-7 place-items-center rounded-full bg-[var(--brand-orange)] text-black shadow-lg transition-transform duration-300 ${creamTheme ? "translate-x-8" : "translate-x-0"}`}>
+        {creamTheme ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
       </span>
     </button>
   );
 }
 
-function NavLink({ label, to }: { label: string; to: string }) {
+function NavLink({ label, to }: { label: string; to: string; }) {
   return (
-    <Link
-      to={to}
-      className="px-3 py-2 text-[13px] font-medium text-[var(--nav-text)] hover:text-[var(--brand-orange)] transition-colors relative group"
-      activeProps={{ className: "text-[var(--brand-orange)]" }}
-    >
+    <Link to={to} className="group relative px-3 py-2 text-[13px] font-medium text-[var(--nav-text)] transition-colors hover:text-[var(--brand-orange)]" activeProps={{ className: "text-[var(--brand-orange)]" }}>
       {label}
-
-      <span className="absolute left-3 right-3 -bottom-0.5 h-px bg-gradient-orange scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+      <span className="bg-gradient-orange absolute -bottom-0.5 left-3 right-3 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
     </Link>
   );
 }
