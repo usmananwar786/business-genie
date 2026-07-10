@@ -311,11 +311,7 @@ function readSapThemeMode(): ThemeMode {
 
   const themeText = `${classText} ${attrText} ${storageText}`;
 
-  /*
-   * Same approach used by the Odoo page:
-   * when the header becomes black, the SAP page also enters night mode,
-   * even if the global theme class is placed on an unexpected wrapper.
-   */
+  
   if (headerLooksDark()) return "dark";
 
   if (/\b(dark|night|black)\b/.test(themeText)) return "dark";
@@ -417,19 +413,7 @@ function SapBusinessOne() {
 function SapThemeStyles() {
   return (
     <style>{`
-      /*
-       * Odoo-style day/night system adapted for SAP Business One.
-       *
-       * Day:
-       * - warm off-white background
-       * - white cards
-       * - SAP blue + teal accents
-       *
-       * Night:
-       * - near-black background
-       * - charcoal cards
-       * - brighter SAP blue + cyan highlights
-       */
+      
       .sap-theme-wrap {
         color-scheme: light;
         background: #f7f8f5;
