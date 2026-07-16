@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   BarChart3,
@@ -11,6 +11,7 @@ import {
   CircleDollarSign,
   Cloud,
   Database,
+  Factory,
   FileBarChart,
   FileText,
   Globe2,
@@ -64,6 +65,20 @@ const BRAND_INK = "#163B55";
 
 type ThemeMode = "light" | "dark";
 
+type ModuleItem = {
+  icon: LucideIcon;
+  title: string;
+  summary: string;
+  details: string[];
+  accent: string;
+};
+
+type FeatureItem = {
+  icon: LucideIcon;
+  title: string;
+  text: string;
+};
+
 const THEME_STORAGE_KEYS = [
   "theme",
   "color-theme",
@@ -77,80 +92,184 @@ const THEME_STORAGE_KEYS = [
   "business-genie-theme-v2",
 ];
 
-const appRail = [
-  { icon: CircleDollarSign, label: "Finance" },
-  { icon: ShoppingCart, label: "Sales" },
-  { icon: Boxes, label: "Inventory" },
-  { icon: ReceiptText, label: "Purchase" },
-  { icon: Users, label: "HR" },
+const heroFeatures: FeatureItem[] = [
+  {
+    icon: FileBarChart,
+    title: "Custom Reports",
+    text: "Build role-based reports and forms around your real workflow.",
+  },
+  {
+    icon: Layers3,
+    title: "One Platform",
+    text: "Connect finance, inventory, CRM, HR and operations.",
+  },
+  {
+    icon: Globe2,
+    title: "Multi-Branch",
+    text: "Work across branches, warehouses and locations securely.",
+  },
+  {
+    icon: Users,
+    title: "Multi-User",
+    text: "Give every team controlled access to the data they need.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Cloud Security",
+    text: "Protect records with permissions, backups and audit trails.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Scalable Pricing",
+    text: "Start with essential modules and expand as you grow.",
+  },
 ];
 
-const capabilities = [
+const modules: ModuleItem[] = [
   {
     icon: CircleDollarSign,
     title: "Accounting & Finance",
-    text: "General ledger, receivables, payables, cash flow, taxation, budgeting and financial reporting.",
-    image:
-      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=88",
+    summary:
+      "Keep your accounts, cash flow, receivables, payables and financial reports connected.",
+    details: [
+      "General ledger, journals and chart of accounts",
+      "Customer receivables and supplier payables",
+      "Banking, cash flow and payment tracking",
+      "Tax, budgeting and management reporting",
+    ],
+    accent: "#2EA3D0",
   },
   {
     icon: ShoppingCart,
-    title: "Sales & Customer Control",
-    text: "Quotations, orders, invoices, customer balances, collections and complete sales visibility.",
-    image:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=88",
+    title: "Sales Management",
+    summary:
+      "Manage quotations, orders, invoices, collections and customer activity from one workspace.",
+    details: [
+      "Lead, quotation and sales order tracking",
+      "Price lists, discounts and approval control",
+      "Customer balances and collection follow-up",
+      "Sales performance and margin visibility",
+    ],
+    accent: "#5E9FD3",
   },
   {
     icon: Boxes,
     title: "Inventory & Warehousing",
-    text: "Stock movement, warehouse control, transfers, reorder levels, batches and delivery tracking.",
-    image:
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=88",
+    summary:
+      "See stock availability, transfers, reorder levels and warehouse activity in real time.",
+    details: [
+      "Multi-warehouse stock visibility",
+      "Transfers, adjustments and stock counts",
+      "Batch, serial and expiry tracking",
+      "Reorder alerts and item movement history",
+    ],
+    accent: "#6DB5C8",
+  },
+  {
+    icon: ReceiptText,
+    title: "Purchasing",
+    summary:
+      "Control requests, purchase orders, supplier invoices and approval workflows.",
+    details: [
+      "Purchase requests and supplier quotations",
+      "Purchase orders and goods receipts",
+      "Supplier invoices and outstanding balances",
+      "Approval rules and purchase analysis",
+    ],
+    accent: "#4E86C8",
+  },
+  {
+    icon: Factory,
+    title: "Assembly & Production",
+    summary:
+      "Plan material usage, assembly, production costs and finished goods more accurately.",
+    details: [
+      "Bills of materials and assembly orders",
+      "Raw material issue and finished goods receipt",
+      "Job costing and production variance",
+      "Production planning and material availability",
+    ],
+    accent: "#388DBF",
+  },
+  {
+    icon: PackageCheck,
+    title: "Asset Management",
+    summary:
+      "Track assets, allocation, depreciation, maintenance and responsible users.",
+    details: [
+      "Asset register and category management",
+      "Location, custodian and allocation history",
+      "Depreciation schedules and book values",
+      "Maintenance reminders and supporting records",
+    ],
+    accent: "#4BA9C7",
+  },
+  {
+    icon: Users,
+    title: "HR & Payroll",
+    summary:
+      "Organize employees, attendance, leave, payroll inputs and HR records in one place.",
+    details: [
+      "Employee profiles and document records",
+      "Attendance, leave and shift information",
+      "Payroll inputs, allowances and deductions",
+      "Department, role and reporting structures",
+    ],
+    accent: "#3C91C5",
   },
   {
     icon: Workflow,
-    title: "Operations & Production",
-    text: "Production planning, assembling, material usage, job costing and operational coordination.",
-    image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=88",
+    title: "CRM & Workflow",
+    summary:
+      "Keep opportunities, follow-ups, approvals and customer communication organized.",
+    details: [
+      "Lead and opportunity pipeline",
+      "Tasks, reminders and follow-up activities",
+      "Approval routing and workflow notifications",
+      "Customer history and service visibility",
+    ],
+    accent: "#648FC8",
+  },
+  {
+    icon: FileBarChart,
+    title: "Project Management",
+    summary:
+      "Control project tasks, expenses, billing, profitability and management reporting.",
+    details: [
+      "Project setup, stages and task tracking",
+      "Time, expense and resource visibility",
+      "Project billing and receivable tracking",
+      "Budget versus actual performance",
+    ],
+    accent: "#2C7FB4",
   },
 ];
 
-const flowSteps = [
-  { icon: FileText, label: "Quotation" },
-  { icon: ShoppingCart, label: "Sales Order" },
-  { icon: Boxes, label: "Stock Allocation" },
-  { icon: Truck, label: "Delivery" },
-  { icon: ReceiptText, label: "Invoice" },
-  { icon: WalletCards, label: "Payment" },
-  { icon: FileBarChart, label: "Reporting" },
-];
-
-const implementationSteps = [
+const processSteps = [
   {
-    number: "01",
+    number: "",
     title: "Business Discovery",
-    text: "We study accounting, sales, inventory, branches, users, reports and current bottlenecks.",
+    text: "We review finance, sales, stock, branches, users, reports and operational pain points.",
   },
   {
-    number: "02",
-    title: "ERP Architecture",
-    text: "We define modules, workflows, permissions, warehouses, approval rules and reporting needs.",
+    number: "",
+    title: "ERP Blueprint",
+    text: "We define modules, workflows, permissions, warehouses, approvals and reporting requirements.",
   },
   {
-    number: "03",
-    title: "Setup & Migration",
-    text: "We configure the platform, prepare master data and migrate agreed financial and operational records.",
+    number: "",
+    title: "Configuration & Migration",
+    text: "We configure the platform and prepare agreed customers, suppliers, items, balances and stock data.",
   },
   {
-    number: "04",
+    number: "",
     title: "Testing & Training",
-    text: "Teams test real scenarios and receive role-based training before launch.",
+    text: "Your teams test real scenarios and receive practical role-based training before launch.",
   },
   {
-    number: "05",
+    number: "",
     title: "Go Live & Support",
-    text: "We support launch, issue resolution, reporting improvements and ongoing optimization.",
+    text: "We support launch, resolve issues and continue improving workflows, reports and controls.",
   },
 ];
 
@@ -161,13 +280,6 @@ const benefits = [
   "Better stock accuracy across warehouses",
   "Controlled user permissions and approvals",
   "Secure cloud access across locations",
-];
-
-const industries = [
-  { icon: Building2, title: "Trading", text: "Sales, purchases, margins and customer balances." },
-  { icon: Truck, title: "Distribution", text: "Warehouses, delivery, stock and fulfilment." },
-  { icon: PackageCheck, title: "Manufacturing", text: "Materials, production, cost and finished goods." },
-  { icon: Globe2, title: "Multi-Branch", text: "Centralized access, permissions and reporting." },
 ];
 
 const faqs = [
@@ -314,17 +426,29 @@ function useThemeMode(): ThemeMode {
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["class", "style", "data-theme", "data-mode", "data-color-mode"],
+      attributeFilter: [
+        "class",
+        "style",
+        "data-theme",
+        "data-mode",
+        "data-color-mode",
+      ],
     });
 
     observer.observe(document.body, {
       attributes: true,
       childList: true,
       subtree: true,
-      attributeFilter: ["class", "style", "data-theme", "data-mode", "data-color-mode"],
+      attributeFilter: [
+        "class",
+        "style",
+        "data-theme",
+        "data-mode",
+        "data-color-mode",
+      ],
     });
 
-    const interval = window.setInterval(update, 250);
+    const interval = window.setInterval(update, 300);
     const onClick = () => window.setTimeout(update, 0);
     const media = window.matchMedia?.("(prefers-color-scheme: dark)");
 
@@ -358,10 +482,10 @@ function EccountantCloudErp() {
         <main className="ec-page min-h-screen overflow-hidden bg-[var(--ec-bg)] text-[var(--ec-text)] selection:bg-[#75C6EC] selection:text-[#163B55]">
           <HeroSection />
           <KpiRibbon />
-          <CapabilityMosaic />
-          <ConnectedFlow />
-          <AutomationSection />
-          <IndustrySection />
+          <ModulesSection />
+          <BusinessOverviewSection />
+          <ConnectedFlowSection />
+          <CustomerStorySection />
           <ImplementationSection />
           <BenefitsSection />
           <FaqSection />
@@ -377,61 +501,53 @@ function ThemeStyles() {
     <style>{`
       .ec-theme-wrap {
         color-scheme: light;
-        background: #f6f8fa;
+        background: #f7f9fb;
       }
 
       .ec-theme-wrap[data-ec-theme="dark"] {
         color-scheme: dark;
-        background: #030507;
+        background: #030609;
       }
 
       .ec-theme-wrap[data-ec-theme="light"] .ec-page {
-        --ec-bg: #f6f8fa;
-        --ec-alt: #edf3f7;
-        --ec-card: rgba(255,255,255,.96);
-        --ec-card-soft: rgba(255,255,255,.82);
-        --ec-title: #163b55;
-        --ec-text: #26495f;
-        --ec-body: #496779;
-        --ec-muted: #718896;
+        --ec-bg: #f7f9fb;
+        --ec-alt: #eef4f8;
+        --ec-card: #ffffff;
+        --ec-card-soft: rgba(255,255,255,.88);
+        --ec-title: #173b54;
+        --ec-text: #294a60;
+        --ec-body: #4c6879;
+        --ec-muted: #738895;
         --ec-border: rgba(66,152,199,.17);
-        --ec-border-strong: rgba(66,152,199,.30);
-        --ec-grid: rgba(66,152,199,.07);
-        --ec-overlay: rgba(246,248,250,.93);
+        --ec-border-strong: rgba(66,152,199,.34);
+        --ec-grid: rgba(66,152,199,.065);
         --ec-shadow: 0 18px 55px rgba(36,121,170,.10);
-        background: #f6f8fa !important;
-        color: #26495f !important;
+        --ec-overlay: rgba(247,249,251,.94);
+        background: #f7f9fb !important;
+        color: #294a60 !important;
       }
 
       .ec-theme-wrap[data-ec-theme="dark"] .ec-page {
-        --ec-bg: #030507;
-        --ec-alt: #080d12;
-        --ec-card: rgba(12,20,27,.96);
-        --ec-card-soft: rgba(9,16,22,.90);
+        --ec-bg: #030609;
+        --ec-alt: #081018;
+        --ec-card: #0d1821;
+        --ec-card-soft: rgba(10,19,27,.91);
         --ec-title: #f7fbfe;
-        --ec-text: #e7f1f7;
+        --ec-text: #e8f2f8;
         --ec-body: #c8d8e2;
-        --ec-muted: rgba(180,202,215,.72);
+        --ec-muted: rgba(182,204,216,.72);
         --ec-border: rgba(255,255,255,.11);
-        --ec-border-strong: rgba(117,198,236,.34);
-        --ec-grid: rgba(117,198,236,.055);
-        --ec-overlay: rgba(3,5,7,.94);
+        --ec-border-strong: rgba(117,198,236,.36);
+        --ec-grid: rgba(117,198,236,.05);
         --ec-shadow: 0 24px 75px rgba(0,0,0,.48);
-        background: #030507 !important;
-        color: #e7f1f7 !important;
+        --ec-overlay: rgba(3,6,9,.94);
+        background: #030609 !important;
+        color: #e8f2f8 !important;
       }
 
       .ec-container {
         width: min(1200px, calc(100% - 2rem));
         margin-inline: auto;
-      }
-
-      .ec-grid-bg {
-        background-color: var(--ec-bg);
-        background-image:
-          linear-gradient(var(--ec-grid) 1px, transparent 1px),
-          linear-gradient(90deg, var(--ec-grid) 1px, transparent 1px);
-        background-size: 78px 78px;
       }
 
       .ec-card {
@@ -447,40 +563,65 @@ function ThemeStyles() {
         backdrop-filter: blur(20px);
       }
 
-      .ec-theme-wrap[data-ec-theme="light"] .ec-alt {
-        background: #edf3f7 !important;
+      .ec-alt {
+        background: var(--ec-alt) !important;
       }
 
-      .ec-theme-wrap[data-ec-theme="dark"] .ec-alt {
-        background: #080d12 !important;
+      .ec-grid-bg {
+        background-color: var(--ec-bg);
+        background-image:
+          linear-gradient(var(--ec-grid) 1px, transparent 1px),
+          linear-gradient(90deg, var(--ec-grid) 1px, transparent 1px);
+        background-size: 76px 76px;
       }
 
-      .ec-theme-wrap[data-ec-theme="light"] .ec-hero-overlay {
+      .ec-hero-shell {
         background:
-          linear-gradient(
-            90deg,
-            #f6f8fa 0%,
-            rgba(246,248,250,.96) 48%,
-            rgba(225,242,250,.78) 100%
-          ) !important;
+          radial-gradient(circle at 15% 25%, rgba(117,198,236,.20), transparent 33%),
+          radial-gradient(circle at 86% 70%, rgba(36,121,170,.25), transparent 36%),
+          linear-gradient(135deg, #184f7a 0%, #2b78a9 48%, #1d5d8c 100%);
       }
 
-      .ec-theme-wrap[data-ec-theme="dark"] .ec-hero-overlay {
+      .ec-theme-wrap[data-ec-theme="dark"] .ec-hero-shell {
         background:
-          linear-gradient(
-            90deg,
-            #030507 0%,
-            rgba(3,5,7,.96) 48%,
-            rgba(2,17,25,.86) 100%
-          ) !important;
+          radial-gradient(circle at 15% 25%, rgba(117,198,236,.15), transparent 33%),
+          radial-gradient(circle at 86% 70%, rgba(36,121,170,.23), transparent 36%),
+          linear-gradient(135deg, #06131d 0%, #0c2f47 48%, #071d2b 100%);
       }
 
-      .ec-theme-wrap[data-ec-theme="light"] img {
-        filter: brightness(.96) saturate(.92);
+      .ec-hero-feature {
+        background: rgba(255,255,255,.10) !important;
+        border-color: rgba(255,255,255,.16) !important;
+        box-shadow: 0 18px 45px rgba(4,24,38,.14) !important;
       }
 
-      .ec-theme-wrap[data-ec-theme="dark"] img {
-        filter: brightness(.68) saturate(.86) contrast(1.08);
+      .ec-theme-wrap[data-ec-theme="dark"] .ec-hero-feature {
+        background: rgba(255,255,255,.07) !important;
+        border-color: rgba(255,255,255,.13) !important;
+      }
+
+      .ec-module-card {
+        isolation: isolate;
+      }
+
+      .ec-module-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        opacity: 0;
+        background: radial-gradient(circle at 50% 0%, rgba(117,198,236,.12), transparent 55%);
+        transition: opacity .35s ease;
+      }
+
+      .ec-module-card:hover::before,
+      .ec-module-card[data-open="true"]::before {
+        opacity: 1;
+      }
+
+      .ec-module-card[data-open="true"] {
+        border-color: var(--ec-border-strong);
+        box-shadow: 0 24px 70px rgba(36,121,170,.16);
       }
 
       .ec-page,
@@ -499,235 +640,186 @@ function ThemeStyles() {
           color .3s ease,
           box-shadow .3s ease;
       }
+
+      .ec-theme-wrap[data-ec-theme="light"] img {
+        filter: brightness(.97) saturate(.94);
+      }
+
+      .ec-theme-wrap[data-ec-theme="dark"] img {
+        filter: brightness(.70) saturate(.88) contrast(1.07);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .ec-page *,
+        .ec-page *::before,
+        .ec-page *::after {
+          scroll-behavior: auto !important;
+          animation-duration: .01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: .01ms !important;
+        }
+      }
     `}</style>
   );
 }
 
 function HeroSection() {
   return (
-    <section className="ec-grid-bg relative isolate min-h-[92vh] overflow-hidden pb-20 pt-32">
-      <img
-        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=88"
-        alt="Eccountant Cloud ERP analytics"
-        className="absolute inset-0 -z-30 h-full w-full object-cover opacity-20"
-      />
-      <div className="ec-hero-overlay absolute inset-0 -z-20" />
-
+    <section className="ec-hero-shell relative isolate overflow-hidden px-4 pb-24 pt-28 text-white sm:px-6 lg:min-h-[760px] lg:px-8 lg:pb-28 lg:pt-32">
       <motion.div
-        animate={{ x: [0, 28, 0], y: [0, -20, 0] }}
+        aria-hidden="true"
+        animate={{ x: [0, 28, 0], y: [0, -18, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -left-36 top-24 -z-10 h-[30rem] w-[30rem] rounded-full bg-[#4298C7]/18 blur-[150px]"
+        className="absolute -left-40 top-16 -z-10 h-[34rem] w-[34rem] rounded-full bg-[#75C6EC]/18 blur-[150px]"
       />
 
       <motion.div
-        animate={{ x: [0, -22, 0], y: [0, 22, 0] }}
+        aria-hidden="true"
+        animate={{ x: [0, -22, 0], y: [0, 20, 0], scale: [1.06, 1, 1.06] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -right-28 bottom-0 -z-10 h-[28rem] w-[28rem] rounded-full bg-[#75C6EC]/18 blur-[145px]"
+        className="absolute -right-36 bottom-0 -z-10 h-[32rem] w-[32rem] rounded-full bg-[#0b3354]/30 blur-[145px]"
       />
 
-      <div className="ec-container grid items-center gap-14 lg:grid-cols-[1.02fr_.98fr]">
+      <div className="ec-container">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.65 }}
+          className="mx-auto max-w-3xl text-center"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--ec-border-strong)] bg-[var(--ec-card-soft)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#2479AA] backdrop-blur-xl">
-            <Cloud className="h-4 w-4" />
+          {/* <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/[0.18] bg-white/[0.10] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-xl">
+            <Cloud className="h-4 w-4 text-[#AEE7FF]" />
             Eccountant Cloud ERP
-          </div>
+          </div> */}
 
-          <div className="mb-7 flex items-center gap-4">
-            <div className="grid h-14 w-16 place-items-center rounded-[45%_55%_55%_45%] bg-[#4298C7] text-2xl font-bold text-white shadow-[0_16px_38px_rgba(66,152,199,.25)]">
-              E
-            </div>
-            <div>
-              <div className="text-3xl font-bold tracking-[-0.05em] text-[var(--ec-title)]">
-                <span style={{ color: BRAND_BLUE }}>ccountant</span>
-              </div>
-              <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--ec-muted)]">
-                Cloud ERP
-              </div>
-            </div>
-          </div>
-
-          <h1 className="max-w-4xl text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-[var(--ec-title)] sm:text-5xl lg:text-7xl">
-            See your entire business
-            <span
-              className="mt-2 block bg-clip-text text-transparent"
-              style={{
-                backgroundImage: `linear-gradient(120deg, ${BRAND_BLUE_DARK}, ${BRAND_BLUE}, ${BRAND_SKY})`,
-              }}
-            >
-              from one cloud workspace
-            </span>
+          <h1 className="mt-6 text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+            Do more with Eccountant
           </h1>
 
-          <p className="mt-7 max-w-2xl text-base leading-8 text-[var(--ec-body)] sm:text-lg">
-            Bring finance, sales, purchasing, inventory, operations and
-            reporting together in a secure Eccountant environment built around
-            your real workflows.
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/[0.76] sm:text-lg">
+            A connected cloud ERP for finance, sales, inventory, purchasing,
+            production, people and management reporting.
           </p>
-
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-full px-6 py-3.5 font-semibold text-white shadow-[0_18px_50px_rgba(66,152,199,.28)] transition hover:-translate-y-1"
-              style={{
-                background: `linear-gradient(135deg, ${BRAND_BLUE}, ${BRAND_BLUE_DARK})`,
-              }}
-            >
-              Start ERP Consultation
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-
-            <a
-              href="#capabilities"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--ec-border-strong)] bg-[var(--ec-card-soft)] px-6 py-3.5 font-semibold text-[var(--ec-title)] backdrop-blur-xl transition hover:-translate-y-1 hover:border-[#75C6EC]/55"
-            >
-              Explore ERP Modules
-            </a>
-          </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 34, scale: 0.96 }}
-          animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.75 }}
-          className="relative"
-        >
-          <ErpWorkspace />
-        </motion.div>
-      </div>
-    </section>
-  );
-}
+        <div className="relative mx-auto mt-14 max-w-[1100px] lg:min-h-[430px]">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.82 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.18, duration: 0.75, type: "spring" }}
+            className="relative z-20 mx-auto grid h-52 w-52 place-items-center rounded-full border-[10px] border-white/10 bg-white text-center shadow-[0_30px_80px_rgba(0,0,0,.24)] sm:h-60 sm:w-60"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-[-15px] rounded-full border border-dashed border-[#75C6EC]/55"
+            />
 
-function ErpWorkspace() {
-  return (
-    <div className="ec-glass relative overflow-hidden rounded-[2rem] p-4 sm:p-5">
-      <div className="grid gap-4 md:grid-cols-[92px_1fr]">
-        <div className="rounded-2xl border border-[var(--ec-border)] bg-[var(--ec-card)] p-3">
-          <div className="mb-5 grid h-11 w-11 place-items-center rounded-xl bg-[#4298C7] text-lg font-bold text-white">
-            E
-          </div>
+            <div>
+              <div className="mx-auto grid h-16 w-20 place-items-center rounded-[46%_54%_56%_44%] bg-[#4298C7] text-3xl font-bold text-white shadow-[0_14px_34px_rgba(66,152,199,.30)]">
+                E
+              </div>
+              <div className="mt-3 text-2xl font-bold tracking-[-0.045em] text-[#4298C7]">
+                ccountant
+              </div>
+              <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#648396]">
+                Cloud Business ERP
+              </div>
+            </div>
+          </motion.div>
 
-          <div className="space-y-3">
-            {appRail.map((item, index) => {
-              const Icon = item.icon;
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:absolute lg:inset-0 lg:mt-0 lg:grid-cols-2 lg:content-between lg:justify-between">
+            {heroFeatures.map((feature, index) => {
+              const Icon = feature.icon;
+              const alignRight = index % 2 === 1;
 
               return (
                 <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, x: -8 }}
+                  key={feature.title}
+                  initial={{ opacity: 0, x: alignRight ? 28 : -28 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.35 + index * 0.07 }}
-                  className={`group rounded-xl p-2 text-center ${
-                    index === 0 ? "bg-[#4298C7]/12" : ""
+                  transition={{ delay: 0.32 + index * 0.08, duration: 0.55 }}
+                  className={`ec-hero-feature relative flex max-w-[360px] items-start gap-4 rounded-2xl p-4 text-left text-white backdrop-blur-md lg:w-[360px] ${
+                    alignRight ? "lg:justify-self-end" : "lg:justify-self-start"
                   }`}
                 >
-                  <Icon className="mx-auto h-5 w-5 text-[#4298C7]" />
-                  <p className="mt-1 text-[10px] text-[var(--ec-muted)]">
-                    {item.label}
-                  </p>
+                  <motion.div
+                    whileHover={{ rotate: [0, -8, 8, 0], scale: 1.08 }}
+                    className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white text-[#2479AA]"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </motion.div>
+                  <div>
+                    <h2 className="font-semibold text-white">{feature.title}</h2>
+                    <p className="mt-1 text-sm leading-6 text-white/68">
+                      {feature.text}
+                    </p>
+                  </div>
                 </motion.div>
               );
             })}
           </div>
         </div>
 
-        <div>
-          <div className="flex items-center justify-between rounded-2xl border border-[var(--ec-border)] bg-[var(--ec-card)] px-4 py-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-[var(--ec-muted)]">
-                Executive Workspace
-              </p>
-              <h2 className="mt-1 text-lg font-semibold text-[var(--ec-title)]">
-                Today’s financial position
-              </h2>
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.82, duration: 0.55 }}
+          className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row"
+        >
+          <Link
+            to="/contact"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 font-semibold text-[#2479AA] shadow-[0_18px_45px_rgba(0,0,0,.18)] transition hover:-translate-y-1 hover:bg-[#EAF7FD]"
+          >
+            Start ERP Consultation
+            <ArrowRight className="h-4 w-4" />
+          </Link>
 
-            <div className="flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-xs font-semibold text-emerald-400">
-              <span className="h-2 w-2 rounded-full bg-emerald-400" />
-              Live
-            </div>
-          </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            {[
-              ["Cash", "$96K", WalletCards],
-              ["Receivables", "$128K", TrendingUp],
-              ["Stock", "$214K", Boxes],
-              ["Orders", "186", ShoppingCart],
-            ].map(([label, value, Icon]) => {
-              const MetricIcon = Icon as LucideIcon;
-
-              return (
-                <div
-                  key={label as string}
-                  className="rounded-2xl border border-[var(--ec-border)] bg-[var(--ec-card)] p-4"
-                >
-                  <MetricIcon className="h-5 w-5 text-[#4298C7]" />
-                  <p className="mt-4 text-2xl font-semibold text-[var(--ec-title)]">
-                    {value as string}
-                  </p>
-                  <p className="mt-1 text-xs text-[var(--ec-muted)]">
-                    {label as string}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-4 rounded-2xl border border-[var(--ec-border)] bg-[var(--ec-card)] p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-[var(--ec-muted)]">
-                  Cashflow Forecast
-                </p>
-                <p className="mt-1 font-semibold text-[var(--ec-title)]">
-                  Incoming vs outgoing
-                </p>
-              </div>
-              <BarChart3 className="h-5 w-5 text-[#4298C7]" />
-            </div>
-
-            <div className="mt-6 flex h-32 items-end gap-2">
-              {[44, 60, 52, 74, 66, 84, 78, 94].map((height, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ height: 0 }}
-                  whileInView={{ height: `${height}%` }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.06, duration: 0.65 }}
-                  className="flex-1 rounded-t-md"
-                  style={{
-                    background: `linear-gradient(180deg, ${BRAND_SKY}, ${BRAND_BLUE_DARK})`,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+          <a
+            href="#modules"
+            className="inline-flex items-center justify-center rounded-full border border-white/[0.24] bg-white/[0.08] px-6 py-3.5 font-semibold text-white backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/[0.14]"
+          >
+            Explore Modules
+          </a>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 }
 
 function KpiRibbon() {
+  const items: FeatureItem[] = [
+    {
+      icon: Cloud,
+      title: "Cloud Access",
+      text: "Secure work across branches and locations",
+    },
+    {
+      icon: Database,
+      title: "Connected Records",
+      text: "One source of financial and operational data",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Controlled Users",
+      text: "Role-based permissions and approvals",
+    },
+    {
+      icon: RefreshCw,
+      title: "Live Synchronization",
+      text: "Current finance, sales and stock information",
+    },
+  ];
+
   return (
-    <section className="ec-alt border-y border-[var(--ec-border)] bg-[var(--ec-alt)] py-7">
+    <section className="ec-alt border-y border-[var(--ec-border)] py-7">
       <div className="ec-container grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          [Cloud, "Cloud Access", "Secure work across locations"],
-          [Database, "Connected Records", "One source of business data"],
-          [ShieldCheck, "Controlled Users", "Role-based permissions"],
-          [RefreshCw, "Live Synchronization", "Current financial and stock data"],
-        ].map(([Icon, title, text], index) => {
-          const ItemIcon = Icon as LucideIcon;
+        {items.map((item, index) => {
+          const Icon = item.icon;
 
           return (
             <motion.div
-              key={title as string}
+              key={item.title}
               initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -735,14 +827,14 @@ function KpiRibbon() {
               className="flex items-center gap-4"
             >
               <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#4298C7]/12 text-[#4298C7]">
-                <ItemIcon className="h-5 w-5" />
+                <Icon className="h-5 w-5" />
               </div>
               <div>
                 <p className="font-semibold text-[var(--ec-title)]">
-                  {title as string}
+                  {item.title}
                 </p>
                 <p className="mt-1 text-xs leading-5 text-[var(--ec-muted)]">
-                  {text as string}
+                  {item.text}
                 </p>
               </div>
             </motion.div>
@@ -753,57 +845,121 @@ function KpiRibbon() {
   );
 }
 
-function CapabilityMosaic() {
+function ModulesSection() {
+  const [openModule, setOpenModule] = useState<string | null>(null);
+
   return (
-    <section id="capabilities" className="bg-[var(--ec-bg)] py-24">
+    <section id="modules" className="scroll-mt-28 bg-[var(--ec-bg)] py-24">
       <div className="ec-container">
         <SectionIntro
-          eyebrow="Cloud ERP Capabilities"
-          title="Built around the daily work that keeps your business moving"
-          description="Each Eccountant module connects with the same shared records, so departments can work faster without losing control or visibility."
+          eyebrow="Our Modules"
+          title="Different needs, one connected solution"
+          description="Choose the modules your business needs today. Every module shares the same records, users and reporting structure."
         />
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-2">
-          {capabilities.map((item, index) => {
+        <div className="mt-14 grid items-start gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {modules.map((item, index) => {
             const Icon = item.icon;
+            const isOpen = openModule === item.title;
 
             return (
               <motion.article
+                layout
                 key={item.title}
-                initial={{ opacity: 0, y: 28 }}
+                data-open={isOpen}
+                initial={{ opacity: 0, y: 26 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ delay: index * 0.07, duration: 0.55 }}
-                whileHover={{ y: -7 }}
-                className="ec-card group overflow-hidden rounded-[1.75rem]"
+                viewport={{ once: true, amount: 0.18 }}
+                transition={{ delay: index * 0.045, duration: 0.5 }}
+                whileHover={!isOpen ? { y: -7 } : undefined}
+                className="ec-module-card ec-card relative overflow-hidden rounded-3xl p-6 text-center"
               >
-                <div className="grid md:grid-cols-[.9fr_1.1fr]">
-                  <div className="relative min-h-[260px] overflow-hidden">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B25]/80 via-transparent to-transparent" />
+                <motion.div
+                  layout
+                  className="mx-auto grid h-20 w-20 place-items-center rounded-full border-[7px] border-[var(--ec-bg)] shadow-[0_12px_35px_rgba(36,121,170,.16)]"
+                  style={{ backgroundColor: `${item.accent}20`, color: item.accent }}
+                  whileHover={{ rotate: [0, -7, 7, 0], scale: 1.06 }}
+                  transition={{ duration: 0.45 }}
+                >
+                  <Icon className="h-8 w-8" />
+                </motion.div>
 
-                    <div className="absolute bottom-5 left-5 grid h-12 w-12 place-items-center rounded-xl bg-[#4298C7] text-white">
-                      <Icon className="h-6 w-6" />
-                    </div>
-                  </div>
+                <motion.h3
+                  layout="position"
+                  className="mt-6 text-xl font-semibold text-[var(--ec-title)]"
+                >
+                  {item.title}
+                </motion.h3>
 
-                  <div className="flex flex-col justify-center p-6 sm:p-7">
-                    <h3 className="text-2xl font-semibold text-[var(--ec-title)]">
-                      {item.title}
-                    </h3>
-                    <p className="mt-4 leading-7 text-[var(--ec-muted)]">
-                      {item.text}
-                    </p>
-                    <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#4298C7]">
-                      Connected with the full ERP
-                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                    </div>
-                  </div>
-                </div>
+                <motion.p
+                  layout="position"
+                  className="mt-3 text-sm leading-7 text-[var(--ec-muted)]"
+                >
+                  {item.summary}
+                </motion.p>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="details"
+                      initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                      animate={{ height: "auto", opacity: 1, marginTop: 22 }}
+                      exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                      transition={{ duration: 0.34, ease: "easeInOut" }}
+                      className="overflow-hidden text-left"
+                    >
+                      <div className="border-t border-[var(--ec-border)] pt-5">
+                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#4298C7]">
+                          Included Capabilities
+                        </p>
+
+                        <div className="mt-4 space-y-3">
+                          {item.details.map((detail, detailIndex) => (
+                            <motion.div
+                              key={detail}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: detailIndex * 0.05 }}
+                              className="flex items-start gap-3"
+                            >
+                              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#4298C7]" />
+                              <span className="text-sm leading-6 text-[var(--ec-body)]">
+                                {detail}
+                              </span>
+                            </motion.div>
+                          ))}
+                        </div>
+
+                        <Link
+                          to="/contact"
+                          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#4298C7] transition hover:translate-x-1"
+                        >
+                          Discuss this module
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <motion.button
+                  layout="position"
+                  type="button"
+                  onClick={() =>
+                    setOpenModule((current) =>
+                      current === item.title ? null : item.title,
+                    )
+                  }
+                  aria-expanded={isOpen}
+                  className="mx-auto mt-6 inline-flex items-center gap-2 rounded-md bg-[#27B9E8] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-white shadow-[0_12px_28px_rgba(39,185,232,.20)] transition hover:-translate-y-0.5 hover:bg-[#159FD0]"
+                >
+                  {isOpen ? "Hide Details" : "View Details"}
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </motion.button>
               </motion.article>
             );
           })}
@@ -813,9 +969,112 @@ function CapabilityMosaic() {
   );
 }
 
-function ConnectedFlow() {
+function BusinessOverviewSection() {
   return (
-    <section className="ec-alt bg-[var(--ec-alt)] py-24">
+    <section className="ec-alt overflow-hidden py-24">
+      <div className="ec-container grid items-center gap-14 lg:grid-cols-[.95fr_1.05fr]">
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.65 }}
+        >
+          <SectionIntro
+            eyebrow="Cloud Business Control"
+            title="Manage your entire business from one reliable workspace"
+            description="Eccountant brings departments, transactions, approvals and reports together so teams work with current information and management sees the complete picture."
+            align="left"
+          />
+
+          <div className="mt-9 grid gap-4 sm:grid-cols-2">
+            {[
+              [Database, "Unified records", "Customers, suppliers, products and transactions stay connected."],
+              [LockKeyhole, "Controlled access", "Users see only the functions and records relevant to their role."],
+              [Zap, "Faster workflows", "Approvals, reminders and recurring tasks reduce routine manual work."],
+              [BarChart3, "Live reporting", "Monitor cash, sales, stock, receivables and profitability."],
+            ].map(([Icon, title, text], index) => {
+              const ItemIcon = Icon as LucideIcon;
+
+              return (
+                <motion.div
+                  key={title as string}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.07 }}
+                  className="ec-card rounded-2xl p-5"
+                >
+                  <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#4298C7]/12 text-[#4298C7]">
+                    <ItemIcon className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-5 font-semibold text-[var(--ec-title)]">
+                    {title as string}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-[var(--ec-muted)]">
+                    {text as string}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 28, scale: 0.97 }}
+          whileInView={{ opacity: 1, x: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.7 }}
+          className="relative"
+        >
+          <div className="overflow-hidden rounded-[2rem] border border-[var(--ec-border)] shadow-[var(--ec-shadow)]">
+            <img
+              src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=88"
+              alt="Business team reviewing cloud ERP operations"
+              className="h-[560px] w-full object-cover"
+            />
+            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-t from-[#07131B]/92 via-[#07131B]/18 to-transparent" />
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.22 }}
+            className="ec-glass absolute bottom-6 left-6 right-6 rounded-2xl p-5 sm:bottom-8 sm:left-8 sm:right-8"
+          >
+            <div className="flex items-center gap-4">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#4298C7] text-white">
+                <Workflow className="h-6 w-6" />
+              </div>
+              <div>
+                <p className="font-semibold text-[var(--ec-title)]">
+                  One connected operating model
+                </p>
+                <p className="mt-1 text-sm text-[var(--ec-muted)]">
+                  Request → Approval → Transaction → Record → Report
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function ConnectedFlowSection() {
+  const steps: FeatureItem[] = [
+    { icon: FileText, title: "Quotation", text: "" },
+    { icon: ShoppingCart, title: "Sales Order", text: "" },
+    { icon: Boxes, title: "Stock", text: "" },
+    { icon: Truck, title: "Delivery", text: "" },
+    { icon: ReceiptText, title: "Invoice", text: "" },
+    { icon: WalletCards, title: "Payment", text: "" },
+    { icon: FileBarChart, title: "Reporting", text: "" },
+  ];
+
+  return (
+    <section className="bg-[var(--ec-bg)] py-24">
       <div className="ec-container">
         <div className="ec-glass relative overflow-hidden rounded-[2rem] p-7 sm:p-10">
           <div className="absolute -left-20 -top-20 h-56 w-56 rounded-full bg-[#4298C7]/16 blur-[90px]" />
@@ -824,32 +1083,39 @@ function ConnectedFlow() {
           <div className="relative">
             <SectionIntro
               eyebrow="Connected Business Flow"
-              title="From quotation to reporting, every transaction stays connected"
-              description="A single record can move across sales, inventory, delivery, finance and management reporting without duplicate work."
-              align="left"
+              title="Every transaction moves through one connected process"
+              description="A single record can move across sales, inventory, delivery, finance and reporting without duplicate data entry."
             />
 
-            <div className="mt-10 flex flex-wrap items-center gap-3">
-              {flowSteps.map((step, index) => {
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
+              {steps.map((step, index) => {
                 const Icon = step.icon;
 
                 return (
-                  <div key={step.label} className="flex items-center gap-3">
+                  <div key={step.title} className="flex items-center gap-3">
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.92 }}
+                      initial={{ opacity: 0, scale: 0.9 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.06 }}
+                      whileHover={{ y: -5 }}
                       className="ec-card flex items-center gap-3 rounded-full px-4 py-3"
                     >
                       <Icon className="h-4 w-4 text-[#4298C7]" />
                       <span className="text-sm font-medium text-[var(--ec-text)]">
-                        {step.label}
+                        {step.title}
                       </span>
                     </motion.div>
 
-                    {index !== flowSteps.length - 1 && (
-                      <ArrowRight className="hidden h-4 w-4 text-[#75C6EC] md:block" />
+                    {index !== steps.length - 1 && (
+                      <motion.div
+                        initial={{ opacity: 0, x: -6 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.06 + 0.08 }}
+                      >
+                        <ArrowRight className="hidden h-4 w-4 text-[#75C6EC] md:block" />
+                      </motion.div>
                     )}
                   </div>
                 );
@@ -862,131 +1128,76 @@ function ConnectedFlow() {
   );
 }
 
-function AutomationSection() {
+function CustomerStorySection() {
   return (
-    <section className="bg-[var(--ec-bg)] py-24">
-      <div className="ec-container grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
-        <div>
-          <SectionIntro
-            eyebrow="Automation & Control"
-            title="Reduce routine work without losing accountability"
-            description="Use approvals, reminders, access rules and live dashboards to keep everyday processes fast, visible and controlled."
-            align="left"
-          />
+    <section className="ec-alt py-24">
+      <div className="ec-container">
+        <SectionIntro
+          eyebrow="Business Impact"
+          title="Built for growing companies that need reliable control"
+          description="A connected ERP environment helps teams reduce manual work, protect data quality and make decisions from current information."
+        />
 
-          <div className="mt-9 space-y-4">
+        <div className="mt-14 grid gap-6 lg:grid-cols-[1.05fr_.95fr]">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.65 }}
+            className="relative overflow-hidden rounded-[2rem]"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=88"
+              alt="Modern company using connected cloud ERP"
+              className="h-[500px] w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#07131B]/94 via-[#07131B]/24 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-7 text-white sm:p-9">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#AEE7FF]">
+                Connected Growth
+              </p>
+              <h3 className="mt-3 max-w-2xl text-2xl font-semibold leading-tight sm:text-3xl">
+                Replace scattered spreadsheets with one clear operational view
+              </h3>
+              <p className="mt-4 max-w-xl leading-7 text-white/[0.72]">
+                Finance, sales, stock and reporting remain synchronized while
+                every user works through controlled roles and workflows.
+              </p>
+            </div>
+          </motion.div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {[
-              [Zap, "Automated approvals", "Route purchases, discounts and exceptions to the right decision-maker."],
-              [LockKeyhole, "Role-based access", "Control who can view, edit, approve and report on each area."],
-              [FileBarChart, "Live dashboards", "See cash, sales, stock and receivables without manual consolidation."],
-            ].map(([Icon, title, text], index) => {
-              const ItemIcon = Icon as LucideIcon;
-
-              return (
-                <motion.div
-                  key={title as string}
-                  initial={{ opacity: 0, x: -18 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.07 }}
-                  className="ec-card flex gap-4 rounded-2xl p-5"
-                >
-                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#4298C7]/12 text-[#4298C7]">
-                    <ItemIcon className="h-5 w-5" />
+              ["Faster closing", "Keep transactions, balances and reports connected throughout the month."],
+              ["Cleaner inventory", "Understand stock movement and availability across warehouses."],
+              ["Better collections", "Track invoices, due dates, balances and customer follow-up."],
+              ["Management insight", "Review sales, margins, cash and operations from current data."],
+            ].map(([title, text], index) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, x: 22 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.07 }}
+                whileHover={{ x: 5 }}
+                className="ec-card rounded-2xl p-5"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#4298C7]/12 text-[#4298C7]">
+                    <CheckCircle2 className="h-5 w-5" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-[var(--ec-title)]">
-                      {title as string}
+                      {title}
                     </h3>
-                    <p className="mt-1 text-sm leading-6 text-[var(--ec-muted)]">
-                      {text as string}
+                    <p className="mt-2 text-sm leading-6 text-[var(--ec-muted)]">
+                      {text}
                     </p>
                   </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.65 }}
-          className="relative"
-        >
-          <div className="overflow-hidden rounded-[2rem] border border-[var(--ec-border)]">
-            <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=88"
-              alt="Team managing connected ERP workflows"
-              className="h-[580px] w-full object-cover"
-            />
-            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-t from-[#07131B]/92 via-[#07131B]/20 to-transparent" />
-          </div>
-
-          <div className="ec-glass absolute bottom-7 left-7 right-7 rounded-2xl p-5">
-            <div className="flex items-center gap-4">
-              <div className="grid h-12 w-12 place-items-center rounded-xl bg-[#4298C7] text-white">
-                <Workflow className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="font-semibold text-[var(--ec-title)]">
-                  Connected approval workflow
-                </p>
-                <p className="mt-1 text-sm text-[var(--ec-muted)]">
-                  Request → Review → Approval → Record → Report
-                </p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function IndustrySection() {
-  return (
-    <section className="ec-alt bg-[var(--ec-alt)] py-24">
-      <div className="ec-container">
-        <SectionIntro
-          eyebrow="Industry Fit"
-          title="Configured for the way different businesses actually operate"
-          description="Eccountant can be structured around your products, warehouses, branches, teams and reporting priorities."
-        />
-
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {industries.map((industry, index) => {
-            const Icon = industry.icon;
-
-            return (
-              <motion.article
-                key={industry.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
-                whileHover={{ y: -8 }}
-                className="ec-card relative min-h-[250px] overflow-hidden rounded-3xl p-6"
-              >
-                <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#4298C7]/14 blur-2xl" />
-
-                <div className="relative">
-                  <div className="grid h-12 w-12 place-items-center rounded-xl bg-[#4298C7]/12 text-[#4298C7]">
-                    <Icon className="h-6 w-6" />
-                  </div>
-
-                  <h3 className="mt-9 text-xl font-semibold text-[var(--ec-title)]">
-                    {industry.title}
-                  </h3>
-
-                  <p className="mt-3 leading-7 text-[var(--ec-muted)]">
-                    {industry.text}
-                  </p>
                 </div>
-              </motion.article>
-            );
-          })}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -999,24 +1210,27 @@ function ImplementationSection() {
       <div className="ec-container">
         <SectionIntro
           eyebrow="Implementation Roadmap"
-          title="A structured journey from scattered records to cloud ERP control"
+          title="A structured journey from scattered records to ERP control"
           description="Every phase is designed around clean data, practical workflows, team adoption and a controlled launch."
         />
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-5">
-          {implementationSteps.map((step, index) => (
+        <div className="relative mt-14 grid gap-5 lg:grid-cols-5">
+          <div className="absolute left-0 right-0 top-10 hidden h-px bg-[var(--ec-border)] lg:block" />
+
+          {processSteps.map((step, index) => (
             <motion.article
               key={step.number}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.08 }}
+              whileHover={{ y: -7 }}
               className="ec-card relative rounded-3xl p-6"
             >
-              <div className="text-4xl font-bold tracking-[-0.05em] text-[#4298C7]/25">
+              {/* <div className="relative z-10 grid h-16 w-16 place-items-center rounded-2xl bg-[#4298C7] text-lg font-bold text-white shadow-[0_16px_38px_rgba(66,152,199,.22)]">
                 {step.number}
-              </div>
-              <h3 className="mt-5 text-lg font-semibold text-[var(--ec-title)]">
+              </div> */}
+              <h3 className="mt-7 text-lg font-semibold text-[var(--ec-title)]">
                 {step.title}
               </h3>
               <p className="mt-3 text-sm leading-6 text-[var(--ec-muted)]">
@@ -1032,7 +1246,7 @@ function ImplementationSection() {
 
 function BenefitsSection() {
   return (
-    <section className="ec-alt bg-[var(--ec-alt)] py-24">
+    <section className="ec-alt py-24">
       <div className="ec-container grid items-center gap-14 lg:grid-cols-[.82fr_1.18fr]">
         <div>
           <SectionIntro
@@ -1059,6 +1273,7 @@ function BenefitsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.06 }}
+              whileHover={{ y: -5 }}
               className="ec-card flex items-start gap-4 rounded-2xl p-5"
             >
               <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#4298C7]/12 text-[#4298C7]">
@@ -1087,8 +1302,13 @@ function FaqSection() {
         </div>
 
         <div className="space-y-3">
-          {faqs.map((faq) => (
-            <FaqItem key={faq.q} question={faq.q} answer={faq.a} />
+          {faqs.map((faq, index) => (
+            <FaqItem
+              key={faq.q}
+              question={faq.q}
+              answer={faq.a}
+              initiallyOpen={index === 0}
+            />
           ))}
         </div>
       </div>
@@ -1096,11 +1316,19 @@ function FaqSection() {
   );
 }
 
-function FaqItem({ question, answer }: { question: string; answer: string }) {
-  const [open, setOpen] = useState(false);
+function FaqItem({
+  question,
+  answer,
+  initiallyOpen = false,
+}: {
+  question: string;
+  answer: string;
+  initiallyOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(initiallyOpen);
 
   return (
-    <div className="ec-card overflow-hidden rounded-2xl">
+    <motion.div layout className="ec-card overflow-hidden rounded-2xl">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
@@ -1108,21 +1336,31 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         aria-expanded={open}
       >
         <span className="font-semibold text-[var(--ec-title)]">{question}</span>
-        <ChevronDown
-          className={`h-5 w-5 shrink-0 text-[#4298C7] transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
-        />
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#4298C7]/12 text-[#4298C7]">
+          <ChevronDown
+            className={`h-5 w-5 transition-transform duration-300 ${
+              open ? "rotate-180" : ""
+            }`}
+          />
+        </span>
       </button>
 
-      <motion.div
-        initial={false}
-        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-        className="overflow-hidden"
-      >
-        <p className="px-5 pb-5 leading-7 text-[var(--ec-muted)]">{answer}</p>
-      </motion.div>
-    </div>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <p className="border-t border-[var(--ec-border)] px-5 py-5 leading-7 text-[var(--ec-muted)]">
+              {answer}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
@@ -1130,26 +1368,34 @@ function CtaSection() {
   return (
     <section className="relative isolate overflow-hidden bg-[var(--ec-bg)] py-24">
       <img
-        src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=2000&q=88"
-        alt="Modern office using cloud systems"
+        src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2000&q=88"
+        alt="Modern office prepared for cloud ERP transformation"
         className="absolute inset-0 -z-30 h-full w-full object-cover opacity-20"
       />
       <div className="absolute inset-0 -z-20 bg-[var(--ec-overlay)]" />
 
       <div className="ec-container">
-        <div
-          className="relative overflow-hidden rounded-[2.25rem] border border-white/12 px-7 py-12 text-center text-white shadow-[0_32px_100px_rgba(36,121,170,.28)] sm:px-12 sm:py-16"
+        <motion.div
+          initial={{ opacity: 0, y: 26 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.65 }}
+          className="relative overflow-hidden rounded-[2.25rem] border border-white/[0.12] px-7 py-12 text-center text-white shadow-[0_32px_100px_rgba(36,121,170,.28)] sm:px-12 sm:py-16"
           style={{
             background: `linear-gradient(135deg, ${BRAND_INK}, ${BRAND_BLUE_DARK}, ${BRAND_BLUE})`,
           }}
         >
-          <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-white/10 blur-[100px]" />
+          <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-white/[0.10] blur-[100px]" />
           <div className="absolute -bottom-28 -right-20 h-80 w-80 rounded-full bg-[#75C6EC]/28 blur-[110px]" />
 
           <div className="relative mx-auto max-w-4xl">
-            <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white text-[#4298C7]">
+            <motion.div
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+              className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white text-[#4298C7]"
+            >
               <Cloud className="h-7 w-7" />
-            </div>
+            </motion.div>
 
             <p className="mt-6 text-xs font-semibold uppercase tracking-[0.22em] text-white/70">
               Eccountant Cloud ERP Consultation
@@ -1159,7 +1405,7 @@ function CtaSection() {
               Build a cloud ERP environment around your real business process
             </h2>
 
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/76">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-white/[0.76]">
               We will assess your finance, sales, inventory, purchasing and
               reporting requirements before recommending a practical rollout.
             </p>
@@ -1172,7 +1418,7 @@ function CtaSection() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

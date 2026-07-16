@@ -136,12 +136,54 @@ const BUSINESS_SOLUTIONS = [
  ] as const;
 
 const SERVICES = [
-  { icon: Database, title: "ERP Implementation", desc: "Accounts, inventory, HR, sales & production.", to: "/erp-solutions" },
-  { icon: Workflow, title: "HRMS", desc: "Employee onboarding, billing and operations.", to: "/HRMS" },
-  { icon: Megaphone, title: "Digital Marketing", desc: "Performance campaigns & lead generation.", to: "/digital-marketing" },
-  { icon: Code2, title: "Web Development", desc: "Modern websites, platforms & CMS.", to: "/web-development" },
-  { icon: Search, title: "SEO Services", desc: "Technical, on-page & local SEO growth.", to: "/seo" },
-  { icon: Palette, title: "UI / UX Design", desc: "Conversion-focused, premium interfaces.", to: "/ui-ux" },
+  {
+    icon: Database,
+    logo: getOfficialLogo("odoo.com"),
+    title: "ERP Implementation",
+    desc: "Accounts, inventory, HR, sales & production.",
+    to: "/erp-solutions",
+    iconBox: "border-[#875A7B]/35 bg-[#875A7B]/12 text-[#875A7B] shadow-[0_0_18px_rgba(135,90,123,0.14)]",
+  },
+  {
+    icon: Workflow,
+    logo: getOfficialLogo("web.hr"),
+    title: "HRMS",
+    desc: "Employee onboarding, billing and operations.",
+    to: "/HRMS",
+    iconBox: "border-[#1D4ED8]/35 bg-[#1D4ED8]/12 text-[#1D4ED8] shadow-[0_0_18px_rgba(29,78,216,0.12)]",
+  },
+  {
+    icon: Megaphone,
+    logo: getOfficialLogo("ads.google.com"),
+    title: "Digital Marketing",
+    desc: "Performance campaigns & lead generation.",
+    to: "/digital-marketing",
+    iconBox: "border-[#4285F4]/35 bg-[#4285F4]/12 text-[#4285F4] shadow-[0_0_18px_rgba(66,133,244,0.12)]",
+  },
+  {
+    icon: Code2,
+    logo: getOfficialLogo("wordpress.org"),
+    title: "Web Development",
+    desc: "Modern websites, platforms & CMS.",
+    to: "/web-development",
+    iconBox: "border-[#21759B]/35 bg-[#21759B]/12 text-[#21759B] shadow-[0_0_18px_rgba(33,117,155,0.12)]",
+  },
+  {
+    icon: Search,
+    logo: getOfficialLogo("search.google.com"),
+    title: "SEO Services",
+    desc: "Technical, on-page & local SEO growth.",
+    to: "/seo",
+    iconBox: "border-[#34A853]/35 bg-[#34A853]/12 text-[#34A853] shadow-[0_0_18px_rgba(52,168,83,0.12)]",
+  },
+  {
+    icon: Palette,
+    logo: getOfficialLogo("figma.com"),
+    title: "UI / UX Design",
+    desc: "Conversion-focused, premium interfaces.",
+    to: "/ui-ux",
+    iconBox: "border-[#A259FF]/35 bg-[#A259FF]/12 text-[#A259FF] shadow-[0_0_18px_rgba(162,89,255,0.12)]",
+  },
 ] as const;
 
 // SOCIALS array active kar diya hai taake loop error na de
@@ -298,22 +340,17 @@ export function Header() {
                   className="absolute left-1/2 top-full w-[640px] -translate-x-1/2 pt-3"
                 >
                   <div className="grid grid-cols-2 gap-1 rounded-2xl border border-[var(--header-border)] bg-[var(--dropdown-bg)] p-3 shadow-2xl backdrop-blur-xl">
-                    {SERVICES.map((service, index) => {
-                      const ServiceIcon = service.icon;
-                      return (
-                        <motion.div key={service.to} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }}>
-                          <Link to={service.to} onClick={() => setSvcOpen(false)} className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-[var(--nav-hover-bg)]">
-                            <div className="bg-gradient-orange grid h-9 w-9 shrink-0 place-items-center rounded-lg text-black transition-transform duration-300 group-hover:scale-110">
-                              <ServiceIcon className="h-[18px] w-[18px]" />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="text-sm font-semibold text-[var(--dropdown-text)] transition-colors group-hover:text-[var(--brand-orange)]">{service.title}</div>
-                              <div className="mt-0.5 text-xs leading-relaxed text-[var(--dropdown-muted)]">{service.desc}</div>
-                            </div>
-                          </Link>
-                        </motion.div>
-                      );
-                    })}
+                    {SERVICES.map((service, index) => (
+                      <motion.div key={service.to} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.03 }}>
+                        <Link to={service.to} onClick={() => setSvcOpen(false)} className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-[var(--nav-hover-bg)]">
+                          <ServiceBrandMark service={service} size="desktop" />
+                          <div className="min-w-0">
+                            <div className="text-sm font-semibold text-[var(--dropdown-text)] transition-colors group-hover:text-[var(--brand-orange)]">{service.title}</div>
+                            <div className="mt-0.5 text-xs leading-relaxed text-[var(--dropdown-muted)]">{service.desc}</div>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    ))}
                   </div>
                 </motion.div>
               )}
@@ -422,15 +459,12 @@ export function Header() {
               <AnimatePresence>
                 {mSvcOpen && (
                   <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden pl-3">
-                    {SERVICES.map((service) => {
-                      const ServiceIcon = service.icon;
-                      return (
-                        <Link key={service.to} to={service.to} onClick={closeMobileMenu} className="flex items-center gap-2.5 px-3 py-2 text-sm text-[var(--nav-muted)] hover:text-[var(--brand-orange)]">
-                          <ServiceIcon className="h-4 w-4 text-[var(--brand-orange)]" />
-                          {service.title}
-                        </Link>
-                      );
-                    })}
+                    {SERVICES.map((service) => (
+                      <Link key={service.to} to={service.to} onClick={closeMobileMenu} className="flex items-center gap-2.5 px-3 py-2 text-sm text-[var(--nav-muted)] hover:text-[var(--brand-orange)]">
+                        <ServiceBrandMark service={service} size="mobile" />
+                        {service.title}
+                      </Link>
+                    ))}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -468,6 +502,7 @@ export function Header() {
 }
 
 type SolutionItem = (typeof ERP_SOLUTIONS)[number] | (typeof BUSINESS_SOLUTIONS)[number];
+type ServiceItem = (typeof SERVICES)[number];
 
 function SolutionDropdownItem({ solution, onClick }: { solution: SolutionItem; onClick: () => void; }) {
   return (
@@ -513,6 +548,41 @@ function BrandMark({
         <img
           src={solution.logo}
           alt={`${solution.title} official logo`}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={() => setLogoFailed(true)}
+          className="h-full w-full object-contain"
+        />
+      ) : (
+        <Icon className={isDesktop ? "h-[18px] w-[18px]" : "h-3.5 w-3.5"} />
+      )}
+    </span>
+  );
+}
+
+function ServiceBrandMark({
+  service,
+  size,
+}: {
+  service: ServiceItem;
+  size: "desktop" | "mobile";
+}) {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const Icon = service.icon;
+  const isDesktop = size === "desktop";
+
+  return (
+    <span
+      className={`grid shrink-0 place-items-center overflow-hidden border bg-white transition-transform duration-300 ${
+        isDesktop
+          ? "h-10 w-10 rounded-xl p-1.5 group-hover:scale-110"
+          : "h-8 w-8 rounded-lg p-1"
+      } ${service.iconBox}`}
+    >
+      {!logoFailed ? (
+        <img
+          src={service.logo}
+          alt={`${service.title} service logo`}
           loading="lazy"
           referrerPolicy="no-referrer"
           onError={() => setLogoFailed(true)}

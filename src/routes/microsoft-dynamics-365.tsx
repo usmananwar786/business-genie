@@ -1,23 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
-  BarChart3,
   Bot,
+  BriefcaseBusiness,
   CheckCircle2,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   CircleDollarSign,
   Database,
   Headphones,
   LineChart,
-  Plug,
-  Settings2,
-  ShieldCheck,
   Sparkles,
   Truck,
   Users,
-  Workflow,
+  Zap,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
@@ -48,112 +47,240 @@ export const Route = createFileRoute("/microsoft-dynamics-365")({
   component: MicrosoftDynamics365,
 });
 
-const CYAN = "#00D5E7";
-const BLUE = "#2F7CFF";
-const PURPLE = "#7B61FF";
-
-const modules: Array<{
-  icon: LucideIcon;
-  title: string;
-  description: string;
-}> = [
-  {
-    icon: Users,
-    title: "Sales & CRM",
-    description:
-      "Capture every lead, manage opportunities, create quotations and keep follow-ups moving through one clear sales pipeline.",
-  },
-  {
-    icon: Headphones,
-    title: "Customer Service",
-    description:
-      "Manage customer cases, service requests, SLAs and communication history from one connected service workspace.",
-  },
-  {
-    icon: CircleDollarSign,
-    title: "Finance & Operations",
-    description:
-      "Gain better control over invoices, expenses, approvals, budgets and everyday financial operations with accurate, connected data.",
-  },
-  {
-    icon: Truck,
-    title: "Supply Chain",
-    description:
-      "Coordinate purchasing, suppliers, inventory, warehousing, order fulfilment and delivery through streamlined workflows.",
-  },
-  {
-    icon: LineChart,
-    title: "Power BI Reporting",
-    description:
-      "Transform business data into live dashboards, executive reports and practical insights that support faster decisions.",
-  },
-  {
-    icon: Bot,
-    title: "Automation & AI",
-    description:
-      "Automate approvals, reminders, task assignments and repetitive processes so your teams can focus on higher-value work.",
-  },
-];
-
-const implementationSteps = [
-  {
-    title: "Business Discovery",
-    description:
-      "We assess your current systems, teams, data, reporting needs and operational challenges to define clear priorities.",
-  },
-  {
-    title: "Solution Blueprint",
-    description:
-      "We create a practical solution blueprint covering modules, permissions, workflows, dashboards and the rollout roadmap.",
-  },
-  {
-    title: "Configuration & Migration",
-    description:
-      "We configure the platform, migrate essential data and integrate the tools your business already depends on.",
-  },
-  {
-    title: "Training & Go Live",
-    description:
-      "Your team validates real processes, receives hands-on training and goes live with reliable post-launch support.",
-  },
-];
-
-const benefits = [
-  "One connected source of business data",
-  "Faster lead response and sales follow-up",
-  "Clearer finance and operational visibility",
-  "Role-based access and secure permissions",
-  "Less duplicate work across departments",
-  "Real-time dashboards for better decisions",
-];
-
-const faqs = [
-  {
-    question: "Which Dynamics 365 modules can you implement?",
-    answer:
-      "We can implement Dynamics 365 Sales, Customer Service, Finance, Supply Chain, Field Service, Project Operations, Power BI reporting and workflow automation based on your requirements.",
-  },
-  {
-    question: "Can you migrate data from our current system?",
-    answer:
-      "Yes. We can clean and migrate customer records, products, vendors, opportunities, invoices, service history and other important business data.",
-  },
-  {
-    question: "Can Dynamics 365 connect with our website and other tools?",
-    answer:
-      "Yes. Dynamics 365 can connect with website forms, Microsoft 365, email, payment tools, accounting systems, Power BI and many third-party platforms.",
-  },
-  {
-    question: "Do you provide training and ongoing support?",
-    answer:
-      "Yes. We provide user training, admin guidance, testing, go-live support and ongoing improvements for workflows, reports and integrations.",
-  },
-];
-
-
 type ThemeMode = "light" | "dark";
 
-const THEME_STORAGE_KEYS = [
+type ActionItem = {
+  title: string;
+  description: string;
+  link: string;
+  image: string;
+};
+
+type ProductTab = {
+  label: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  metric: string;
+  metricLabel: string;
+  icon: LucideIcon;
+};
+
+const overviewCards = [
+  {
+    title: "What is Dynamics 365?",
+    description:
+      "Become more data-driven and innovative with connected apps for sales, service, finance and operations.",
+    cta: "Explore Dynamics 365",
+    href: "#solutions",
+    image:
+      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=86",
+  },
+  {
+    title: "Take a guided tour",
+    description:
+      "See how connected workflows help teams improve productivity and deliver better customer experiences.",
+    cta: "Start your tour",
+    href: "#applications",
+    image:
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=86",
+  },
+  {
+    title: "Compare plans and solutions",
+    description:
+      "Choose the right Dynamics 365 capabilities for your current business priorities and future growth.",
+    cta: "See solution options",
+    href: "/contact",
+    image:
+      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=86",
+  },
+];
+
+const actionItems: ActionItem[] = [
+  {
+    title: "Modernize your CRM",
+    description:
+      "Enhance customer relationships across sales, marketing and service with connected data, intelligent assistance and clear next actions.",
+    link: "Explore agentic CRM",
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1500&q=88",
+  },
+  {
+    title: "Achieve more with agentic ERP",
+    description:
+      "Reinvent operations, improve productivity and gain a complete view of finance, supply chain and project performance.",
+    link: "Explore agentic ERP",
+    image:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1500&q=88",
+  },
+  {
+    title: "Improve sales efficiency",
+    description:
+      "Use AI and real-time insights to understand customers, personalize journeys and close more deals with less manual work.",
+    link: "Explore agentic sales",
+    image:
+      "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1500&q=88",
+  },
+  {
+    title: "Personalize service experiences",
+    description:
+      "Create lasting customer connections with intelligent case routing, knowledge recommendations and proactive support.",
+    link: "Explore agentic service",
+    image:
+      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1500&q=88",
+  },
+];
+
+const productTabs: ProductTab[] = [
+  {
+    label: "Sales",
+    eyebrow: "Dynamics 365 Sales",
+    title: "Turn every customer signal into the next best action",
+    description:
+      "Prioritize opportunities, summarize customer conversations and keep sellers focused on the deals that matter most.",
+    metric: "34%",
+    metricLabel: "faster seller follow-up",
+    icon: Users,
+  },
+  {
+    label: "Finance",
+    eyebrow: "Dynamics 365 Finance",
+    title: "Make finance faster, clearer and more predictive",
+    description:
+      "Automate routine finance work, improve forecasting and give decision-makers a reliable view of performance.",
+    metric: "42%",
+    metricLabel: "less manual reporting",
+    icon: CircleDollarSign,
+  },
+  {
+    label: "Supply chain",
+    eyebrow: "Dynamics 365 Supply Chain",
+    title: "Build more resilient and connected operations",
+    description:
+      "Use real-time inventory, demand and fulfilment insights to keep products moving and customers informed.",
+    metric: "29%",
+    metricLabel: "better stock visibility",
+    icon: Truck,
+  },
+  {
+    label: "Customer service",
+    eyebrow: "Dynamics 365 Customer Service",
+    title: "Help every service agent resolve cases with confidence",
+    description:
+      "Surface the right knowledge, automate summaries and deliver personalized service across every customer channel.",
+    metric: "31%",
+    metricLabel: "faster case resolution",
+    icon: Headphones,
+  },
+  {
+    label: "Customer insights",
+    eyebrow: "Dynamics 365 Customer Insights",
+    title: "Create connected journeys around real customer intent",
+    description:
+      "Unify customer profiles, build practical segments and trigger personalized experiences at the right moment.",
+    metric: "2.4x",
+    metricLabel: "stronger engagement",
+    icon: LineChart,
+  },
+];
+
+const agentCards = [
+  {
+    title: "Sales qualification agent",
+    description:
+      "Research new leads, identify buying signals and prepare sellers with a concise opportunity brief.",
+    icon: Users,
+  },
+  {
+    title: "Supplier communication agent",
+    description:
+      "Track purchase commitments, surface risks and keep supplier conversations organized automatically.",
+    icon: Truck,
+  },
+  {
+    title: "Customer intent agent",
+    description:
+      "Recognize customer needs and suggest the most useful journey, offer or service response.",
+    icon: Bot,
+  },
+];
+
+const marketplaceApps = [
+  {
+    name: "Power BI",
+    category: "Analytics",
+    description: "Interactive business intelligence and executive reporting.",
+    icon: LineChart,
+  },
+  {
+    name: "Power Automate",
+    category: "Automation",
+    description: "Connected approvals, alerts and cross-platform workflows.",
+    icon: Zap,
+  },
+  {
+    name: "Microsoft Teams",
+    category: "Collaboration",
+    description: "Customer and operational context inside everyday teamwork.",
+    icon: Users,
+  },
+  {
+    name: "Business Central",
+    category: "ERP",
+    description: "Finance, purchasing, inventory and operations for growing teams.",
+    icon: BriefcaseBusiness,
+  },
+];
+
+const customerStories = [
+  {
+    company: "Northstar Retail",
+    quote:
+      "Business Genie connected our sales, service and reporting so teams stopped working from different versions of the truth.",
+    result: "38% faster customer response",
+    image:
+      "https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1500&q=88",
+  },
+  {
+    company: "Summit Distribution",
+    quote:
+      "We can now see inventory, purchasing and customer demand in one place and act before issues become delays.",
+    result: "27% fewer fulfilment delays",
+    image:
+      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1500&q=88",
+  },
+  {
+    company: "Apex Services",
+    quote:
+      "The new Dynamics 365 workflows gave managers visibility without adding more admin work for the service team.",
+    result: "41% less manual reporting",
+    image:
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1500&q=88",
+  },
+];
+
+const newsCards = [
+  {
+    eyebrow: "Product innovation",
+    title: "How agentic workflows are changing modern business applications",
+    image:
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=86",
+  },
+  {
+    eyebrow: "Customer experience",
+    title: "Five practical ways to connect sales, service and customer data",
+    image:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=86",
+  },
+  {
+    eyebrow: "Operations",
+    title: "Building a clearer path from business data to daily action",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=86",
+  },
+];
+
+const themeStorageKeys = [
   "theme",
   "color-theme",
   "mode",
@@ -198,16 +325,14 @@ function isDarkCssColor(value: string): boolean {
 function headerLooksDark(): boolean {
   if (typeof window === "undefined") return false;
 
-  const selectors = [
+  const elements = [
     "header",
     "nav",
     "[data-header]",
     ".site-header",
     ".navbar",
     ".main-header",
-  ];
-
-  const elements = selectors
+  ]
     .flatMap((selector) =>
       Array.from(document.querySelectorAll<HTMLElement>(selector)),
     )
@@ -220,7 +345,6 @@ function headerLooksDark(): boolean {
       classText.includes("bg-black") ||
       classText.includes("bg-[#000") ||
       classText.includes("bg-[#030303") ||
-      classText.includes("bg-[#050505") ||
       classText.includes("dark") ||
       classText.includes("night")
     ) {
@@ -228,7 +352,6 @@ function headerLooksDark(): boolean {
     }
 
     const style = window.getComputedStyle(element);
-
     return (
       isDarkCssColor(style.backgroundColor) ||
       isDarkCssColor(style.borderColor)
@@ -241,9 +364,7 @@ function readDynamicsThemeMode(): ThemeMode {
 
   const html = document.documentElement;
   const body = document.body;
-
   const classText = `${html.className} ${body.className}`.toLowerCase();
-
   const attrText = [
     html.getAttribute("data-theme"),
     html.getAttribute("data-mode"),
@@ -263,7 +384,7 @@ function readDynamicsThemeMode(): ThemeMode {
   let storageText = "";
 
   try {
-    storageText = THEME_STORAGE_KEYS
+    storageText = themeStorageKeys
       .map((key) => window.localStorage.getItem(key) || "")
       .join(" ")
       .toLowerCase();
@@ -273,28 +394,20 @@ function readDynamicsThemeMode(): ThemeMode {
 
   const themeText = `${classText} ${attrText} ${storageText}`;
 
-  // Same working approach as the Odoo page:
-  // read the real header background in case the global class is on another wrapper.
   if (headerLooksDark()) return "dark";
-
   if (/\b(dark|night|black)\b/.test(themeText)) return "dark";
   if (/\b(light|day|off-white|offwhite)\b/.test(themeText)) return "light";
 
-  if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
-    return "dark";
-  }
-
-  return "light";
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 }
 
 function useDynamicsThemeMode(): ThemeMode {
   const [mode, setMode] = useState<ThemeMode>("light");
 
   useEffect(() => {
-    const updateMode = () => {
-      setMode(readDynamicsThemeMode());
-    };
-
+    const updateMode = () => setMode(readDynamicsThemeMode());
     updateMode();
 
     const observer = new MutationObserver(updateMode);
@@ -327,7 +440,7 @@ function useDynamicsThemeMode(): ThemeMode {
 
     const onStorage = () => updateMode();
     const onClick = () => window.setTimeout(updateMode, 0);
-    const interval = window.setInterval(updateMode, 250);
+    const interval = window.setInterval(updateMode, 300);
     const media = window.matchMedia?.("(prefers-color-scheme: dark)");
 
     window.addEventListener("storage", onStorage);
@@ -347,25 +460,27 @@ function useDynamicsThemeMode(): ThemeMode {
 }
 
 function MicrosoftDynamics365() {
-  const dynamicsTheme = useDynamicsThemeMode();
+  const theme = useDynamicsThemeMode();
 
   return (
     <SiteLayout>
       <div
-        className={`d365-theme-wrap ${dynamicsTheme === "dark" ? "dark" : ""}`}
-        data-d365-theme={dynamicsTheme}
+        className={`d365-theme-wrap ${theme === "dark" ? "dark" : ""}`}
+        data-d365-theme={theme}
       >
         <DynamicsThemeStyles />
 
-        <main className="d365-page min-h-screen overflow-hidden bg-[var(--d-bg)] text-[var(--d-text)] transition-colors duration-300 selection:bg-cyan-300 selection:text-[#021113]">
+        <main className="d365-page min-h-screen overflow-hidden bg-[var(--d-bg)] text-[var(--d-text)]">
           <HeroSection />
-          <TrustedStrip />
-          <ModulesSection />
-          <BusinessControlSection />
-          <ImplementationSection />
-          <BenefitsSection />
-          <FaqSection />
-          <CtaSection />
+          
+          <OverviewSection />
+          <ActionSection />
+          <ApplicationsSection />
+          <ProcessAgentsSection />
+          <MarketplaceSection />
+          <CustomerStoriesSection />
+          <NewsSection />
+          <ContactSection />
         </main>
       </div>
     </SiteLayout>
@@ -375,395 +490,891 @@ function MicrosoftDynamics365() {
 function DynamicsThemeStyles() {
   return (
     <style>{`
-      /*
-       * Odoo-style day/night behavior with the original
-       * Microsoft Dynamics cyan, blue and purple palette preserved.
-       */
       .d365-theme-wrap {
         color-scheme: light;
-        background: #f7f8fb;
+        background: #ffffff;
       }
 
       .d365-theme-wrap[data-d365-theme="dark"] {
         color-scheme: dark;
-        background: #030406;
+        background: #07080b;
       }
 
       .d365-theme-wrap[data-d365-theme="light"] .d365-page {
-        --d-bg: #f7f8fb;
-        --d-section-alt: #edf1f6;
-        --d-card-solid: #ffffff;
-        --d-card-strong: rgba(255, 255, 255, 0.97);
-        --d-surface: rgba(255, 255, 255, 0.82);
-        --d-text: #1f2d3d;
+        --d-bg: #ffffff;
+        --d-alt: #f5f6f8;
+        --d-soft: #eef2f6;
+        --d-card: #ffffff;
         --d-title: #111827;
-        --d-body: #425466;
-        --d-muted: #6b7c90;
-        --d-border: rgba(47, 124, 255, 0.14);
-        --d-border-strong: rgba(47, 124, 255, 0.24);
-        --d-overlay-strong: rgba(247, 248, 251, 0.92);
-        --d-card-gradient:
-          linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.98),
-            rgba(245, 248, 255, 0.96)
-          );
-        --d-shadow: 0 18px 55px rgba(47, 76, 120, 0.10);
-        background: #f7f8fb !important;
-        color: #1f2d3d !important;
+        --d-text: #172033;
+        --d-body: #4d596c;
+        --d-muted: #68758a;
+        --d-border: rgba(17, 24, 39, 0.13);
+        --d-border-blue: rgba(0, 103, 184, 0.23);
+        --d-shadow: 0 18px 48px rgba(18, 31, 53, 0.10);
+        --d-shadow-lg: 0 32px 90px rgba(18, 31, 53, 0.14);
+        --d-glass: rgba(255, 255, 255, 0.86);
+        background: #ffffff !important;
+        color: #172033 !important;
       }
 
       .d365-theme-wrap[data-d365-theme="dark"] .d365-page {
-        --d-bg: #030406;
-        --d-section-alt: #080b10;
-        --d-card-solid: #0d141c;
-        --d-card-strong: rgba(8, 16, 24, 0.96);
-        --d-surface: rgba(255, 255, 255, 0.045);
-        --d-text: #f5fbfc;
+        --d-bg: #07080b;
+        --d-alt: #0d1016;
+        --d-soft: #111720;
+        --d-card: #0c121a;
         --d-title: #ffffff;
-        --d-body: #cbd5e1;
-        --d-muted: #94a3b8;
-        --d-border: rgba(255, 255, 255, 0.10);
-        --d-border-strong: rgba(255, 255, 255, 0.16);
-        --d-overlay-strong: rgba(3, 4, 6, 0.93);
-        --d-card-gradient:
-          linear-gradient(
-            145deg,
-            rgba(10, 24, 29, 0.96),
-            rgba(3, 10, 13, 0.96)
-          );
-        --d-shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
-        background: #030406 !important;
-        color: #f5fbfc !important;
+        --d-text: #eef5ff;
+        --d-body: #c4cede;
+        --d-muted: #91a0b5;
+        --d-border: rgba(255, 255, 255, 0.12);
+        --d-border-blue: rgba(89, 217, 247, 0.24);
+        --d-shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+        --d-shadow-lg: 0 34px 100px rgba(0, 0, 0, 0.54);
+        --d-glass: rgba(8, 13, 20, 0.84);
+        background: #07080b !important;
+        color: #eef5ff !important;
       }
 
       .d365-container {
-        width: min(1180px, calc(100% - 2rem));
+        width: min(1200px, calc(100% - 2rem));
         margin-inline: auto;
       }
 
-      .d365-grid {
-        background-color: var(--d-bg);
-        background-image:
-          linear-gradient(rgba(0, 213, 231, 0.055) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(47, 124, 255, 0.055) 1px, transparent 1px);
-        background-size: 72px 72px;
-      }
-
       .d365-card {
-        background: var(--d-card-gradient);
+        background: var(--d-card);
         border: 1px solid var(--d-border);
         box-shadow: var(--d-shadow);
+      }
+
+      .d365-soft-card {
+        background: color-mix(in srgb, var(--d-card) 92%, transparent);
+        border: 1px solid var(--d-border);
+      }
+
+      .d365-hero {
+        background:
+          radial-gradient(circle at 14% 25%, rgba(104, 235, 255, 0.64), transparent 33%),
+          radial-gradient(circle at 68% 8%, rgba(143, 119, 255, 0.50), transparent 36%),
+          linear-gradient(110deg, #73e6f6 0%, #91d8ff 43%, #d3ccff 100%);
+      }
+
+      .d365-theme-wrap[data-d365-theme="dark"] .d365-hero {
+        background:
+          radial-gradient(circle at 14% 25%, rgba(0, 213, 231, 0.23), transparent 34%),
+          radial-gradient(circle at 72% 6%, rgba(107, 78, 255, 0.24), transparent 37%),
+          linear-gradient(115deg, #06161f 0%, #0c1730 50%, #18122c 100%);
+      }
+
+      .d365-app-window {
+        background: var(--d-glass);
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        box-shadow: var(--d-shadow-lg);
+        backdrop-filter: blur(20px);
+      }
+
+      .d365-theme-wrap[data-d365-theme="dark"] .d365-app-window {
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+
+      .d365-section {
+        background: var(--d-bg);
+      }
+
+      .d365-section-alt {
+        background: var(--d-alt);
+      }
+
+      .d365-sticky-nav {
+        background: color-mix(in srgb, var(--d-card) 92%, transparent);
+        border-color: var(--d-border);
         backdrop-filter: blur(18px);
       }
 
-      .d365-theme-wrap[data-d365-theme="light"] .d365-card:hover {
-        border-color: rgba(47, 124, 255, 0.34);
-        box-shadow: 0 24px 70px rgba(47, 124, 255, 0.12);
+      .d365-image-mask {
+        clip-path: polygon(11% 0, 100% 0, 100% 100%, 0 100%, 0 18%);
       }
 
-      .d365-theme-wrap[data-d365-theme="dark"] .d365-card:hover {
-        border-color: rgba(0, 213, 231, 0.42);
-        box-shadow: 0 28px 90px rgba(0, 213, 231, 0.10);
-      }
-
-      .d365-theme-wrap[data-d365-theme="light"] .d365-hero-overlay {
+      .d365-demo-gradient {
         background:
-          linear-gradient(
-            90deg,
-            #f7f8fb 5%,
-            rgba(247, 248, 251, 0.97) 45%,
-            rgba(238, 244, 255, 0.80) 100%
-          ) !important;
+          radial-gradient(circle at 12% 82%, rgba(0, 231, 219, 0.78), transparent 28%),
+          radial-gradient(circle at 88% 76%, rgba(226, 255, 37, 0.86), transparent 29%),
+          radial-gradient(circle at 50% 0%, rgba(108, 78, 255, 0.64), transparent 35%),
+          linear-gradient(135deg, #edf8ff, #f3f0ff 55%, #f6ffe7);
       }
 
-      .d365-theme-wrap[data-d365-theme="dark"] .d365-hero-overlay {
+      .d365-theme-wrap[data-d365-theme="dark"] .d365-demo-gradient {
         background:
-          linear-gradient(
-            90deg,
-            #030406 5%,
-            rgba(3, 4, 6, 0.97) 45%,
-            rgba(3, 4, 6, 0.76) 100%
-          ) !important;
+          radial-gradient(circle at 12% 82%, rgba(0, 231, 219, 0.27), transparent 30%),
+          radial-gradient(circle at 88% 76%, rgba(226, 255, 37, 0.20), transparent 30%),
+          radial-gradient(circle at 50% 0%, rgba(108, 78, 255, 0.31), transparent 38%),
+          linear-gradient(135deg, #07131a, #101020 55%, #10170b);
       }
 
-      .d365-theme-wrap[data-d365-theme="light"] img {
-        filter: brightness(0.96) saturate(0.94);
-      }
-
-      .d365-theme-wrap[data-d365-theme="dark"] img {
-        filter: brightness(0.72) saturate(0.88) contrast(1.06);
-      }
-
-      .d365-page,
-      .d365-page section,
-      .d365-page article,
-      .d365-page div,
-      .d365-page button,
-      .d365-page a,
       .d365-page h1,
       .d365-page h2,
       .d365-page h3,
-      .d365-page p {
+      .d365-page p,
+      .d365-page a,
+      .d365-page button,
+      .d365-page article,
+      .d365-page section,
+      .d365-page div {
         transition:
+          color 0.3s ease,
           background-color 0.3s ease,
           border-color 0.3s ease,
-          color 0.3s ease,
           box-shadow 0.3s ease;
+      }
+
+      @media (max-width: 767px) {
+        .d365-image-mask {
+          clip-path: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .d365-page *,
+        .d365-page *::before,
+        .d365-page *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
       }
     `}</style>
   );
 }
 
 function HeroSection() {
+  const orbitItems = [
+    { icon: Users, label: "Sales", x: "18%", y: "28%", delay: 0 },
+    { icon: CircleDollarSign, label: "Finance", x: "80%", y: "23%", delay: 0.12 },
+    { icon: Headphones, label: "Service", x: "86%", y: "68%", delay: 0.22 },
+    { icon: Truck, label: "Supply chain", x: "22%", y: "72%", delay: 0.32 },
+    { icon: LineChart, label: "Insights", x: "50%", y: "9%", delay: 0.42 },
+    { icon: Bot, label: "AI", x: "50%", y: "88%", delay: 0.52 },
+  ];
+
   return (
-    <section className="d365-grid relative isolate min-h-[90vh] overflow-hidden pt-32 pb-20">
-      <img
-        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2000&q=88"
-        alt="Business analytics dashboard"
-        className="absolute inset-0 -z-30 h-full w-full object-cover opacity-20"
-      />
-      <div className="d365-hero-overlay absolute inset-0 -z-20" />
+    <section className="d365-hero relative isolate overflow-hidden px-4 pb-14 pt-24 sm:px-6 sm:pb-16 sm:pt-28 lg:min-h-[600px] lg:px-8 lg:pb-20 lg:pt-32">
       <motion.div
         aria-hidden="true"
-        animate={{ x: [0, 28, 0], y: [0, -18, 0], scale: [1, 1.08, 1] }}
+        animate={{ rotate: [0, 12, 0], scale: [1, 1.05, 1] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -right-20 -top-32 h-[430px] w-[430px] rounded-full border-[60px] border-[#00A7D4]/80"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute right-[-30px] top-[64px] h-[220px] w-[110px] bg-[#FFD900]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute right-[-30px] top-[284px] h-[170px] w-[110px] bg-[#DDFB31]"
+      />
+      <motion.div
+        aria-hidden="true"
+        animate={{ x: [0, 18, 0], y: [0, -12, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-[-12rem] top-20 -z-10 h-[32rem] w-[32rem] rounded-full bg-cyan-400/15 blur-[150px]"
-      />
-      <motion.div
-        aria-hidden="true"
-        animate={{ x: [0, -24, 0], y: [0, 20, 0], scale: [1.06, 1, 1.06] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-[-8rem] bottom-0 -z-10 h-[30rem] w-[30rem] rounded-full bg-blue-600/15 blur-[150px]"
+        className="absolute bottom-[-180px] left-[38%] h-[420px] w-[420px] rounded-full bg-white/22 blur-[4px]"
       />
 
-      <div className="d365-container grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
+      <div className="d365-container relative z-10 grid items-center gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="max-w-[550px]"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">
-            <Sparkles className="h-4 w-4" />
-            Microsoft Dynamics 365 Consulting
+          <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#123351] dark:text-[#b9e8ff]">
+            Microsoft Dynamics 365
           </div>
 
-          <h1 className="max-w-4xl text-4xl font-semibold text-[var(--d-title)] leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-7xl">
-            Connect your entire business with
-            <span
-              className="block bg-clip-text text-transparent"
-              style={{
-                backgroundImage: `linear-gradient(120deg, ${CYAN}, ${BLUE}, ${PURPLE})`,
-              }}
-            >
-              Microsoft  Bussiness Centeral
-            </span>
+          <h1 className="mt-5 text-[40px] font-semibold leading-[1.04] tracking-[-0.045em] text-[#0d1b2d] sm:text-[50px] lg:text-[58px] dark:text-white">
+            Agentic business apps for the frontier
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--d-body)] sm:text-lg">
-            Bring sales, customer service, finance, supply chain and reporting
-            into one secure platform designed around the way your business
-            actually works.
+          <p className="mt-6 max-w-[520px] text-[15px] leading-7 text-[#21364d] sm:text-base dark:text-[#c8d7ea]">
+            Use agentic CRM, ERP and AI-powered workflows to help your teams sell
+            smarter, serve customers faster and operate more profitably.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-cyan-300 px-6 py-3.5 font-semibold text-[#031013] shadow-[0_18px_50px_rgba(0,213,231,.25)] transition hover:-translate-y-1 hover:bg-cyan-200"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[3px] bg-[#143d70] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#0d2d58]"
             >
-              Book a Consultation
+              See plans and pricing
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <a
-              href="#solutions"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--d-border-strong)] bg-[var(--d-surface)] px-6 py-3.5 font-semibold text-[var(--d-title)] transition hover:border-cyan-300/40 hover:bg-cyan-300/5"
+            <Link
+              to="/contact"
+              className="inline-flex min-h-11 items-center justify-center rounded-[3px] border border-[#173e67]/40 bg-white/20 px-5 py-3 text-sm font-semibold text-[#15324e] backdrop-blur transition hover:-translate-y-1 hover:bg-white/45 dark:border-white/20 dark:text-white dark:hover:bg-white/10"
             >
-              Explore Solutions
-            </a>
-          </div>
-
-          <div className="mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
-            {[
-              ["CRM + ERP", "Connected platform"],
-              ["Power BI", "Real-time reporting"],
-              ["Secure Cloud", "Scalable operations"],
-            ].map(([title, label]) => (
-              <div
-                key={title}
-                className="rounded-2xl border border-[var(--d-border)] bg-[var(--d-surface)] p-4 backdrop-blur-xl"
-              >
-                <div className="font-semibold text-[var(--d-title)]">{title}</div>
-                <div className="mt-1 text-xs text-[var(--d-muted)]">{label}</div>
-              </div>
-            ))}
+              Try for free
+            </Link>
           </div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.75 }}
-          className="relative"
+          initial={{ opacity: 0, x: 36, scale: 0.96 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ delay: 0.12, duration: 0.8, ease: "easeOut" }}
+          className="relative mx-auto w-full max-w-[690px]"
         >
-          <DashboardPreview />
+          <div className="d365-app-window relative aspect-[1.72/1] overflow-hidden rounded-[24px] p-5 sm:p-8">
+            <div className="absolute inset-x-0 top-0 flex h-10 items-center gap-2 border-b border-white/30 px-5">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ff605c]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#ffbd44]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#00ca4e]" />
+            </div>
+
+            <div className="relative mt-8 h-[calc(100%-2rem)] overflow-hidden rounded-2xl bg-white/42 dark:bg-white/[0.04]">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+                className="absolute left-1/2 top-1/2 h-[78%] w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#6b4eff]/20"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 34, repeat: Infinity, ease: "linear" }}
+                className="absolute left-1/2 top-1/2 h-[55%] w-[55%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#0067b8]/22"
+              />
+              <div className="absolute left-1/2 top-1/2 h-[32%] w-[32%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#00b7c3]/18" />
+
+              {orbitItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: [1, 1.08, 1], y: [0, -5, 0] }}
+                    transition={{
+                      opacity: { delay: 0.5 + item.delay, duration: 0.4 },
+                      scale: {
+                        delay: item.delay,
+                        duration: 3.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      },
+                      y: {
+                        delay: item.delay,
+                        duration: 3.6,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      },
+                    }}
+                    className="absolute grid h-10 w-10 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-xl border border-white/50 bg-white text-[#0067B8] shadow-[0_12px_30px_rgba(38,69,114,.18)] dark:border-white/10 dark:bg-[#111a25] dark:text-[#59d9f7]"
+                    style={{ left: item.x, top: item.y }}
+                    title={item.label}
+                  >
+                    <Icon className="h-5 w-5" />
+                  </motion.div>
+                );
+              })}
+
+              <motion.div
+                animate={{ y: [0, -5, 0], boxShadow: [
+                  "0 14px 36px rgba(72,54,150,.16)",
+                  "0 22px 50px rgba(72,54,150,.28)",
+                  "0 14px 36px rgba(72,54,150,.16)",
+                ] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 whitespace-nowrap rounded-lg bg-white px-4 py-3 text-xs font-semibold text-[#7b2f7e] shadow-xl dark:bg-[#111824] dark:text-[#eec8ff] sm:text-sm"
+              >
+                <Sparkles className="h-4 w-4" />
+                Across one connected platform
+              </motion.div>
+            </div>
+          </div>
+
+          <motion.div
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-5 -left-3 hidden rounded-xl border border-white/60 bg-white/90 px-4 py-3 text-xs font-semibold text-[#24344a] shadow-xl backdrop-blur sm:block dark:border-white/10 dark:bg-[#101822]/92 dark:text-white"
+          >
+            <span className="mr-2 inline-block h-2 w-2 rounded-full bg-[#00b7c3]" />
+            Real-time business signals
+          </motion.div>
         </motion.div>
       </div>
     </section>
   );
 }
 
-function DashboardPreview() {
-  const metrics = [
-    { label: "Sales Pipeline", value: "$84K", icon: Users },
-    { label: "Open Cases", value: "26", icon: Headphones },
-    { label: "Orders", value: "312", icon: Truck },
-    { label: "Automation", value: "94%", icon: Bot },
-  ];
+// function SubNavigation() {
+//   const links = [
+//     ["Overview", "#overview"],
+//     ["Solutions", "#solutions"],
+//     ["Products", "#applications"],
+//     ["Agents", "#agents"],
+//     ["Apps and add-ons", "#marketplace"],
+//     ["Customer stories", "#customers"],
+//     ["Featured news", "#news"],
+//   ];
 
+//   return (
+//     <div className="d365-sticky-nav sticky top-0 z-40 border-b">
+//       <div className="d365-container flex min-h-14 items-center gap-7 overflow-x-auto py-2 text-xs font-semibold text-[var(--d-body)] sm:text-sm">
+//         {links.map(([label, href]) => (
+//           <a
+//             key={label}
+//             href={href}
+//             className="whitespace-nowrap border-b-2 border-transparent py-3 transition hover:border-[#0067B8] hover:text-[#0067B8] dark:hover:border-[#59D9F7] dark:hover:text-[#59D9F7]"
+//           >
+//             {label}
+//           </a>
+//         ))}
+
+//         <Link
+//           to="/contact"
+//           className="ml-auto hidden shrink-0 rounded-[3px] bg-[#143d70] px-4 py-2.5 text-white hover:bg-[#0d2d58] lg:inline-flex"
+//         >
+//           Talk to us
+//         </Link>
+//       </div>
+//     </div>
+//   );
+// }
+
+function OverviewSection() {
   return (
-    <div className="d365-card relative overflow-hidden rounded-[2rem] p-5 sm:p-6">
-      <div className="absolute right-[-7rem] top-[-7rem] h-64 w-64 rounded-full bg-cyan-400/15 blur-[90px]" />
+    <section id="overview" className="d365-section scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <div className="d365-container">
+        <SectionHeading
+          eyebrow="Overview"
+          title="Get to know Dynamics 365"
+          description="Learn more about connected applications across sales, marketing, customer service, finance, supply chain and operations."
+        />
 
-      <div className="relative">
-        <div className="flex items-center justify-between border-b border-[var(--d-border)] pb-5">
-          <div>
-            <div className="text-xs uppercase tracking-[0.2em] text-[var(--d-muted)]">
-              Dynamics 365
-            </div>
-            <div className="mt-1 text-xl font-semibold">Executive Overview</div>
-          </div>
-          <div className="flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1.5 text-xs text-emerald-300">
-            <span className="h-2 w-2 rounded-full bg-emerald-300" /> Live
-          </div>
-        </div>
-
-        <div className="mt-5 grid grid-cols-2 gap-3">
-          {metrics.map((metric) => {
-            const Icon = metric.icon;
-            return (
-              <div
-                key={metric.label}
-                className="rounded-2xl border border-[var(--d-border)] bg-[var(--d-surface)] p-4"
-              >
-                <Icon className="h-5 w-5 text-cyan-300" />
-                <div className="mt-5 text-2xl font-semibold">
-                  {metric.value}
-                </div>
-                <div className="mt-1 text-xs text-[var(--d-muted)]">
-                  {metric.label}
-                </div>
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {overviewCards.map((card, index) => (
+            <motion.article
+              key={card.title}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ delay: index * 0.08, duration: 0.55 }}
+              whileHover={{ y: -7 }}
+              className="d365-card group overflow-hidden rounded-2xl"
+            >
+              <div className="overflow-hidden">
+                <motion.img
+                  src={card.image}
+                  alt={card.title}
+                  className="h-44 w-full object-cover"
+                  whileHover={{ scale: 1.06 }}
+                  transition={{ duration: 0.6 }}
+                />
               </div>
-            );
-          })}
-        </div>
-
-        <div className="mt-4 rounded-2xl border border-[var(--d-border)] bg-[var(--d-surface)] p-5">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase tracking-[0.18em] text-[var(--d-muted)]">
-                Revenue Forecast
+              <div className="p-5">
+                <h3 className="text-lg font-semibold text-[var(--d-title)]">
+                  {card.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-[var(--d-muted)]">
+                  {card.description}
+                </p>
+                {card.href.startsWith("#") ? (
+                  <a
+                    href={card.href}
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0067B8] dark:text-[#59D9F7]"
+                  >
+                    <span className="grid h-7 w-7 place-items-center rounded-[4px] bg-[#143d70] text-white">
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                    {card.cta}
+                  </a>
+                ) : (
+                  <Link
+                    to="/contact"
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0067B8] dark:text-[#59D9F7]"
+                  >
+                    <span className="grid h-7 w-7 place-items-center rounded-[4px] bg-[#143d70] text-white">
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                    {card.cta}
+                  </Link>
+                )}
               </div>
-              <div className="mt-1 font-semibold">Pipeline performance</div>
-            </div>
-            <BarChart3 className="h-5 w-5 text-cyan-300" />
-          </div>
-          <div className="mt-6 flex h-40 items-end gap-2">
-            {[48, 64, 45, 78, 58, 88, 70, 96, 76, 90].map((height, index) => (
-              <motion.div
-                key={index}
-                initial={{ height: 0 }}
-                whileInView={{ height: `${height}%` }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05, duration: 0.75 }}
-                className="flex-1 rounded-t-lg"
-                style={{
-                  background: `linear-gradient(180deg, ${CYAN}, ${BLUE})`,
-                }}
-              />
-            ))}
-          </div>
+            </motion.article>
+          ))}
         </div>
-      </div>
-    </div>
-  );
-}
-
-function TrustedStrip() {
-  return (
-    <section className="border-y border-[var(--d-border)] bg-[var(--d-section-alt)] py-6">
-      <div className="d365-container flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm text-[var(--d-muted)]">
-        {[
-          "CRM",
-          "Finance",
-          "Supply Chain",
-          "Customer Service",
-          "Power BI",
-          "Automation",
-        ].map((item, index) => (
-          <motion.div
-            key={item}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.06, duration: 0.4 }}
-            whileHover={{ y: -2 }}
-            className="flex items-center gap-2"
-          >
-            <CheckCircle2 className="h-4 w-4 text-cyan-300" />
-            {item}
-          </motion.div>
-        ))}
       </div>
     </section>
   );
 }
 
-function ModulesSection() {
+function ActionSection() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % actionItems.length);
+    }, 4300);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const activeItem = actionItems[activeIndex];
+
   return (
-    <section id="solutions" className="relative py-24">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_0%,rgba(0,213,231,.07),transparent_35%)]" />
+    <section id="solutions" className="d365-section-alt scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <div className="d365-container">
+        <div className="mb-10">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--d-muted)]">
+            Solutions
+          </div>
+          <h2 className="mt-3 max-w-4xl text-[32px] font-semibold leading-tight tracking-[-0.035em] text-[var(--d-title)] sm:text-[40px] lg:text-[46px]">
+            Move from a system of record to a system of action
+          </h2>
+        </div>
+
+        <div className="grid items-stretch gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-12">
+          <div className="divide-y divide-[var(--d-border)] border-l border-[var(--d-border)]">
+            {actionItems.map((item, index) => {
+              const active = activeIndex === index;
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  onClick={() => setActiveIndex(index)}
+                  className={`relative block w-full px-6 py-5 text-left transition ${active ? "bg-[var(--d-card)]" : "hover:bg-[var(--d-card)]/50"}`}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="active-action-line"
+                      className="absolute -left-px inset-y-0 w-[3px] bg-[#0067B8] dark:bg-[#59D9F7]"
+                    />
+                  )}
+
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-base font-semibold text-[var(--d-title)]">
+                      {item.title}
+                    </span>
+                    <ChevronDown
+                      className={`h-4 w-4 shrink-0 text-[var(--d-muted)] transition-transform ${active ? "rotate-180" : ""}`}
+                    />
+                  </div>
+
+                  <AnimatePresence initial={false}>
+                    {active && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.35, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pt-4 text-sm leading-7 text-[var(--d-muted)]">
+                          {item.description}
+                        </p>
+                        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#0067B8] underline decoration-[#0067B8]/30 underline-offset-4 dark:text-[#59D9F7]">
+                          {item.link}
+                          <ArrowRight className="h-3.5 w-3.5" />
+                        </span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="relative min-h-[390px] overflow-hidden rounded-2xl bg-[#dce8f3] dark:bg-[#101a26] lg:min-h-[520px]">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeItem.image}
+                src={activeItem.image}
+                alt={activeItem.title}
+                initial={{ opacity: 0, scale: 1.06, x: 28 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.98, x: -24 }}
+                transition={{ duration: 0.55, ease: "easeOut" }}
+                className="d365-image-mask absolute inset-0 h-full w-full object-cover"
+              />
+            </AnimatePresence>
+
+            <motion.div
+              aria-hidden="true"
+              animate={{ y: [0, -18, 0] }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -right-16 top-20 h-52 w-52 rounded-full border-[28px] border-[#59D9F7]"
+            />
+            <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/45 to-transparent" />
+            <div className="absolute bottom-5 left-5 rounded-lg border border-white/35 bg-black/30 px-4 py-2 text-sm font-semibold text-white backdrop-blur">
+              {activeItem.title}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ApplicationsSection() {
+  const [activeTab, setActiveTab] = useState(0);
+  const item = productTabs[activeTab];
+  const Icon = item.icon;
+
+  return (
+    <section id="applications" className="d365-section scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
       <div className="d365-container">
         <SectionHeading
-          eyebrow="Core Solutions"
-          title="The right Dynamics 365 tools for every department"
-          description="Start with the Dynamics 365 capabilities your business needs today, then scale the platform as your teams, processes and reporting requirements evolve."
+          eyebrow="Applications"
+          title="Do more with agentic business applications to help run your organization"
+          description="Select an area of the business to see how connected data, automation and AI can improve everyday work."
         />
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {modules.map((module, index) => {
-            const Icon = module.icon;
+        <div className="mt-10 border-y border-[var(--d-border)]">
+          <div className="flex items-center justify-between gap-3 overflow-x-auto">
+            {productTabs.map((tab, index) => (
+              <button
+                key={tab.label}
+                type="button"
+                onClick={() => setActiveTab(index)}
+                className={`relative min-w-max px-5 py-5 text-sm font-semibold transition ${activeTab === index ? "text-[#0067B8] dark:text-[#59D9F7]" : "text-[var(--d-muted)] hover:text-[var(--d-title)]"}`}
+              >
+                {tab.label}
+                {activeTab === index && (
+                  <motion.span
+                    layoutId="product-tab-line"
+                    className="absolute inset-x-3 bottom-0 h-[3px] bg-[#0067B8] dark:bg-[#59D9F7]"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 grid items-center gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-14">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, x: -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.45 }}
+            >
+              <div className="grid h-12 w-12 place-items-center rounded-xl bg-[#0067B8] text-white dark:bg-[#59D9F7] dark:text-[#061018]">
+                <Icon className="h-6 w-6" />
+              </div>
+              <div className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#0067B8] dark:text-[#59D9F7]">
+                {item.eyebrow}
+              </div>
+              <h3 className="mt-3 text-[30px] font-semibold leading-tight tracking-[-0.03em] text-[var(--d-title)] sm:text-[38px]">
+                {item.title}
+              </h3>
+              <p className="mt-5 text-base leading-8 text-[var(--d-muted)]">
+                {item.description}
+              </p>
+              <Link
+                to="/contact"
+                className="mt-7 inline-flex items-center gap-2 rounded-[3px] bg-[#143d70] px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#0d2d58]"
+              >
+                Explore {item.label}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="d365-demo-gradient relative min-h-[470px] overflow-hidden rounded-2xl p-6 sm:p-10">
+            <motion.div
+              animate={{ y: [0, -7, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="d365-card mx-auto max-w-[620px] rounded-2xl p-4 sm:p-6"
+            >
+              <div className="flex items-center justify-between border-b border-[var(--d-border)] pb-4">
+                <div>
+                  <div className="text-xs uppercase tracking-[0.18em] text-[var(--d-muted)]">
+                    {item.eyebrow}
+                  </div>
+                  <div className="mt-1 font-semibold text-[var(--d-title)]">
+                    Agent workspace
+                  </div>
+                </div>
+                <span className="flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-300">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" /> Live
+                </span>
+              </div>
+
+              <div className="mt-5 grid gap-4 sm:grid-cols-[1fr_0.72fr]">
+                <div className="space-y-3">
+                  {["New customer signal", "AI-generated summary", "Recommended next action"].map(
+                    (label, index) => (
+                      <motion.div
+                        key={`${item.label}-${label}`}
+                        initial={{ opacity: 0, x: -14 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.11, duration: 0.4 }}
+                        className="rounded-xl border border-[var(--d-border)] bg-[var(--d-soft)] p-4"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#0067B8]/10 text-[#0067B8] dark:bg-[#59D9F7]/10 dark:text-[#59D9F7]">
+                            {index === 0 ? (
+                              <Database className="h-4 w-4" />
+                            ) : index === 1 ? (
+                              <Sparkles className="h-4 w-4" />
+                            ) : (
+                              <ArrowRight className="h-4 w-4" />
+                            )}
+                          </span>
+                          <div>
+                            <div className="text-sm font-semibold text-[var(--d-title)]">
+                              {label}
+                            </div>
+                            <div className="mt-1 h-1.5 w-28 rounded-full bg-[var(--d-border)]" />
+                          </div>
+                        </div>
+                      </motion.div>
+                    ),
+                  )}
+                </div>
+
+                <div className="rounded-xl border border-[var(--d-border)] bg-[var(--d-card)] p-5 text-center">
+                  <motion.div
+                    key={item.metric}
+                    initial={{ scale: 0.75, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 180, damping: 16 }}
+                    className="text-4xl font-semibold text-[#0067B8] dark:text-[#59D9F7]"
+                  >
+                    {item.metric}
+                  </motion.div>
+                  <div className="mt-2 text-xs leading-5 text-[var(--d-muted)]">
+                    {item.metricLabel}
+                  </div>
+                  <div className="mx-auto mt-6 flex h-28 items-end justify-center gap-2">
+                    {[44, 61, 52, 76, 66, 91].map((height, index) => (
+                      <motion.span
+                        key={`${item.label}-${height}`}
+                        initial={{ height: 0 }}
+                        animate={{ height: `${height}%` }}
+                        transition={{ delay: index * 0.07, duration: 0.55 }}
+                        className="w-4 rounded-t bg-gradient-to-t from-[#0067B8] to-[#59D9F7]"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              animate={{ y: [0, -7, 0], rotate: [0, -1, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute bottom-8 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-lg bg-white px-4 py-3 text-sm font-semibold text-[#3d2758] shadow-2xl dark:bg-[#111824] dark:text-[#e9d8ff]"
+            >
+              <Bot className="h-4 w-4" />
+              Automatically guide and de-risk every deal
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProcessAgentsSection() {
+  const [activeAgent, setActiveAgent] = useState(0);
+
+  const move = (direction: number) => {
+    setActiveAgent((current) => {
+      const next = current + direction;
+      if (next < 0) return agentCards.length - 1;
+      if (next >= agentCards.length) return 0;
+      return next;
+    });
+  };
+
+  const active = agentCards[activeAgent];
+  const ActiveIcon = active.icon;
+
+  return (
+    <section id="agents" className="d365-section-alt scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <div className="d365-container">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--d-muted)]">
+              Agents
+            </div>
+            <h2 className="mt-3 max-w-4xl text-[32px] font-semibold leading-tight tracking-[-0.035em] text-[var(--d-title)] sm:text-[40px] lg:text-[46px]">
+              Explore business process agents in Dynamics 365
+            </h2>
+            <p className="mt-4 max-w-3xl text-base leading-8 text-[var(--d-muted)]">
+              Extend your teams with agents designed to handle research,
+              preparation, coordination and routine process work.
+            </p>
+          </div>
+
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => move(-1)}
+              aria-label="Previous agent"
+              className="grid h-11 w-11 place-items-center rounded-full border border-[var(--d-border)] bg-[var(--d-card)] text-[var(--d-title)] transition hover:border-[#0067B8] hover:text-[#0067B8]"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => move(1)}
+              aria-label="Next agent"
+              className="grid h-11 w-11 place-items-center rounded-full border border-[var(--d-border)] bg-[var(--d-card)] text-[var(--d-title)] transition hover:border-[#0067B8] hover:text-[#0067B8]"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-8 flex flex-wrap gap-2">
+          {agentCards.map((agent, index) => (
+            <button
+              key={agent.title}
+              type="button"
+              onClick={() => setActiveAgent(index)}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition ${activeAgent === index ? "bg-[#143d70] text-white" : "border border-[var(--d-border)] bg-[var(--d-card)] text-[var(--d-body)] hover:border-[#0067B8]"}`}
+            >
+              {index === 0 ? "Sales" : index === 1 ? "Finance & supply" : "Service & marketing"}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-8 grid gap-5 lg:grid-cols-[0.82fr_1.18fr]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active.title}
+              initial={{ opacity: 0, x: -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 18 }}
+              transition={{ duration: 0.45 }}
+              className="d365-card flex min-h-[360px] flex-col justify-between rounded-2xl p-7 sm:p-9"
+            >
+              <div>
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-[#143d70] text-white">
+                  <ActiveIcon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-8 text-[28px] font-semibold leading-tight tracking-[-0.03em] text-[var(--d-title)] sm:text-[34px]">
+                  {active.title}
+                </h3>
+                <p className="mt-5 max-w-xl text-base leading-8 text-[var(--d-muted)]">
+                  {active.description}
+                </p>
+              </div>
+
+              <Link
+                to="/contact"
+                className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#0067B8] dark:text-[#59D9F7]"
+              >
+                Learn about this agent
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="relative min-h-[360px] overflow-hidden rounded-2xl">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=88"
+              alt="Business team using Dynamics 365 agents"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#051b37]/65 via-transparent to-[#59D9F7]/20" />
+            <motion.div
+              animate={{ x: [0, 12, 0], y: [0, -10, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute right-6 top-6 max-w-[250px] rounded-xl border border-white/25 bg-white/90 p-4 text-[#1f2d3d] shadow-2xl backdrop-blur dark:bg-[#111824]/92 dark:text-white"
+            >
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#0067B8] dark:text-[#59D9F7]">
+                <Sparkles className="h-4 w-4" /> Agent insight
+              </div>
+              <p className="mt-3 text-sm leading-6">
+                Three high-intent accounts need seller follow-up today.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-5 md:grid-cols-3">
+          {agentCards.map((agent, index) => {
+            const Icon = agent.icon;
+            return (
+              <motion.button
+                key={agent.title}
+                type="button"
+                onClick={() => setActiveAgent(index)}
+                whileHover={{ y: -5 }}
+                className={`d365-soft-card rounded-2xl p-5 text-left ${activeAgent === index ? "border-[#0067B8] dark:border-[#59D9F7]" : ""}`}
+              >
+                <Icon className="h-5 w-5 text-[#0067B8] dark:text-[#59D9F7]" />
+                <div className="mt-4 font-semibold text-[var(--d-title)]">
+                  {agent.title}
+                </div>
+                <p className="mt-2 text-sm leading-6 text-[var(--d-muted)]">
+                  {agent.description}
+                </p>
+              </motion.button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MarketplaceSection() {
+  return (
+    <section id="marketplace" className="d365-section scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <div className="d365-container">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--d-muted)]">
+              Apps and add-ons
+            </div>
+            <h2 className="mt-3 max-w-4xl text-[32px] font-semibold leading-tight tracking-[-0.035em] text-[var(--d-title)] sm:text-[40px] lg:text-[46px]">
+              Customize Dynamics 365 with apps from Microsoft Marketplace
+            </h2>
+            <p className="mt-4 max-w-3xl text-base leading-8 text-[var(--d-muted)]">
+              Extend your solution with analytics, automation, collaboration and
+              industry-specific capabilities.
+            </p>
+          </div>
+
+          <Link
+            to="/contact"
+            className="inline-flex w-fit items-center gap-2 rounded-[3px] border border-[#143d70] px-5 py-3 text-sm font-semibold text-[#143d70] hover:bg-[#143d70] hover:text-white dark:border-[#59D9F7] dark:text-[#59D9F7]"
+          >
+            Explore marketplace apps
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {marketplaceApps.map((app, index) => {
+            const Icon = app.icon;
             return (
               <motion.article
-                key={module.title}
-                initial={{ opacity: 0, y: 24 }}
+                key={app.name}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ delay: index * 0.06, duration: 0.5 }}
-                whileHover={{ y: -7 }}
-                className="d365-card group rounded-3xl p-6 transition-all duration-300"
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.06, duration: 0.45 }}
+                whileHover={{ y: -5 }}
+                className="d365-card flex items-start gap-4 rounded-2xl p-5 sm:p-6"
               >
-                <motion.div
-                  whileHover={{ rotate: [0, -8, 8, 0], scale: 1.08 }}
-                  transition={{ duration: 0.45 }}
-                  className="grid h-12 w-12 place-items-center rounded-2xl bg-cyan-300 text-[#031013]"
-                >
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-[#0067B8]/10 text-[#0067B8] dark:bg-[#59D9F7]/10 dark:text-[#59D9F7]">
                   <Icon className="h-6 w-6" />
-                </motion.div>
-                <motion.h3
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.06 + 0.12, duration: 0.4 }}
-                  className="text-xl font-semibold"
-                >
-                  {module.title}
-                </motion.h3>
-                <p className="mt-3 leading-7 text-[var(--d-muted)]">
-                  {module.description}
-                </p>
-                <div className="mt-6 text-sm font-semibold text-cyan-300 opacity-70 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
-                  Built around your workflow
                 </div>
+                <div className="min-w-0">
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--d-muted)]">
+                    {app.category}
+                  </div>
+                  <h3 className="mt-1 text-lg font-semibold text-[var(--d-title)]">
+                    {app.name}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-[var(--d-muted)]">
+                    {app.description}
+                  </p>
+                </div>
+                <ArrowRight className="ml-auto h-4 w-4 shrink-0 text-[#0067B8] dark:text-[#59D9F7]" />
               </motion.article>
             );
           })}
@@ -773,129 +1384,136 @@ function ModulesSection() {
   );
 }
 
-function BusinessControlSection() {
+function CustomerStoriesSection() {
+  const [activeStory, setActiveStory] = useState(0);
+  const story = customerStories[activeStory];
+
   return (
-    <section className="py-24">
-      <div className="d365-container grid items-center gap-12 lg:grid-cols-2">
-        <motion.div
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.65 }}
-          className="relative overflow-hidden rounded-[2rem] border border-[var(--d-border)]"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1500&q=88"
-            alt="Business team reviewing Microsoft Dynamics 365 strategy"
-            className="h-[560px] w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#020608] via-[#020608]/25 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-            <div className="d365-card rounded-2xl p-5">
-              <div className="flex items-center gap-3">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-cyan-300 text-[#031013]">
-                  <Workflow className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="font-semibold">
-                    Connected business process
-                  </div>
-                  <div className="mt-1 text-sm text-[var(--d-muted)]">
-                    Lead → Sale → Invoice → Service → Report
-                  </div>
-                </div>
-              </div>
+    <section id="customers" className="d365-section-alt scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <div className="d365-container">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--d-muted)]">
+              Customer stories
             </div>
+            <h2 className="mt-3 max-w-3xl text-[32px] font-semibold leading-tight tracking-[-0.035em] text-[var(--d-title)] sm:text-[40px] lg:text-[46px]">
+              How customers innovate with Dynamics 365
+            </h2>
           </div>
-        </motion.div>
+          <Link
+            to="/contact"
+            className="inline-flex w-fit items-center gap-2 rounded-[3px] border border-[#143d70] px-5 py-3 text-sm font-semibold text-[#143d70] hover:bg-[#143d70] hover:text-white dark:border-[#59D9F7] dark:text-[#59D9F7]"
+          >
+            Explore customer stories
+          </Link>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.65 }}
-        >
-          <SectionHeading
-            eyebrow="Connected Operations"
-            title="Bring every department together with one complete business view"
-            description="Dynamics 365 connects customer, financial and operational data so every team can work with the right information while management gains a reliable view of the entire business."
-            align="left"
-          />
-
-          <div className="mt-8 space-y-4">
-            {[
-              {
-                icon: Database,
-                title: "Centralized Data",
-                text: "Keep customers, sales, service and operational records in one structured system.",
-              },
-              {
-                icon: Plug,
-                title: "Useful Integrations",
-                text: "Connect Microsoft 365, website leads, Power BI, payment tools and third-party systems.",
-              },
-              {
-                icon: ShieldCheck,
-                title: "Secure Access",
-                text: "Control who can view, edit and approve records through role-based permissions.",
-              },
-              {
-                icon: Settings2,
-                title: "Configured for Your Business",
-                text: "Use forms, fields, views, reports and workflows built around your real process.",
-              },
-            ].map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.title}
-                  className="flex gap-4 rounded-2xl border border-[var(--d-border)] bg-[var(--d-surface)] p-4"
-                >
-                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-cyan-300/10 text-cyan-300">
-                    <Icon className="h-5 w-5" />
+        <div className="mt-10 overflow-hidden rounded-2xl border border-[var(--d-border)] bg-[var(--d-card)]">
+          <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${story.company}-copy`}
+                initial={{ opacity: 0, x: -24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 18 }}
+                transition={{ duration: 0.45 }}
+                className="relative flex min-h-[390px] flex-col justify-center overflow-hidden p-7 sm:p-10 lg:p-12"
+              >
+                <div className="absolute -left-28 bottom-[-150px] h-72 w-72 rounded-full bg-[#8A007D]" />
+                <div className="relative">
+                  <div className="text-sm font-semibold text-[#0067B8] dark:text-[#59D9F7]">
+                    {story.company}
                   </div>
-                  <div>
-                    <h3 className="font-semibold">{item.title}</h3>
-                    <p className="mt-1 text-sm leading-6 text-[var(--d-muted)]">
-                      {item.text}
-                    </p>
+                  <blockquote className="mt-6 text-[24px] font-semibold leading-[1.35] tracking-[-0.025em] text-[var(--d-title)] sm:text-[30px]">
+                    “{story.quote}”
+                  </blockquote>
+                  <div className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#0067B8]/10 px-4 py-2 text-sm font-semibold text-[#0067B8] dark:bg-[#59D9F7]/10 dark:text-[#59D9F7]">
+                    <CheckCircle2 className="h-4 w-4" />
+                    {story.result}
                   </div>
                 </div>
-              );
-            })}
+              </motion.div>
+            </AnimatePresence>
+
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={story.image}
+                src={story.image}
+                alt={`${story.company} customer story`}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.5 }}
+                className="h-[360px] w-full object-cover lg:h-full lg:min-h-[480px]"
+              />
+            </AnimatePresence>
           </div>
-        </motion.div>
+
+          <div className="grid border-t border-[var(--d-border)] sm:grid-cols-3">
+            {customerStories.map((item, index) => (
+              <button
+                key={item.company}
+                type="button"
+                onClick={() => setActiveStory(index)}
+                className={`border-b border-[var(--d-border)] px-5 py-5 text-left text-sm font-semibold transition sm:border-b-0 sm:border-r last:sm:border-r-0 ${activeStory === index ? "bg-[var(--d-soft)] text-[#0067B8] dark:text-[#59D9F7]" : "text-[var(--d-body)] hover:bg-[var(--d-soft)]"}`}
+              >
+                {item.company}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
 }
 
-function ImplementationSection() {
+function NewsSection() {
   return (
-    <section className="relative py-24">
-      <div className="absolute inset-0 -z-10 bg-[var(--d-section-alt)]" />
+    <section id="news" className="d365-section scroll-mt-20 px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
       <div className="d365-container">
-        <SectionHeading
-          eyebrow="Implementation Process"
-          title="A clear implementation journey from discovery to go-live"
-          description="Our structured approach reduces risk, keeps every stage measurable and ensures the final solution supports the way your teams actually work."
-        />
+        <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--d-muted)]">
+          Get inspired
+        </div>
+        <h2 className="mt-3 text-[32px] font-semibold leading-tight tracking-[-0.035em] text-[var(--d-title)] sm:text-[40px] lg:text-[46px]">
+          What’s new and notable
+        </h2>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {implementationSteps.map((step, index) => (
-            <motion.div
-              key={step.title}
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {newsCards.map((card, index) => (
+            <motion.article
+              key={card.title}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.5 }}
-              className="relative rounded-3xl border border-[var(--d-border)] bg-[var(--d-card-solid)] p-6"
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ delay: index * 0.07, duration: 0.5 }}
+              whileHover={{ y: -6 }}
+              className="d365-card group overflow-hidden rounded-2xl"
             >
-              <h3 className="text-xl font-semibold">{step.title}</h3>
-              <p className="mt-3 leading-7 text-[var(--d-muted)]">
-                {step.description}
-              </p>
-            </motion.div>
+              <div className="overflow-hidden">
+                <motion.img
+                  src={card.image}
+                  alt={card.title}
+                  whileHover={{ scale: 1.06 }}
+                  transition={{ duration: 0.6 }}
+                  className="h-48 w-full object-cover"
+                />
+              </div>
+              <div className="p-5">
+                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0067B8] dark:text-[#59D9F7]">
+                  {card.eyebrow}
+                </div>
+                <h3 className="mt-3 text-lg font-semibold leading-7 text-[var(--d-title)]">
+                  {card.title}
+                </h3>
+                <Link
+                  to="/contact"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0067B8] dark:text-[#59D9F7]"
+                >
+                  Read more
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>
@@ -903,127 +1521,68 @@ function ImplementationSection() {
   );
 }
 
-function BenefitsSection() {
+function ContactSection() {
   return (
-    <section className="py-24">
-      <div className="d365-container grid items-center gap-12 lg:grid-cols-[.9fr_1.1fr]">
-        <div>
-          <SectionHeading
-            eyebrow="Business Benefits"
-            title="More visibility. Faster execution. Smarter daily operations."
-            description="A well-designed Dynamics 365 environment gives teams trusted data, consistent processes and the real-time insights they need to work with confidence."
-            align="left"
-          />
-          <Link
-            to="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-5 py-3 font-semibold text-cyan-300 transition hover:bg-cyan-300 hover:text-[#031013]"
-          >
-            Discuss Your Requirements
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          {benefits.map((benefit, index) => (
+    <section className="d365-section-alt px-4 pb-0 pt-20 sm:px-6 lg:px-8 lg:pt-24">
+      <div className="d365-container">
+        <div className="relative overflow-hidden rounded-t-2xl border border-b-0 border-[var(--d-border)] bg-[var(--d-card)]">
+          <div className="grid items-center lg:grid-cols-[0.82fr_1.18fr]">
             <motion.div
-              key={benefit}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -22 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.06, duration: 0.45 }}
-              className="d365-card flex items-start gap-3 rounded-2xl p-5"
+              transition={{ duration: 0.55 }}
+              className="relative z-10 p-7 sm:p-10 lg:p-12"
             >
-              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" />
-              <span className="leading-6 text-[var(--d-body)]">{benefit}</span>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--d-muted)]">
+                Contact us
+              </div>
+              <h2 className="mt-3 text-[32px] font-semibold leading-tight tracking-[-0.035em] text-[var(--d-title)] sm:text-[40px]">
+                Let’s build the right Dynamics 365 roadmap for your business
+              </h2>
+              <p className="mt-5 max-w-xl text-base leading-8 text-[var(--d-muted)]">
+                Discuss your current systems, business priorities and the right
+                mix of CRM, ERP, analytics, automation and AI.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-[3px] bg-[#143d70] px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#0d2d58]"
+                >
+                  Contact us
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center rounded-[3px] border border-[var(--d-border-blue)] px-5 py-3 text-sm font-semibold text-[#0067B8] dark:text-[#59D9F7]"
+                >
+                  Book a consultation
+                </Link>
+              </div>
             </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
-function FaqSection() {
-  return (
-    <section className="bg-[var(--d-section-alt)] py-24">
-      <div className="d365-container">
-        <SectionHeading
-          eyebrow="Frequently Asked Questions"
-          title="What businesses usually ask before implementation"
-          description="Straightforward answers about modules, integrations, migration and support."
-        />
-
-        <div className="mx-auto mt-12 max-w-4xl space-y-3">
-          {faqs.map((faq) => (
-            <FaqItem
-              key={faq.question}
-              question={faq.question}
-              answer={faq.answer}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FaqItem({ question, answer }: { question: string; answer: string }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div className="overflow-hidden rounded-2xl border border-[var(--d-border)] bg-[var(--d-card-solid)]">
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        className="flex w-full items-center justify-between gap-5 px-5 py-5 text-left"
-        aria-expanded={open}
-      >
-        <span className="font-semibold text-[var(--d-title)]">{question}</span>
-        <ChevronDown
-          className={`h-5 w-5 shrink-0 text-cyan-300 transition-transform ${open ? "rotate-180" : ""}`}
-        />
-      </button>
-
-      <motion.div
-        initial={false}
-        animate={{ height: open ? "auto" : 0, opacity: open ? 1 : 0 }}
-        className="overflow-hidden"
-      >
-        <p className="px-5 pb-5 leading-7 text-[var(--d-muted)]">{answer}</p>
-      </motion.div>
-    </div>
-  );
-}
-
-function CtaSection() {
-  return (
-    <section className="relative overflow-hidden py-24">
-      <img
-        src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=2000&q=88"
-        alt="Modern business office"
-        className="absolute inset-0 -z-30 h-full w-full object-cover opacity-20"
-      />
-      <div className="absolute inset-0 -z-20 bg-[var(--d-overlay-strong)]" />
-      <div className="absolute left-1/2 top-0 -z-10 h-96 w-96 -translate-x-1/2 rounded-full bg-cyan-400/15 blur-[140px]" />
-
-      <div className="d365-container">
-        <div className="mx-auto max-w-4xl rounded-[2rem] border border-cyan-300/20 bg-[var(--d-card-strong)] p-7 text-center shadow-[0_30px_100px_rgba(0,213,231,.12)] backdrop-blur-xl sm:p-12">
-          <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-cyan-300 text-[#031013]">
-            <Sparkles className="h-7 w-7" />
+            <div className="relative min-h-[360px] overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1600&q=88"
+                alt="Dynamics 365 consultation"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[var(--d-card)] via-transparent to-transparent lg:hidden" />
+            </div>
           </div>
-          <h2 className="mt-6 text-3xl font-semibold text-[var(--d-title)] tracking-[-0.035em] sm:text-5xl">
-            Ready to connect and modernize your business?
-          </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-[var(--d-body)]">
-            Let us assess your current systems and recommend the right Dynamics 365 modules, integrations and implementation roadmap for your growth goals.
-          </p>
-          <Link
-            to="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-cyan-300 px-7 py-3.5 font-semibold text-[#031013] transition hover:-translate-y-1 hover:bg-cyan-200"
-          >
-            Start Your Dynamics 365 Project
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+
+          <motion.div
+            aria-hidden="true"
+            animate={{ x: [0, 18, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-24 -left-20 h-44 w-[360px] rounded-t-full bg-[#59D9F7]"
+          />
+          <motion.div
+            aria-hidden="true"
+            animate={{ x: [0, -16, 0] }}
+            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -bottom-24 -right-20 h-44 w-[360px] rounded-t-full bg-[#8A007D]"
+          />
         </div>
       </div>
     </section>
@@ -1034,33 +1593,28 @@ function SectionHeading({
   eyebrow,
   title,
   description,
-  align = "center",
 }: {
   eyebrow: string;
   title: string;
   description: string;
-  align?: "left" | "center";
 }) {
-  const alignment = align === "center" ? "mx-auto text-center" : "text-left";
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.55 }}
-      className={`max-w-3xl ${alignment}`}
+      className="mx-auto max-w-4xl text-center"
     >
-      <div
-        className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-cyan-300 ${align === "center" ? "justify-center" : ""}`}
-      >
-        <Sparkles className="h-4 w-4" />
+      <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--d-muted)]">
         {eyebrow}
       </div>
-      <h2 className="mt-4 text-3xl font-semibold text-[var(--d-title)] leading-tight tracking-[-0.04em] sm:text-4xl lg:text-5xl">
+      <h2 className="mt-3 text-[32px] font-semibold leading-tight tracking-[-0.035em] text-[var(--d-title)] sm:text-[40px] lg:text-[46px]">
         {title}
       </h2>
-      <p className="mt-5 text-base leading-8 text-[var(--d-muted)]">{description}</p>
+      <p className="mx-auto mt-4 max-w-3xl text-base leading-8 text-[var(--d-muted)]">
+        {description}
+      </p>
     </motion.div>
   );
 }
