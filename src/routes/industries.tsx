@@ -1,15 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import type { IconType } from "react-icons";
 import {
-  Store,
-  Factory,
-  Truck,
-  Building2,
-  HeartPulse,
-  GraduationCap,
-  ShoppingBag,
-  Globe2,
-} from "lucide-react";
+  FaBuilding,
+  FaCapsules,
+  FaIndustry,
+  FaShoppingCart,
+  FaStore,
+  FaTruck,
+} from "react-icons/fa";
+import { GiClothes } from "react-icons/gi";
+import { MdSolarPower } from "react-icons/md";
+
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { PageHero, Section } from "@/components/layout/Section";
 
@@ -27,46 +29,79 @@ export const Route = createFileRoute("/industries")({
   component: Industries,
 });
 
-const items = [
+type IndustryItem = {
+  icon: IconType;
+  t: string;
+  d: string;
+  iconColor: string;
+  borderColor: string;
+  iconBackground: string;
+};
+
+const items: IndustryItem[] = [
   {
-    icon: Store,
+    icon: FaStore,
     t: "Retail",
     d: "POS, inventory, multi-branch and customer loyalty systems.",
+    iconColor: "#7c3aed",
+    borderColor: "#d8b4fe",
+    iconBackground: "#faf5ff",
   },
   {
-    icon: Factory,
+    icon: FaIndustry,
     t: "Manufacturing",
     d: "BOMs, production planning, costing and MRP.",
+    iconColor: "#2563eb",
+    borderColor: "#bfdbfe",
+    iconBackground: "#eff6ff",
   },
   {
-    icon: Truck,
+    icon: FaTruck,
     t: "Distribution",
     d: "Warehouses, routes, vendor and dealer networks.",
+    iconColor: "#0891b2",
+    borderColor: "#a5f3fc",
+    iconBackground: "#ecfeff",
   },
   {
-    icon: Building2,
+    icon: GiClothes,
     t: "Garments Manufacturing",
     d: "knitting, dyeing, printing and stitching.",
+    iconColor: "#db2777",
+    borderColor: "#fbcfe8",
+    iconBackground: "#fdf2f8",
   },
   {
-    icon: HeartPulse,
+    icon: MdSolarPower,
     t: "Solar",
     d: "Power generation, storage and smart grid.",
+    iconColor: "#f59e0b",
+    borderColor: "#fde68a",
+    iconBackground: "#fffbeb",
   },
   {
-    icon: GraduationCap,
+    icon: FaCapsules,
     t: "Pharma",
     d: "Weighing raw materials, formulation, coating and packaging.",
+    iconColor: "#16a34a",
+    borderColor: "#bbf7d0",
+    iconBackground: "#f0fdf4",
   },
   {
-    icon: ShoppingBag,
+    icon: FaShoppingCart,
     t: "E-commerce",
     d: "Conversion-focused storefronts and growth marketing.",
+    iconColor: "#ea580c",
+    borderColor: "#fed7aa",
+    iconBackground: "#fff7ed",
   },
   {
-    icon: Globe2,
+    icon: FaBuilding,
     t: "Enterprises",
     d: "Scalable platforms and multi-country rollouts.",
+    iconColor: "#4f46e5",
+    borderColor: "#c7d2fe",
+    iconBackground: "#eef2ff",
   },
 ];
 
@@ -103,10 +138,10 @@ const industryCards = [
   },
   {
     img: "/solor.png",
-    title: "Solar Companies",
+    title: "Solars",
     desc: "Manage sale inquires Quotations with end to end project management. Site wise Inventory and expense tracking.",
   },
-   {
+  {
     img: "/Construction.jpg",
     title: "Construction ",
     desc: "Healping goverment contractors and loacl compaines to gain complete control over their projects and operations.",
@@ -130,7 +165,7 @@ function Industries() {
       {/* Top Industry Boxes */}
       <Section>
         <div className="container-x">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {items.map((it, i) => {
               const Icon = it.icon;
 
@@ -153,8 +188,18 @@ function Industries() {
                   <div className="absolute left-0 top-0 h-[2px] w-0 bg-gradient-orange transition-all duration-500 group-hover:w-full" />
 
                   <div className="relative">
-                    <div className="mb-4 inline-grid h-12 w-12 place-items-center rounded-xl bg-gradient-teal text-black transition-all duration-300 group-hover:bg-gradient-orange">
-                      <Icon className="h-6 w-6" />
+                    <div
+                      className="mb-4 grid h-14 w-14 place-items-center rounded-2xl border bg-white shadow-[0_8px_22px_rgba(0,0,0,0.10)] transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-105 group-hover:shadow-[0_12px_30px_rgba(0,0,0,0.18)]"
+                      style={{
+                        borderColor: it.borderColor,
+                        backgroundColor: it.iconBackground,
+                      }}
+                    >
+                      <Icon
+                        className="h-7 w-7 transition-transform duration-300 group-hover:scale-110"
+                        style={{ color: it.iconColor }}
+                        aria-hidden="true"
+                      />
                     </div>
 
                     <h3 className="text-lg font-semibold text-white transition-colors duration-300 group-hover:text-[var(--brand-orange)]">
@@ -173,7 +218,7 @@ function Industries() {
       </Section>
 
       {/* 6 Image Cards Under Boxes */}
-      <Section className="!pt-0 !pb-28">
+      <Section className="!pb-28 !pt-0">
         <div className="container-x">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -186,19 +231,19 @@ function Industries() {
               Industry Solutions
             </div>
 
-            <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-white">
+            <h2 className="mt-3 text-3xl font-semibold leading-tight text-white sm:text-4xl lg:text-5xl">
               Practical systems designed for{" "}
               <span className="text-gradient-orange">real business work</span>
             </h2>
 
-            <p className="mt-4 text-sm sm:text-base leading-relaxed text-white/65">
+            <p className="mt-4 text-sm leading-relaxed text-white/65 sm:text-base">
               Every industry has its own workflow. We design ERP, automation,
               marketing and reporting systems according to actual operations,
               not generic templates.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7">
             {industryCards.map((card, i) => (
               <motion.div
                 key={card.title}
@@ -216,7 +261,7 @@ function Industries() {
                   rotateX: 1.5,
                   rotateY: -1.5,
                 }}
-                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-white/[0.035] p-4 backdrop-blur-xl transition-all duration-500 hover:border-[var(--brand-orange)]/55 hover:bg-white/[0.06]"
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 backdrop-blur-xl transition-all duration-500 hover:border-[var(--brand-orange)]/55 hover:bg-white/[0.06] sm:rounded-3xl"
               >
                 {/* Animated Glow */}
                 <motion.div

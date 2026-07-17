@@ -170,6 +170,18 @@ export function Footer() {
     "+923394050121",
   ];
 
+  /*
+    Footer location Lahore, Pakistan set ki gayi hai.
+    LOCATIONS import ko remove nahi kiya gaya.
+  */
+  const footerLocation = {
+    ...LOCATIONS[0],
+    country: "Pakistan",
+    city: "Lahore",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=Lahore%2C%20Pakistan",
+  };
+
   return (
     <footer className="site-footer relative mt-24 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-split" />
@@ -260,23 +272,27 @@ export function Footer() {
               Global Presence
             </h4>
 
-            <ul className="mb-6 space-y-3">
-              {LOCATIONS.map((loc) => (
-                <li
-                  key={loc.country}
-                  className="flex items-start gap-2 text-sm text-[var(--footer-muted)]"
-                >
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand-orange)]" />
+     <ul className="mb-6 space-y-3">
+  <li className="flex items-start gap-2 text-sm text-[var(--footer-muted)]">
+    <a
+      href="https://www.google.com/maps/search/?api=1&query=Johar+Town%2C+Lahore%2C+Pakistan"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Open Johar Town Lahore Pakistan in Google Maps"
+      title="Open Johar Town, Lahore, Pakistan in Google Maps"
+      className="mt-0.5 shrink-0 text-[var(--brand-orange)] transition-all hover:scale-110 hover:text-[var(--footer-heading)]"
+    >
+      <MapPin className="h-4 w-4" />
+    </a>
 
-                  <span>
-                    <span className="text-[var(--footer-heading)]">
-                      {loc.country}
-                    </span>{" "}
-                    — {loc.city}
-                  </span>
-                </li>
-              ))}
-            </ul>
+    <span>
+      <span className="text-[var(--footer-heading)]">
+        Johar Town
+      </span>
+      , Lahore, Pakistan
+    </span>
+  </li>
+</ul>
 
             {/* Contact Information */}
             <div className="space-y-3">

@@ -1541,6 +1541,62 @@ function VideoAboutCounter({
   );
 }
 
+
+function AnimatedVisionHeading({ cycle }: { cycle: number }) {
+  const ease = [0.22, 1, 0.36, 1] as const;
+
+  return (
+    <motion.h2
+      key={`animated-vision-heading-${cycle}`}
+      aria-label="Your Vision, Our Expertise Every Step of the Way"
+      className="vision-heading video-about-title mt-1 max-w-[720px] font-bold leading-[1.02] tracking-[-0.045em]"
+    >
+      <span className="vision-heading-mask block overflow-hidden pb-[0.08em]">
+        <motion.span
+          initial={{ y: "118%", opacity: 0, rotate: 1.2 }}
+          animate={{ y: "0%", opacity: 1, rotate: 0 }}
+          transition={{ delay: 0.08, duration: 0.82, ease }}
+          className="block origin-left"
+        >
+          Your Vision,{" "}
+          <span className="vision-heading-accent relative inline-block whitespace-nowrap pb-[0.16em]">
+            Our Expertise
+
+            <motion.svg
+              aria-hidden="true"
+              viewBox="0 0 340 22"
+              preserveAspectRatio="none"
+              className="pointer-events-none absolute -bottom-[0.02em] left-0 h-[0.25em] w-full overflow-visible"
+            >
+              <motion.path
+                d="M3 13 C 68 7, 132 9, 195 13 C 245 17, 292 13, 337 8"
+                fill="none"
+                stroke="var(--brand-orange)"
+                strokeWidth="5"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ delay: 0.94, duration: 0.78, ease }}
+              />
+            </motion.svg>
+          </span>
+        </motion.span>
+      </span>
+
+      <span className="vision-heading-mask block overflow-hidden pb-[0.1em]">
+        <motion.span
+          initial={{ y: "118%", opacity: 0, rotate: 1.2 }}
+          animate={{ y: "0%", opacity: 1, rotate: 0 }}
+          transition={{ delay: 0.24, duration: 0.84, ease }}
+          className="block origin-left"
+        >
+          Every Step of the Way
+        </motion.span>
+      </span>
+    </motion.h2>
+  );
+}
+
 function VideoAboutSection() {
   const { sectionRef, cycle } = useReplayWhenVisible(0.24);
 
@@ -1562,7 +1618,9 @@ function VideoAboutSection() {
           color: var(--video-about-title);
         }
 
-        .cream-theme .video-about-section {
+        .cream-theme .video-about-section,
+        .light .video-about-section,
+        [data-theme="light"] .video-about-section {
           --video-about-bg: #e8e4da;
           --video-about-title: #171512;
           --video-about-body: #4f4a43;
@@ -1577,6 +1635,14 @@ function VideoAboutSection() {
         .video-about-muted { color: var(--video-about-muted); }
         .video-about-display {
           font-family: Georgia, "Times New Roman", serif;
+        }
+        .vision-heading {
+          font-family: inherit;
+          font-size: clamp(2.05rem, 4.15vw, 3.2rem);
+          text-wrap: balance;
+        }
+        .vision-heading-accent {
+          color: var(--video-about-title);
         }
         .video-about-counter {
           border-top: 1px solid var(--video-about-border);
@@ -1629,7 +1695,7 @@ function VideoAboutSection() {
         className="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-[var(--brand-orange)]/10 blur-[130px]"
       />
 
-      <div className="container-x relative grid min-w-0 items-start gap-9 lg:grid-cols-[1.02fr_.98fr] lg:gap-11 xl:gap-14">
+      {/* <div className="container-x relative grid min-w-0 items-start gap-9 lg:grid-cols-[1.02fr_.98fr] lg:gap-11 xl:gap-14">
         <div className="relative h-[350px] sm:h-[400px] lg:h-[465px] xl:h-[500px]">
           <motion.div
             key={`video-about-main-image-${cycle}`}
@@ -1710,28 +1776,16 @@ function VideoAboutSection() {
 
         <div className="video-about-copy relative flex min-w-0 flex-col justify-start self-start pt-0">
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.56, ease: "easeOut" }}
-            className="mb-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-orange)] sm:text-xs"
+            key={`video-about-eyebrow-${cycle}`}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.56, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-orange)] sm:text-xs"
           >
-            Business Transformation Partner
+            About Us
           </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 22 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{
-              delay: 0.06,
-              duration: 0.68,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="video-about-display video-about-title text-3xl font-semibold uppercase leading-[1.06] tracking-[-0.035em] sm:text-4xl lg:text-[38px] xl:text-[42px]"
-          >
-            Smart business automation & digital growth.
-          </motion.h2>
+          <AnimatedVisionHeading cycle={cycle} />
 
           <motion.h3
             initial={{ opacity: 0, y: 18 }}
@@ -1768,24 +1822,7 @@ function VideoAboutSection() {
             business outcomes.
           </motion.p>
 
-          {/* <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
-            <VideoAboutCounter
-              to={10}
-              suffix="+"
-              eyebrow="Years on the market"
-              label=""
-              accent="orange"
-              delay={0.4}
-            />
-            <VideoAboutCounter
-              to={75}
-              suffix="+"
-              eyebrow="Projects Delivered"
-              label="Business projects delivered successfully so far"
-              accent="contrast"
-              delay={0.48}
-            />
-          </div> */}
+         
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1803,7 +1840,7 @@ function VideoAboutSection() {
             </Link>
           </motion.div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }
@@ -2250,3 +2287,17 @@ We partner with organizations to streamline operations, improve visibility, and 
     </SiteLayout>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
