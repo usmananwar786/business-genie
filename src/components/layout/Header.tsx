@@ -138,7 +138,7 @@ const BUSINESS_SOLUTIONS = [
 const SERVICES = [
   {
     icon: Database,
-    logo: getOfficialLogo("odoo.com"),
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi2L33C-HWOuAb9pxW0-YpPFaP09ZSbCWVeW-yXK7miQ&s=10",
     title: "ERP Implementation",
     desc: "Accounts, inventory, HR, sales & production.",
     to: "/erp-solutions",
@@ -154,7 +154,7 @@ const SERVICES = [
   },
   {
     icon: Megaphone,
-    logo: getOfficialLogo("ads.google.com"),
+    logo: "data:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRreuAwjcCHMTp9FYoDScAcysNbxYYMBV5x14lWATG53g&s=10",
     title: "Digital Marketing",
     desc: "Performance campaigns & lead generation.",
     to: "/digital-marketing",
@@ -162,7 +162,7 @@ const SERVICES = [
   },
   {
     icon: Code2,
-    logo: getOfficialLogo("wordpress.org"),
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6fqKk7Vl4SUNQV5AVQtDSLcuQAUqlPHpvL_XaKUqPpw&s=10",
     title: "Web Development",
     desc: "Modern websites, platforms & CMS.",
     to: "/web-development",
