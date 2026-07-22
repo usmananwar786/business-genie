@@ -49,6 +49,7 @@ const MAIN_NAV = [
   { label: "Home", to: "/" },
   { label: "Industries", to: "/industries" },
   { label: "Portfolio", to: "/portfolio" },
+  { label: "Blogs", to: "/blogs" },
   { label: "Contact", to: "/contact" },
 ] as const;
 

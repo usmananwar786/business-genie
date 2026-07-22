@@ -28,6 +28,7 @@ import { Route as DigitalMarketingRouteImport } from './routes/digital-marketing
 import { Route as DigidocRouteImport } from './routes/digidoc'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CareersRouteImport } from './routes/careers'
+import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as HRMSRouteImport } from './routes/HRMS'
 import { Route as IndexRouteImport } from './routes/index'
@@ -127,6 +128,11 @@ const CareersRoute = CareersRouteImport.update({
   path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogsRoute = BlogsRouteImport.update({
+  id: '/blogs',
+  path: '/blogs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/HRMS': typeof HRMSRoute
   '/about': typeof AboutRoute
+  '/blogs': typeof BlogsRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/digidoc': typeof DigidocRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/HRMS': typeof HRMSRoute
   '/about': typeof AboutRoute
+  '/blogs': typeof BlogsRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/digidoc': typeof DigidocRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/HRMS': typeof HRMSRoute
   '/about': typeof AboutRoute
+  '/blogs': typeof BlogsRoute
   '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/digidoc': typeof DigidocRoute
@@ -222,6 +231,7 @@ export interface FileRouteTypes {
     | '/'
     | '/HRMS'
     | '/about'
+    | '/blogs'
     | '/careers'
     | '/contact'
     | '/digidoc'
@@ -246,6 +256,7 @@ export interface FileRouteTypes {
     | '/'
     | '/HRMS'
     | '/about'
+    | '/blogs'
     | '/careers'
     | '/contact'
     | '/digidoc'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/'
     | '/HRMS'
     | '/about'
+    | '/blogs'
     | '/careers'
     | '/contact'
     | '/digidoc'
@@ -295,6 +307,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HRMSRoute: typeof HRMSRoute
   AboutRoute: typeof AboutRoute
+  BlogsRoute: typeof BlogsRoute
   CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   DigidocRoute: typeof DigidocRoute
@@ -451,6 +464,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs': {
+      id: '/blogs'
+      path: '/blogs'
+      fullPath: '/blogs'
+      preLoaderRoute: typeof BlogsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -479,6 +499,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HRMSRoute: HRMSRoute,
   AboutRoute: AboutRoute,
+  BlogsRoute: BlogsRoute,
   CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   DigidocRoute: DigidocRoute,
