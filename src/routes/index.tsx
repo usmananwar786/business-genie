@@ -154,19 +154,19 @@ function Counter({
   const v = useCount(to, active);
 
   return (
-    <div ref={ref} className="text-center">
-      <div className="text-4xl md:text-5xl font-bold text-gradient-orange">
+    <div ref={ref} className="min-w-0 text-center">
+      <div className="text-3xl font-bold text-gradient-orange sm:text-4xl md:text-5xl">
         {v}
         {suffix}
       </div>
-      <div className="mt-2 text-sm text-white/65">{label}</div>
+      <div className="mt-2 break-words text-xs text-white/65 sm:text-sm">{label}</div>
     </div>
   );
 }
 
 function Hero() {
   return (
-    <section className="home-hero-light relative min-h-[92vh] flex items-center overflow-hidden pt-16 bg-[var(--home-hero-bg)]">
+    <section className="home-hero-light relative flex min-h-[100svh] items-center overflow-hidden bg-[var(--home-hero-bg)] pb-12 pt-24 sm:pb-14 sm:pt-28 lg:min-h-[92vh] lg:py-24">
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
         <video
@@ -175,7 +175,7 @@ function Hero() {
           muted
           playsInline
           preload="auto"
-          className="home-hero-video h-full w-full object-cover scale-105"
+          className="home-hero-video h-full w-full scale-100 object-cover sm:scale-105"
         >
           <source
             src="https://res.cloudinary.com/djry1d68x/video/upload/hero-bg_uivghf.mp4"
@@ -211,7 +211,7 @@ function Hero() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute top-20 -left-24 h-[420px] w-[420px] rounded-full bg-[var(--brand-orange)]/20 blur-[145px]"
+        className="absolute -left-32 top-16 h-72 w-72 rounded-full bg-[var(--brand-orange)]/20 blur-[110px] sm:h-[420px] sm:w-[420px] sm:blur-[145px]"
       />
 
       <motion.div
@@ -225,7 +225,7 @@ function Hero() {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="absolute bottom-0 right-0 h-[460px] w-[460px] rounded-full bg-[var(--brand-orange)]/12 blur-[160px]"
+        className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-[var(--brand-orange)]/12 blur-[120px] sm:right-0 sm:h-[460px] sm:w-[460px] sm:blur-[160px]"
       />
 
       {/* Soft Grid */}
@@ -239,15 +239,15 @@ function Hero() {
         }}
       />
 
-      <div className="relative container-x grid lg:grid-cols-[1.1fr_0.9fr] gap-14 items-center">
-        <div>
+      <div className="relative container-x grid w-full min-w-0 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+        <div className="min-w-0">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--home-hero-badge-border)] bg-[var(--home-hero-badge-bg)] text-[11px] md:text-xs uppercase tracking-[0.22em] text-[var(--home-hero-badge-text)] hover:text-[var(--brand-orange)] hover:border-[var(--brand-orange)]/50 transition-all duration-300 mb-6"
+            className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--home-hero-badge-border)] bg-[var(--home-hero-badge-bg)] px-3 py-1.5 text-left text-[9px] uppercase tracking-[0.14em] text-[var(--home-hero-badge-text)] transition-all duration-300 hover:border-[var(--brand-orange)]/50 hover:text-[var(--brand-orange)] sm:mb-6 sm:px-4 sm:text-[11px] sm:tracking-[0.22em] md:text-xs"
           >
-            <Sparkles className="h-3.5 w-3.5" />
+            <Sparkles className="h-3.5 w-3.5 shrink-0" />
             Business Automation Partner
           </motion.div>
 
@@ -255,7 +255,7 @@ function Hero() {
             initial={{ opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.75 }}
-            className="max-w-4xl text-[32px] sm:text-[40px] md:text-[50px] lg:text-[56px] xl:text-[62px] font-semibold leading-[1.12] tracking-[-0.025em] text-[var(--home-hero-title)]"
+            className="max-w-4xl break-words text-[30px] font-semibold leading-[1.12] tracking-[-0.025em] text-[var(--home-hero-title)] min-[375px]:text-[33px] sm:text-[40px] md:text-[50px] lg:text-[56px] xl:text-[62px]"
           >
             Smart Solutions for{" "}
             <span className="text-[var(--home-hero-title)] transition-colors duration-300 hover:text-[var(--brand-orange)]">
@@ -275,7 +275,7 @@ function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.65 }}
-            className="mt-6 text-sm sm:text-base md:text-lg text-[var(--home-hero-desc)] max-w-2xl leading-relaxed"
+            className="mt-5 max-w-2xl text-sm leading-6 text-[var(--home-hero-desc)] sm:mt-6 sm:text-base sm:leading-relaxed md:text-lg"
           >
             Business Genie Consulting helps businesses streamline operations
             accelerate transformation, achieve sustainable growth innovative
@@ -286,11 +286,11 @@ function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.42, duration: 0.65 }}
-            className="mt-8 flex flex-wrap gap-3"
+            className="mt-7 flex w-full flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap"
           >
             <Link
               to="/contact"
-              className="btn-shine inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-gradient-orange text-black font-semibold glow-orange hover:scale-[1.03] transition-transform"
+              className="btn-shine inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-orange px-5 py-3.5 text-center text-sm font-semibold text-black glow-orange transition-transform hover:scale-[1.03] sm:w-auto sm:px-6 sm:text-base"
             >
               Get Free Consultation
               <ArrowRight className="h-4 w-4" />
@@ -298,14 +298,14 @@ function Hero() {
 
             <Link
               to="/portfolio"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[var(--home-hero-outline-border)] text-[var(--home-hero-outline-text)] hover:text-[var(--brand-orange)] hover:border-[var(--brand-orange)]/60 hover:bg-[var(--home-hero-outline-hover)] transition-all duration-300"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--home-hero-outline-border)] px-5 py-3.5 text-center text-sm text-[var(--home-hero-outline-text)] transition-all duration-300 hover:border-[var(--brand-orange)]/60 hover:bg-[var(--home-hero-outline-hover)] hover:text-[var(--brand-orange)] sm:w-auto sm:px-6 sm:text-base"
             >
               Explore services
             </Link>
 
             {/* <Link
               to="/blogs"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-[var(--home-hero-outline-border)] text-[var(--home-hero-outline-text)] hover:text-[var(--brand-orange)] hover:border-[var(--brand-orange)]/60 hover:bg-[var(--home-hero-outline-hover)] transition-all duration-300"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--home-hero-outline-border)] px-5 py-3.5 text-center text-sm text-[var(--home-hero-outline-text)] transition-all duration-300 hover:border-[var(--brand-orange)]/60 hover:bg-[var(--home-hero-outline-hover)] hover:text-[var(--brand-orange)] sm:w-auto sm:px-6 sm:text-base"
             >
               Read our blogs
               <BookOpen className="h-4 w-4" />
@@ -316,7 +316,7 @@ function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.58, duration: 0.65 }}
-            className="mt-9 grid sm:grid-cols-3 gap-3 max-w-2xl"
+            className="mt-8 grid max-w-2xl grid-cols-1 gap-3 sm:mt-9 sm:grid-cols-3"
           >
             {[
               [
@@ -334,7 +334,7 @@ function Hero() {
             ].map(([title, text]) => (
               <div
                 key={title}
-                className="group rounded-2xl border border-[var(--home-hero-card-border)] bg-[var(--home-hero-card-bg)] px-5 py-4 backdrop-blur-md hover:border-[var(--brand-orange)]/60 hover:bg-[var(--home-hero-card-hover)] transition-all duration-300"
+                className="group min-w-0 rounded-2xl border border-[var(--home-hero-card-border)] bg-[var(--home-hero-card-bg)] px-4 py-4 backdrop-blur-md transition-all duration-300 hover:border-[var(--brand-orange)]/60 hover:bg-[var(--home-hero-card-hover)] sm:px-5"
               >
                 <div className="text-sm font-semibold text-[var(--home-hero-card-title)] group-hover:text-[var(--brand-orange)] transition-colors duration-300">
                   {title}
@@ -351,7 +351,7 @@ function Hero() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.72, duration: 0.65 }}
-            className="mt-8 flex flex-wrap gap-5 text-sm text-[var(--home-hero-small-text)]"
+            className="mt-7 flex flex-col gap-3 text-sm text-[var(--home-hero-small-text)] sm:mt-8 sm:flex-row sm:flex-wrap sm:gap-5"
           >
             {[
               "Clean Implementation",
@@ -360,9 +360,9 @@ function Hero() {
             ].map((item) => (
               <div
                 key={item}
-                className="group flex items-center gap-2 hover:text-[var(--brand-orange)] transition-colors duration-300"
+                className="group flex min-w-0 items-start gap-2 transition-colors duration-300 hover:text-[var(--brand-orange)] sm:items-center"
               >
-                <CheckCircle2 className="h-4 w-4 text-[var(--home-hero-check)] group-hover:text-[var(--brand-orange)] transition-colors duration-300" />
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--home-hero-check)] transition-colors duration-300 group-hover:text-[var(--brand-orange)] sm:mt-0" />
                 {item}
               </div>
             ))}
@@ -498,7 +498,7 @@ function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.15 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[var(--home-hero-scroll)] text-xs flex flex-col items-center gap-2"
+        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-xs text-[var(--home-hero-scroll)] sm:flex"
       >
         <span className="hover:text-[var(--brand-orange)] transition-colors duration-300"></span>
 
@@ -978,7 +978,7 @@ function HomeBlogCard({ post, index }: { post: HomeBlogPost; index: number }) {
       transition={{ delay: index * 0.08, duration: 0.55 }}
       className="home-blog-card group flex min-w-0 flex-col overflow-hidden rounded-3xl border"
     >
-      <div className="relative h-56 overflow-hidden sm:h-64">
+      <div className="relative h-48 overflow-hidden min-[375px]:h-52 sm:h-64">
         <img
           src={post.image}
           alt={post.title}
@@ -991,8 +991,8 @@ function HomeBlogCard({ post, index }: { post: HomeBlogPost; index: number }) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <h3 className="home-blog-title text-2xl font-semibold leading-tight tracking-[-0.025em] transition-colors duration-300 group-hover:text-[var(--brand-orange)]">
+      <div className="flex min-w-0 flex-1 flex-col p-4 min-[375px]:p-5 sm:p-6">
+        <h3 className="home-blog-title break-words text-xl font-semibold leading-tight tracking-[-0.025em] transition-colors duration-300 group-hover:text-[var(--brand-orange)] sm:text-2xl">
           {post.title}
         </h3>
 
@@ -1045,7 +1045,7 @@ function HomeBlogCard({ post, index }: { post: HomeBlogPost; index: number }) {
 
 function HomeBlogSection() {
   return (
-    <section className="home-blog-section relative overflow-hidden py-16 sm:py-20 lg:py-24">
+    <section className="home-blog-section relative overflow-hidden py-12 sm:py-20 lg:py-24">
       <style>{`
         .home-blog-section {
           --home-blog-bg: #050505;
@@ -1094,17 +1094,17 @@ function HomeBlogSection() {
       <div className="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-[var(--brand-orange)]/8 blur-[130px]" />
 
       <div className="container-x relative">
-        <div className="relative mb-10 md:mb-12">
+        <div className="relative mb-8 sm:mb-10 md:mb-12">
           <SectionTitle
             eyebrow="Business Insights"
             title={<>Practical guidance for smarter business growth</>}
             subtitle="Explore useful articles based on our ERP, HRMS, reporting, web and digital marketing experience."
           />
 
-          <div className="mt-6 flex justify-center md:mt-0 md:absolute md:right-0 md:bottom-0">
+          <div className="mt-5 flex justify-center sm:mt-6 md:absolute md:bottom-0 md:right-0 md:mt-0">
             <Link
               to="/blogs"
-              className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--home-blog-border)] px-5 py-3 text-sm font-semibold text-[var(--home-blog-title)] transition hover:border-[var(--brand-orange)]/60 hover:text-[var(--brand-orange)]"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--home-blog-border)] px-5 py-3 text-center text-sm font-semibold text-[var(--home-blog-title)] transition hover:border-[var(--brand-orange)]/60 hover:text-[var(--brand-orange)] sm:w-fit"
             >
               View all blogs
               <ArrowRight className="h-4 w-4" />
@@ -1112,7 +1112,7 @@ function HomeBlogSection() {
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 xl:grid-cols-3">
           {homeBlogPosts.map((post, index) => (
             <HomeBlogCard key={post.slug} post={post} index={index} />
           ))}
@@ -1149,38 +1149,67 @@ function HomeBlogSection() {
 function Home() {
   return (
     <SiteLayout>
-      <Hero />
+      <div className="home-page min-w-0 overflow-x-clip">
+        <style>{`
+          .home-page,
+          .home-page * {
+            box-sizing: border-box;
+          }
 
-      <Section>
-        <div className="container-x grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 2xl:gap-16 items-center">
+          .home-page img,
+          .home-page video {
+            max-width: 100%;
+          }
+
+          @media (max-width: 639px) {
+            .home-page .container-x {
+              width: 100%;
+              min-width: 0;
+              padding-left: 1rem;
+              padding-right: 1rem;
+            }
+
+            .home-page h1,
+            .home-page h2,
+            .home-page h3,
+            .home-page p {
+              overflow-wrap: anywhere;
+            }
+          }
+        `}</style>
+
+        <Hero />
+
+      <Section className="!py-12 sm:!py-16 lg:!py-24">
+        <div className="container-x grid min-w-0 grid-cols-1 items-center gap-7 sm:gap-10 lg:grid-cols-2 lg:gap-12 2xl:gap-16">
           {/* Left Image */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="relative w-full"
+            className="relative min-w-0 w-full"
           >
             <motion.div
               whileHover={{ y: -6 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="group relative w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10"
+              className="group relative w-full overflow-hidden rounded-2xl border border-white/10 sm:rounded-3xl"
             >
               <img
                 src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=88"
                 alt="ERP, HRMS and Digital Marketing Automation"
-                className="h-[300px] sm:h-[380px] md:h-[440px] lg:h-[520px] xl:h-[560px] 2xl:h-[620px] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                className="h-[240px] w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 min-[375px]:h-[280px] sm:h-[380px] md:h-[440px] lg:h-[520px] xl:h-[560px] 2xl:h-[620px]"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
               <div className="absolute inset-0 bg-gradient-to-r from-black/35 via-transparent to-transparent" />
 
-              <div className="absolute left-5 right-5 bottom-5 sm:left-7 sm:right-7 sm:bottom-7">
-                <div className="inline-flex rounded-full bg-[var(--brand-orange)] px-4 py-1.5 text-[11px] sm:text-xs font-semibold text-black">
+              <div className="absolute bottom-4 left-4 right-4 min-w-0 sm:bottom-7 sm:left-7 sm:right-7">
+                <div className="inline-flex max-w-full whitespace-normal rounded-full bg-[var(--brand-orange)] px-3 py-1.5 text-[9px] font-semibold leading-4 text-black min-[375px]:text-[10px] sm:px-4 sm:text-xs">
                   ERP • HRMS • Digital Marketing
                 </div>
 
-                <h3 className="mt-4 max-w-md text-xl sm:text-2xl lg:text-3xl font-semibold leading-tight text-white">
+                <h3 className="mt-3 max-w-md break-words text-lg font-semibold leading-tight text-white min-[375px]:text-xl sm:mt-4 sm:text-2xl lg:text-3xl">
                   Smart systems for modern business growth
                 </h3>
               </div>
@@ -1193,13 +1222,13 @@ function Home() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="w-full max-w-2xl lg:max-w-none"
+            className="min-w-0 w-full max-w-2xl lg:max-w-none"
           >
             <div className="text-[11px] sm:text-xs uppercase tracking-[0.22em] sm:tracking-[0.25em] text-[var(--brand-orange)] mb-3 sm:mb-4">
               Trusted Growth Partner
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[54px] 2xl:text-[62px] font-semibold leading-[1.12] tracking-[-0.025em] text-white">
+            <h2 className="break-words text-[28px] font-semibold leading-[1.12] tracking-[-0.025em] text-white min-[375px]:text-3xl sm:text-4xl md:text-5xl lg:text-[46px] xl:text-[54px] 2xl:text-[62px]">
               Build a smarter business with{" "}
               <span className="text-white transition-colors duration-300 hover:text-[var(--brand-orange)]">
                 ERP
@@ -1226,7 +1255,7 @@ We partner with organizations to streamline operations, improve visibility, and 
               </p>
             </div>
 
-            <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:mt-7 sm:grid-cols-2">
               {[
                 "ERP Implementation",
                 "HRMS Automation",
@@ -1238,9 +1267,9 @@ We partner with organizations to streamline operations, improve visibility, and 
                   key={item}
                   whileHover={{ x: 5 }}
                   transition={{ duration: 0.25 }}
-                  className="group flex items-center gap-3 text-sm sm:text-[15px] text-white/75 hover:text-[var(--brand-orange)] transition-colors duration-300"
+                  className="group flex min-w-0 items-start gap-3 text-sm text-white/75 transition-colors duration-300 hover:text-[var(--brand-orange)] sm:items-center sm:text-[15px]"
                 >
-                  <CheckCircle2 className="h-4 w-4 text-white/55 group-hover:text-[var(--brand-orange)] transition-colors duration-300" />
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-white/55 transition-colors duration-300 group-hover:text-[var(--brand-orange)] sm:mt-0" />
                   {item}
                 </motion.div>
               ))}
@@ -1266,7 +1295,7 @@ We partner with organizations to streamline operations, improve visibility, and 
         </div>
       </Section>
 
-      <Section className="relative">
+      <Section className="relative !py-12 sm:!py-16 lg:!py-24">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--brand-orange)]/5 to-transparent" />
         <div className="relative container-x">
           <SectionTitle
@@ -1285,7 +1314,7 @@ We partner with organizations to streamline operations, improve visibility, and 
 
 
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
             {services.map((s, i) => (
               <motion.div
                 key={s.title}
@@ -1293,18 +1322,18 @@ We partner with organizations to streamline operations, improve visibility, and 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: i * 0.08 }}
-                className="group relative glass-card flex h-full flex-col items-center p-7 text-center hover:border-[var(--brand-orange)]/40 transition-all hover:-translate-y-1 duration-300"
+                className="group relative glass-card flex h-full min-w-0 flex-col items-center p-5 text-center transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand-orange)]/40 sm:p-6 lg:p-7"
               >
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity glow-orange" />
                 <div className="relative grid h-12 w-12 place-items-center rounded-xl mb-5 bg-gradient-orange text-black">
                   <s.icon className="h-6 w-6" />
                 </div>
 
-                <h3 className="relative text-xl font-bold mb-2 group-hover:text-[var(--brand-orange)] transition-colors">
+                <h3 className="relative mb-2 break-words text-lg font-bold transition-colors group-hover:text-[var(--brand-orange)] sm:text-xl">
                   {s.title}
                 </h3>
 
-                <p className="relative text-sm text-white/65 leading-relaxed">
+                <p className="relative break-words text-sm leading-relaxed text-white/65">
                   {s.desc}
                 </p>
 
@@ -1327,7 +1356,7 @@ We partner with organizations to streamline operations, improve visibility, and 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.65, ease: "easeOut" }}
-            className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.035] px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12 backdrop-blur-xl"
+            className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] px-4 py-7 backdrop-blur-xl sm:rounded-3xl sm:px-8 sm:py-10 lg:px-12 lg:py-12"
           >
             {/* Background Glow */}
             <div className="absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-[var(--brand-orange)]/15 blur-[100px]" />
@@ -1336,7 +1365,7 @@ We partner with organizations to streamline operations, improve visibility, and 
             {/* Light Border Line */}
             <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-[var(--brand-orange)]/40 to-transparent" />
 
-            <div className="relative grid grid-cols-2 gap-6 sm:gap-8 lg:grid-cols-4 lg:gap-10">
+            <div className="relative grid grid-cols-2 gap-x-3 gap-y-7 sm:gap-8 lg:grid-cols-4 lg:gap-10">
               {stats.map((s, i) => (
                 <motion.div
                   key={s.label}
@@ -1379,7 +1408,7 @@ We partner with organizations to streamline operations, improve visibility, and 
             }
           />
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 md:gap-6">
             {[
               {
                 icon: Rocket,
@@ -1418,7 +1447,7 @@ We partner with organizations to streamline operations, improve visibility, and 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="glass-card flex h-full flex-col items-center p-6 text-center hover:border-[var(--brand-orange)]/40 transition-colors"
+                className="glass-card flex h-full min-w-0 flex-col items-center p-5 text-center transition-colors hover:border-[var(--brand-orange)]/40 sm:p-6"
               >
                 <w.icon className="mb-4 h-8 w-8 text-[var(--brand-orange)]" />
 
@@ -1462,7 +1491,7 @@ We partner with organizations to streamline operations, improve visibility, and 
             />
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7">
             {[
               {
                 img: "/owner-2.png",
@@ -1489,7 +1518,7 @@ We partner with organizations to streamline operations, improve visibility, and 
                 q: " ERP & HRMS system implementation ,Designing modern websites,  UI/UX systems,  and Workflow automation for scalable business growth.",
                 badge: "Team",
                 status: "Professional Team",
-                tags: [ "ERP", "HRMS",  "Automation", "Web", "UI/UX", "Systems Design", , ],
+                tags: ["ERP", "HRMS", "Automation", "Web", "UI/UX", "Systems Design"],
               },
             ].map((t, i) => (
               <motion.div
@@ -1503,7 +1532,7 @@ We partner with organizations to streamline operations, improve visibility, and 
                   ease: "easeOut",
                 }}
                 whileHover={{ y: -8, scale: 1.015 }}
-                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-white/[0.035] p-5 sm:p-6 backdrop-blur-xl transition-all duration-300 hover:border-[var(--brand-orange)]/55 hover:bg-white/[0.06]"
+                className="group relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 backdrop-blur-xl transition-all duration-300 hover:border-[var(--brand-orange)]/55 hover:bg-white/[0.06] min-[375px]:p-5 sm:rounded-3xl sm:p-6"
               >
                 {/* Hover Glow */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -1518,7 +1547,7 @@ We partner with organizations to streamline operations, improve visibility, and 
                     <img
                       src={t.img}
                       alt={t.n}
-                      className="h-[260px] sm:h-[280px] lg:h-[310px] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="h-[230px] w-full object-cover object-top transition-transform duration-700 group-hover:scale-105 min-[375px]:h-[260px] sm:h-[280px] lg:h-[310px]"
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
@@ -1586,10 +1615,10 @@ We partner with organizations to streamline operations, improve visibility, and 
         </div>
       </Section>
 
-      <HomeBlogSection />
+        <HomeBlogSection />
+      </div>
     </SiteLayout>
   );
 }
-
 
 
