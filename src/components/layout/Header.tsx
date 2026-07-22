@@ -156,7 +156,7 @@ const SERVICES = [
   },
   {
     icon: Megaphone,
-    logo: "data:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRreuAwjcCHMTp9FYoDScAcysNbxYYMBV5x14lWATG53g&s=10",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNkWVwg9Vbd3wlSFvcDCGalflHT9PNR0PKBdHPboAPkg&s=10",
     title: "Digital Marketing",
     desc: "Performance campaigns & lead generation.",
     to: "/digital-marketing",

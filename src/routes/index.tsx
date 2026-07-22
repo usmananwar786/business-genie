@@ -23,7 +23,6 @@ import {
   BookOpen,
   ChevronDown,
   ChevronUp,
-  Clock3,
 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Section, SectionTitle } from "@/components/layout/Section";
@@ -919,8 +918,6 @@ type HomeBlogPost = {
   title: string;
   excerpt: string;
   image: string;
-  date: string;
-  readTime: string;
   details: string[];
 };
 
@@ -932,9 +929,7 @@ const homeBlogPosts: HomeBlogPost[] = [
     excerpt:
       "Move from disconnected spreadsheets and manual processes to one structured ERP system without disrupting daily operations.",
     image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=86",
-    date: "July 18, 2026",
-    readTime: "7 min read",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJ9PqeP-ScPh8xzfejW2FXjpYhLcEqU1Q7BNoqRq5yXA&s=10",
     details: [
       "Start by mapping sales, purchase, inventory, accounts, production and reporting workflows before selecting modules.",
       "Clean master data, define responsibilities and launch priority modules in manageable phases. Testing and role-based training should happen before go-live.",
@@ -948,9 +943,7 @@ const homeBlogPosts: HomeBlogPost[] = [
     excerpt:
       "Connect recruitment, employee records, attendance, payroll and reporting in one reliable HR workflow.",
     image:
-      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=86",
-    date: "July 12, 2026",
-    readTime: "6 min read",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOUm_8QW0HF7qqI5-ESPm63cP1uwCnMFsniuQphFu5ig&s=10",
     details: [
       "HRMS automation creates one controlled source for employee records and replaces scattered files, messages and spreadsheets.",
       "Recruitment, onboarding, attendance, leave approvals and payroll inputs can move through clear approval stages with role-based access.",
@@ -964,9 +957,7 @@ const homeBlogPosts: HomeBlogPost[] = [
     excerpt:
       "Combine paid media, SEO, landing pages and conversion tracking into one performance-focused growth system.",
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=86",
-    date: "July 6, 2026",
-    readTime: "8 min read",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZ5luMsj98EzCg3JsvcxBycmYcdvKqnmCakkdbSWzinQ&s=10",
     details: [
       "Begin with a clear audience, offer and conversion goal, then align paid ads, SEO, content and landing pages around the same customer journey.",
       "Configure GA4, GTM and meaningful conversion events so optimization is based on qualified leads and revenue rather than clicks alone.",
@@ -1001,15 +992,7 @@ function HomeBlogCard({ post, index }: { post: HomeBlogPost; index: number }) {
       </div>
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <div className="home-blog-muted flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-          <span>{post.date}</span>
-          <span className="inline-flex items-center gap-1.5">
-            <Clock3 className="h-3.5 w-3.5 text-[var(--brand-orange)]" />
-            {post.readTime}
-          </span>
-        </div>
-
-        <h3 className="home-blog-title mt-4 text-2xl font-semibold leading-tight tracking-[-0.025em] transition-colors duration-300 group-hover:text-[var(--brand-orange)]">
+        <h3 className="home-blog-title text-2xl font-semibold leading-tight tracking-[-0.025em] transition-colors duration-300 group-hover:text-[var(--brand-orange)]">
           {post.title}
         </h3>
 
@@ -1111,27 +1094,22 @@ function HomeBlogSection() {
       <div className="absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-[var(--brand-orange)]/8 blur-[130px]" />
 
       <div className="container-x relative">
-        <div className="mb-10 flex flex-col justify-between gap-6 md:mb-12 md:flex-row md:items-end">
-          <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-orange)] sm:text-xs">
-              Business Insights
-            </div>
-            <h2 className="home-blog-title mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.03em] sm:text-4xl lg:text-5xl">
-              Practical guidance for smarter business growth
-            </h2>
-            <p className="home-blog-body mt-4 max-w-2xl text-sm leading-6 sm:text-base sm:leading-7">
-              Explore useful articles based on our ERP, HRMS, reporting, web and
-              digital marketing experience.
-            </p>
-          </div>
+        <div className="relative mb-10 md:mb-12">
+          <SectionTitle
+            eyebrow="Business Insights"
+            title={<>Practical guidance for smarter business growth</>}
+            subtitle="Explore useful articles based on our ERP, HRMS, reporting, web and digital marketing experience."
+          />
 
-          <Link
-            to="/blogs"
-            className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--home-blog-border)] px-5 py-3 text-sm font-semibold text-[var(--home-blog-title)] transition hover:border-[var(--brand-orange)]/60 hover:text-[var(--brand-orange)]"
-          >
-            View all blogs
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+          <div className="mt-6 flex justify-center md:mt-0 md:absolute md:right-0 md:bottom-0">
+            <Link
+              to="/blogs"
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--home-blog-border)] px-5 py-3 text-sm font-semibold text-[var(--home-blog-title)] transition hover:border-[var(--brand-orange)]/60 hover:text-[var(--brand-orange)]"
+            >
+              View all blogs
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -1139,7 +1117,7 @@ function HomeBlogSection() {
             <HomeBlogCard key={post.slug} post={post} index={index} />
           ))}
         </div>
-
+{/* 
         <motion.div
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1162,7 +1140,7 @@ function HomeBlogSection() {
             Contact Us
             <ArrowRight className="h-4 w-4" />
           </Link>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
@@ -1189,7 +1167,7 @@ function Home() {
               className="group relative w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10"
             >
               <img
-                src="/business-automation.jpg"
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1800&q=88"
                 alt="ERP, HRMS and Digital Marketing Automation"
                 className="h-[300px] sm:h-[380px] md:h-[440px] lg:h-[520px] xl:h-[560px] 2xl:h-[620px] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
@@ -1315,7 +1293,7 @@ We partner with organizations to streamline operations, improve visibility, and 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: i * 0.08 }}
-                className="group relative glass-card p-7 hover:border-[var(--brand-orange)]/40 transition-all hover:-translate-y-1 duration-300"
+                className="group relative glass-card flex h-full flex-col items-center p-7 text-center hover:border-[var(--brand-orange)]/40 transition-all hover:-translate-y-1 duration-300"
               >
                 <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity glow-orange" />
                 <div className="relative grid h-12 w-12 place-items-center rounded-xl mb-5 bg-gradient-orange text-black">
@@ -1332,7 +1310,7 @@ We partner with organizations to streamline operations, improve visibility, and 
 
                 <Link
                   to={s.to}
-                  className="relative inline-flex items-center gap-1.5 mt-5 text-sm text-[var(--brand-orange)] group-hover:gap-3 transition-all"
+                  className="relative mt-auto inline-flex items-center gap-1.5 pt-5 text-sm text-[var(--brand-orange)] group-hover:gap-3 transition-all"
                 >
                   Learn more <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -1440,9 +1418,9 @@ We partner with organizations to streamline operations, improve visibility, and 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="glass-card p-6 hover:border-[var(--brand-orange)]/40 transition-colors"
+                className="glass-card flex h-full flex-col items-center p-6 text-center hover:border-[var(--brand-orange)]/40 transition-colors"
               >
-                <w.icon className="h-8 w-8 text-[var(--brand-orange)] mb-4" />
+                <w.icon className="mb-4 h-8 w-8 text-[var(--brand-orange)]" />
 
                 <h3 className="font-semibold mb-2 hover:text-[var(--brand-orange)] transition-colors">
                   {w.t}
@@ -1505,7 +1483,7 @@ We partner with organizations to streamline operations, improve visibility, and 
                 tags: ["ERP", "Accounts", "Sales", "Purchase",  "Inventory", "Production", "Project Management", "Asset Management", "CRM", ],
               },
               {
-                img: "/owner-3.jpg",
+                img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=88",
                 n: "Business Genie Team",
                 r: "ERP systems, HRMS automation, web design and digital marketing specialists",
                 q: " ERP & HRMS system implementation ,Designing modern websites,  UI/UX systems,  and Workflow automation for scalable business growth.",
@@ -1552,20 +1530,20 @@ We partner with organizations to streamline operations, improve visibility, and 
                     </div>
                   </div>
 
-                  <div className="mt-5">
-                    <h3 className="text-xl sm:text-2xl font-semibold text-white transition-colors duration-300 group-hover:text-[var(--brand-orange)]">
+                  <div className="mt-5 text-center">
+                    <h3 className="text-center text-xl font-semibold text-white transition-colors duration-300 group-hover:text-[var(--brand-orange)] sm:text-2xl">
                       {t.n}
                     </h3>
 
-                    <div className="mt-1 text-sm font-medium text-[var(--brand-orange)]">
+                    <div className="mt-1 text-center text-sm font-medium text-[var(--brand-orange)]">
                       {t.r}
                     </div>
 
-                    <p className="mt-4 text-sm sm:text-[15px] leading-relaxed text-white/65">
+                    <p className="mt-4 text-center text-sm leading-relaxed text-white/65 sm:text-[15px]">
                       {t.q}
                     </p>
 
-                    <div className="mt-5 flex flex-wrap gap-2">
+                    <div className="mt-5 flex flex-wrap justify-center gap-2">
                       {t.tags.map((tag) => (
                         <span
                           key={tag}
@@ -1576,7 +1554,7 @@ We partner with organizations to streamline operations, improve visibility, and 
                       ))}
                     </div>
 
-                    <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+                    <div className="mt-6 flex flex-col items-center justify-center gap-3 border-t border-white/10 pt-4 sm:flex-row sm:justify-between">
                      <div className="flex gap-1">
   {/* 4 full orange stars */}
   {Array.from({ length: 4 }).map((_, j) => (
@@ -1612,11 +1590,6 @@ We partner with organizations to streamline operations, improve visibility, and 
     </SiteLayout>
   );
 }
-
-
-
-
-
 
 
 
