@@ -116,6 +116,7 @@ const BUSINESS_SOLUTIONS = [
     iconBox: "border-[#2F75D6]/35 bg-[#2F75D6]/12 text-[#2F75D6] shadow-[0_0_18px_rgba(47,117,214,0.12)]",
     titleHover: "group-hover:text-[#2F75D6]",
   },
+
   {
     icon: UserCheck,
     logo: getOfficialLogo("web.hr"),
@@ -147,7 +148,7 @@ const SERVICES = [
   },
   {
     icon: Workflow,
-    logo: getOfficialLogo("web.hr"),
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyGjPuc6thVoH9U_SEZ3ER4X5IrgxbwokH-CLgm2SToQ&s=10",
     title: "HRMS",
     desc: "Employee onboarding, billing and operations.",
     to: "/HRMS",
