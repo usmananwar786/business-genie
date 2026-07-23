@@ -109,7 +109,7 @@ const BUSINESS_SOLUTIONS = [
   },
   {
     icon: UsersRound,
-    logo: getOfficialLogo("primehrms.com"),
+    logo: "prime.png",
     title: "Prime HRMS",
     desc: "HR, payroll and attendance management.",
     to: "/prime-hrms",

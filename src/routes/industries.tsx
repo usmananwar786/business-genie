@@ -40,14 +40,6 @@ type IndustryItem = {
 
 const items: IndustryItem[] = [
   {
-    icon: FaStore,
-    t: "Retail",
-    d: "POS, inventory, multi-branch and customer loyalty systems.",
-    iconColor: "#7c3aed",
-    borderColor: "#d8b4fe",
-    iconBackground: "#faf5ff",
-  },
-  {
     icon: FaIndustry,
     t: "Manufacturing",
     d: "BOMs, production planning, costing and MRP.",
@@ -55,6 +47,7 @@ const items: IndustryItem[] = [
     borderColor: "#bfdbfe",
     iconBackground: "#eff6ff",
   },
+  
   {
     icon: FaTruck,
     t: "Distribution",
@@ -64,63 +57,80 @@ const items: IndustryItem[] = [
     iconBackground: "#ecfeff",
   },
   {
+    icon: FaStore,
+    t: "Retail",
+    d: "POS, inventory, multi-branch and customer loyalty systems.",
+    iconColor: "#7c3aed",
+    borderColor: "#d8b4fe",
+    iconBackground: "#faf5ff",
+  },
+  
+  {
     icon: GiClothes,
     t: "Garments Manufacturing",
-    d: "knitting, dyeing, printing and stitching.",
+    d: " Cut to pack process,knitting,  dyeing, printing and stitching.",
     iconColor: "#db2777",
     borderColor: "#fbcfe8",
     iconBackground: "#fdf2f8",
   },
   {
     icon: MdSolarPower,
-    t: "Solar",
-    d: "Power generation, storage and smart grid.",
+    t: "Solar EPC & Renewables",
+    d: "Design, Supply, Installation and maintenance.",
     iconColor: "#f59e0b",
     borderColor: "#fde68a",
     iconBackground: "#fffbeb",
   },
   {
     icon: FaCapsules,
-    t: "Pharma",
-    d: "Weighing raw materials, formulation, coating and packaging.",
+    t: "Food/Pharma/chamicals",
+    d: "Weighing raw materials, formulation, processing and packaging.",
     iconColor: "#16a34a",
     borderColor: "#bbf7d0",
     iconBackground: "#f0fdf4",
   },
-  {
-    icon: FaShoppingCart,
-    t: "E-commerce",
-    d: "Conversion-focused storefronts and growth marketing.",
-    iconColor: "#ea580c",
-    borderColor: "#fed7aa",
-    iconBackground: "#fff7ed",
-  },
-  {
-    icon: FaBuilding,
-    t: "Enterprises",
-    d: "Scalable platforms and multi-country rollouts.",
-    iconColor: "#4f46e5",
-    borderColor: "#c7d2fe",
-    iconBackground: "#eef2ff",
-  },
+ {
+  icon: FaBuilding,
+  t: "Construction",
+  d: "Project planning, costing, site management, procurement and contractor billing.",
+  iconColor: "#16a34a",
+  borderColor: "#bbf7d0",
+  iconBackground: "#f0fdf4",
+},
+  // {
+  //   icon: FaShoppingCart,
+  //   t: "E-commerce",
+  //   d: "Conversion-focused storefronts and growth marketing.",
+  //   iconColor: "#ea580c",
+  //   borderColor: "#fed7aa",
+  //   iconBackground: "#fff7ed",
+  // },
+  // {
+  //   icon: FaBuilding,
+  //   t: "Enterprises",
+  //   d: "Scalable platforms and multi-country rollouts.",
+  //   iconColor: "#4f46e5",
+  //   borderColor: "#c7d2fe",
+  //   iconBackground: "#eef2ff",
+  // },
 ];
 
 const industryCards = [
-  {
-    img: "/retail.jpg",
-    title: "Retail Operations",
-    desc: "Manage POS, stock, branches, purchases, customers and daily sales reports from one connected system.",
-  },
-  {
-    img: "/manufacturing.jpg",
-    title: "Manufacturing Control",
-    desc: "Track production planning, raw materials, costing, wastage, finished goods and factory reporting.",
-  },
-  {
-    img: "/distribution.jpg",
-    title: "Distribution Network",
-    desc: "Control warehouses, dealers, vendors, routes, dispatch, deliveries and payment follow-ups.",
-  },
+  // {
+  //   img: "/retail.jpg",
+  //   title: "Retail Operations",
+  //   desc: "Manage POS, stock, branches, purchases, customers and daily sales reports from one connected system.",
+  // },
+  // {
+  //   img: "/manufacturing.jpg",
+  //   title: "Manufacturing Control",
+  //   desc: "Track production planning, raw materials, costing, wastage, finished goods and factory reporting.",
+  // },
+  // {
+  //   img: "/distribution.jpg",
+  //   title: "Distribution Network",
+  //   desc: "Control warehouses, dealers, vendors, routes, dispatch, deliveries and payment follow-ups.",
+  // },
   {
     img: "/textile.jpg",
     title: "Textile/Garments Manufacturing",
@@ -165,7 +175,7 @@ function Industries() {
       {/* Top Industry Boxes */}
       <Section>
         <div className="container-x">
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-12">
             {items.map((it, i) => {
               const Icon = it.icon;
 
@@ -181,7 +191,9 @@ function Industries() {
                     ease: "easeOut",
                   }}
                   whileHover={{ y: -7, scale: 1.015 }}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-6 backdrop-blur-xl transition-all duration-300 hover:border-[var(--brand-orange)]/50 hover:bg-white/[0.06]"
+                  className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-6 backdrop-blur-xl transition-all duration-300 hover:border-[var(--brand-orange)]/50 hover:bg-white/[0.06] ${
+                    i < 3 ? "lg:col-span-4" : "lg:col-span-3"
+                  }`}
                 >
                   <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[var(--brand-orange)]/0 blur-2xl transition-colors duration-300 group-hover:bg-[var(--brand-orange)]/18" />
 

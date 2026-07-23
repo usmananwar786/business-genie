@@ -37,8 +37,8 @@ export const Route = createFileRoute("/contact")({
 });
 
 type ContactFormValues = {
-  firstName: string;
-  companyName: string;
+  Name: string;
+  CompanyName: string;
   phone: string;
   email: string;
   service: string;
@@ -91,8 +91,8 @@ function Contact() {
 
   const formik = useFormik<ContactFormValues>({
     initialValues: {
-      firstName: "",
-      companyName: "",
+      Name: "",
+      CompanyName: "",
       phone: "",
       email: "",
       service: "",
@@ -102,22 +102,22 @@ function Contact() {
     validate: (values) => {
       const errors: Partial<ContactFormValues> = {};
 
-      if (!values.firstName.trim()) {
-        errors.firstName = "First name is required";
+      if (!values.Name.trim()) {
+        errors.Name = "Name is required";
       }
 
-      if (!values.companyName.trim()) {
-        errors.companyName = "Company name is required";
+      if (!values.CompanyName.trim()) {
+        errors.CompanyName = "Company is required";
       }
 
       if (!values.phone.trim()) {
-        errors.phone = "Phone number is required";
+        errors.phone = "Phone is required";
       }
 
       if (!values.email.trim()) {
         errors.email = "Email is required";
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-        errors.email = "Enter a valid email address";
+        errors.email = "Enter a valid Email";
       }
 
       if (!values.service) {
@@ -143,8 +143,8 @@ function Contact() {
     const errors = await formik.validateForm();
 
     formik.setTouched({
-      firstName: true,
-      companyName: true,
+      Name: true,
+      CompanyName: true,
       phone: true,
       email: true,
       service: true,
@@ -315,39 +315,39 @@ function Contact() {
                   />
 
                   <Field
-                    label="First Name"
-                    name="First Name"
-                    value={formik.values.firstName}
+                    label=" Name"
+                    name=" Name"
+                    value={formik.values.Name}
                     onChange={(event) =>
-                      formik.setFieldValue("firstName", event.target.value)
+                      formik.setFieldValue("Name", event.target.value)
                     }
-                    onBlur={() => formik.setFieldTouched("firstName", true)}
+                    onBlur={() => formik.setFieldTouched("Name", true)}
                     error={
-                      formik.touched.firstName
-                        ? formik.errors.firstName
+                      formik.touched.Name
+                        ? formik.errors.Name
                         : ""
                     }
                     required
                   />
 
                   <Field
-                    label="Company Name"
-                    name="Company Name"
-                    value={formik.values.companyName}
+                    label="Company"
+                    name="Company"
+                    value={formik.values.CompanyName}
                     onChange={(event) =>
-                      formik.setFieldValue("companyName", event.target.value)
+                      formik.setFieldValue("CompanyName", event.target.value)
                     }
-                    onBlur={() => formik.setFieldTouched("companyName", true)}
+                    onBlur={() => formik.setFieldTouched("CompanyName", true)}
                     error={
-                      formik.touched.companyName
-                        ? formik.errors.companyName
+                      formik.touched.CompanyName
+                        ? formik.errors.CompanyName
                         : ""
                     }
                     required
                   />
 
                   <Field
-                    label="Phone Number"
+                    label="Phone"
                     name="Phone"
                     type="tel"
                     value={formik.values.phone}
@@ -360,7 +360,7 @@ function Contact() {
                   />
 
                   <Field
-                    label="Email Address"
+                    label="Email"
                     name="Email"
                     type="email"
                     value={formik.values.email}
@@ -374,7 +374,8 @@ function Contact() {
 
                   <div className="sm:col-span-2">
                     <Select
-                      label="Service Required"
+                      label="Required Service 
+"
                       name="Service"
                       options={services}
                       value={formik.values.service}
