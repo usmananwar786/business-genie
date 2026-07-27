@@ -14,6 +14,7 @@ import { MdSolarPower } from "react-icons/md";
 
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { PageHero, Section } from "@/components/layout/Section";
+import { HardHat } from "lucide-react";
 
 export const Route = createFileRoute("/industries")({
   head: () => ({
@@ -67,12 +68,20 @@ const items: IndustryItem[] = [
   
   {
     icon: GiClothes,
-    t: "Garments Manufacturing",
+    t: "Garments /Textile",
     d: " Cut to pack process,knitting,  dyeing, printing and stitching.",
     iconColor: "#db2777",
     borderColor: "#fbcfe8",
     iconBackground: "#fdf2f8",
   },
+ {
+  icon: HardHat,
+  t: "Engineering",
+  d: "Reliable engineering solutions focused on performance, efficiency, and lasting results",
+  iconColor: "#f59e0b",
+  borderColor: "#fde68a",
+  iconBackground: "#fffbeb",
+},
   {
     icon: MdSolarPower,
     t: "Solar EPC & Renewables",
@@ -138,17 +147,17 @@ const industryCards = [
   },
   {
     img: "/pharma.jpg",
-    title: "Pharma Processing",
+    title: "Pharma / Food processing",
     desc: "Manage raw material weighing, formulation, batch processing, coating, packaging and compliance records.",
   },
   {
-    img: "/ecommerce.jpg",
-    title: "E-commerce Growth",
-    desc: "Connect online orders, inventory, marketing, customer data, conversion tracking and reporting dashboards.",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTW68f8g8WriuTsQygCcqDzOQ6rbBtHea4qd8KhzyhqAQ&s=10",
+    title: "Engineering",
+    desc: "Manage design, development, and implementation of engineering projects.",
   },
   {
     img: "/solor.png",
-    title: "Solars",
+    title: "Solar",
     desc: "Manage sale inquires Quotations with end to end project management. Site wise Inventory and expense tracking.",
   },
   {
