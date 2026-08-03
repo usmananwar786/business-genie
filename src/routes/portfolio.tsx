@@ -1079,7 +1079,9 @@ const tools = [
   "SEO Tools",
 ];
 function parseThemeRgb(value: string) {
-  const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+  const match = value.match(
+    /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:\s*[,/]\s*([\d.]+))?\s*\)/i,
+  );
 
   if (!match) return null;
 
@@ -1087,13 +1089,14 @@ function parseThemeRgb(value: string) {
     r: Number(match[1]),
     g: Number(match[2]),
     b: Number(match[3]),
+    alpha: match[4] !== undefined ? Number(match[4]) : 1,
   };
 }
 
 function isDarkThemeRgb(value: string) {
   const rgb = parseThemeRgb(value);
 
-  if (!rgb) return null;
+  if (!rgb || rgb.alpha <= 0.05) return null;
 
   const brightness =
     (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
@@ -1101,40 +1104,62 @@ function isDarkThemeRgb(value: string) {
   return brightness < 145;
 }
 
-function checkDarkTheme() {
-  if (typeof window === "undefined") return false;
+function getExplicitThemeValue(element: HTMLElement | null) {
+  if (!element) return null;
 
-  const html = document.documentElement;
-  const body = document.body;
-  const appRoot =
-    document.querySelector<HTMLElement>("#root") ??
-    document.querySelector<HTMLElement>("[data-theme]") ??
-    document.querySelector<HTMLElement>("main");
-
-  const directThemeValues = [
-    html.className,
-    body.className,
-    appRoot?.className,
-    html.getAttribute("data-theme"),
-    body.getAttribute("data-theme"),
-    appRoot?.getAttribute("data-theme"),
-    html.getAttribute("data-mode"),
-    body.getAttribute("data-mode"),
-    appRoot?.getAttribute("data-mode"),
-    html.getAttribute("data-color-scheme"),
-    body.getAttribute("data-color-scheme"),
-    appRoot?.getAttribute("data-color-scheme"),
+  const attributeValue = [
+    element.getAttribute("data-theme"),
+    element.getAttribute("data-mode"),
+    element.getAttribute("data-color-scheme"),
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
 
-  if (/\b(dark|night)\b/.test(directThemeValues)) return true;
-  if (/\b(light|day)\b/.test(directThemeValues)) return false;
+  if (/\b(dark|night)\b/.test(attributeValue)) return true;
+  if (/\b(light|day)\b/.test(attributeValue)) return false;
 
-  const storageValues: string[] = [];
+  // Check exact class tokens only. This avoids treating Tailwind classes such
+  // as "dark:bg-black" as proof that dark mode is currently active.
+  if (element.classList.contains("dark") || element.classList.contains("night")) {
+    return true;
+  }
 
+  if (element.classList.contains("light") || element.classList.contains("day")) {
+    return false;
+  }
+
+  return null;
+}
+
+function checkDarkTheme() {
+  if (typeof window === "undefined") return false;
+
+  const html = document.documentElement;
+  const body = document.body;
+  const root = document.querySelector<HTMLElement>("#root");
+  const main = document.querySelector<HTMLElement>("main");
+  const themeElement = document.querySelector<HTMLElement>(
+    "[data-theme], [data-mode], [data-color-scheme]",
+  );
+
+  const candidates = Array.from(
+    new Set(
+      [themeElement, html, body, root, main].filter(Boolean) as HTMLElement[],
+    ),
+  );
+
+  // 1. Prefer an explicit theme attribute or exact theme class.
+  for (const element of candidates) {
+    const explicitTheme = getExplicitThemeValue(element);
+
+    if (explicitTheme !== null) return explicitTheme;
+  }
+
+  // 2. Read any theme-related localStorage key used by the application.
   try {
+    const storageValues: string[] = [];
+
     for (let index = 0; index < window.localStorage.length; index += 1) {
       const key = window.localStorage.key(index);
 
@@ -1151,22 +1176,18 @@ function checkDarkTheme() {
         storageValues.push(window.localStorage.getItem(key) ?? "");
       }
     }
+
+    const storedTheme = storageValues.join(" ").toLowerCase();
+
+    if (/\b(dark|night)\b/.test(storedTheme)) return true;
+    if (/\b(light|day)\b/.test(storedTheme)) return false;
   } catch {
-    // Continue with DOM and system theme detection.
+    // localStorage can be unavailable in restricted browser modes.
   }
 
-  const storedTheme = storageValues.join(" ").toLowerCase();
-
-  if (/\b(dark|night)\b/.test(storedTheme)) return true;
-  if (/\b(light|day)\b/.test(storedTheme)) return false;
-
-  const elementsToCheck = [
-    html,
-    body,
-    appRoot,
-  ].filter(Boolean) as HTMLElement[];
-
-  for (const element of elementsToCheck) {
+  // 3. Check the browser-resolved color scheme and visible backgrounds.
+  // Transparent backgrounds are ignored rather than treated as black.
+  for (const element of candidates) {
     const styles = window.getComputedStyle(element);
     const colorScheme = styles.colorScheme.toLowerCase();
 
@@ -1178,6 +1199,7 @@ function checkDarkTheme() {
     if (backgroundIsDark !== null) return backgroundIsDark;
   }
 
+  // 4. Final fallback: operating-system/browser preference.
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
