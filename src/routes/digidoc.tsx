@@ -47,7 +47,7 @@ const MessageCircle = getIcon("MessageCircle");
 const ScanLine = getIcon("ScanLine");
 const Search = getIcon("Search");
 const ShieldCheck = getIcon("ShieldCheck");
-const Sparkles = getIcon("Sparkles");
+// const Sparkles = getIcon("Sparkles")
 const UploadCloud = getIcon("UploadCloud");
 const Users = getIcon("Users");
 const Workflow = getIcon("Workflow");
@@ -529,62 +529,61 @@ function HeroSection() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <section className="dd-noise relative isolate min-h-[94vh] overflow-hidden bg-[var(--dd-bg)] pt-24 sm:pt-28">
+    <section className="dd-noise relative isolate overflow-hidden bg-[var(--dd-bg)] lg:h-[calc(100svh-72px)] lg:min-h-[620px] lg:max-h-[820px]">
       <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--dd-panel)_0%,transparent_46%)] opacity-55" />
+
         <motion.div
           animate={reduceMotion ? undefined : { rotate: 360 }}
-          transition={{ duration: 34, repeat: Infinity, ease: "linear" }}
-          className="absolute -right-44 top-8 h-[680px] w-[680px] rounded-full border border-dashed border-[var(--dd-line-strong)]"
+          transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
+          className="absolute -right-60 -top-64 h-[620px] w-[620px] rounded-full border border-dashed border-[var(--dd-line-strong)] opacity-70"
         />
-        <motion.div
-          animate={reduceMotion ? undefined : { rotate: -360 }}
-          transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-64 -left-40 h-[560px] w-[560px] rounded-full border border-[var(--dd-line)]"
-        />
-        <div className="absolute -left-24 top-40 h-[430px] w-[620px] rotate-[-8deg] rounded-[48%] bg-[var(--dd-panel)]" />
+
+        <div className="absolute -bottom-40 -left-40 h-[420px] w-[560px] rounded-[50%] bg-[var(--dd-panel)] opacity-65" />
       </div>
 
-      <div className="dd-container grid min-h-[78vh] items-center gap-12 pb-20 lg:grid-cols-[.92fr_1.08fr] lg:gap-7">
+      <div className="dd-container grid h-full items-center gap-10 py-10 sm:py-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:py-8">
         <motion.div
           initial="hidden"
           animate="visible"
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.12 } },
+            visible: { transition: { staggerChildren: 0.1 } },
           }}
-          className="relative z-10 max-w-2xl"
+          className="relative z-10 min-w-0"
         >
           <motion.div
             variants={reveal}
-            className="mb-7 inline-flex items-center gap-2 border-l-4 border-[var(--dd-teal)] pl-4 text-xs font-bold uppercase tracking-[0.22em] text-[var(--dd-teal)]"
+            className="mb-5 inline-flex items-center border-l-4 border-[var(--dd-teal)] pl-4 text-[11px] font-bold uppercase tracking-[0.24em] text-[var(--dd-teal)] sm:text-xs"
           >
-            <Sparkles className="h-4 w-4" />
             Intelligent Document Management
           </motion.div>
 
           <motion.h1
             variants={reveal}
-            className="dd-serif text-5xl font-semibold leading-[.98] tracking-[-0.055em] text-[var(--dd-title)] sm:text-6xl lg:text-[5.35rem]"
+            className="max-w-[760px] font-sans text-[clamp(3.35rem,6.15vw,6.15rem)] font-medium leading-[0.98] tracking-[-0.065em] text-[var(--dd-title)]"
           >
             Take control of every document
-            <span className="mt-2 block text-[var(--dd-teal)]">
+            <span className="block text-[var(--dd-teal)]">
               from capture to archive.
             </span>
           </motion.h1>
 
           <motion.p
             variants={reveal}
-            className="mt-7 max-w-xl text-base leading-8 text-[var(--dd-body)] sm:text-lg"
+            className="mt-5 max-w-[620px] text-base leading-7 text-[var(--dd-body)] sm:text-[1.05rem]"
           >
             DIGIDOC centralizes records, automates approvals and protects
-            electronic contracts so your teams can work faster without the
-            chaos of scattered files.
+            electronic contracts so teams can work faster without scattered files.
           </motion.p>
 
-          <motion.div variants={reveal} className="mt-9 flex flex-wrap gap-4">
+          <motion.div
+            variants={reveal}
+            className="relative z-20 mt-7 flex flex-wrap items-center gap-3"
+          >
             <Link
               to="/contact"
-              className="group inline-flex min-h-14 items-center gap-4 bg-[var(--dd-teal)] px-7 font-semibold text-white shadow-[0_18px_45px_rgba(21,149,150,.28)] hover:-translate-y-1 hover:bg-[var(--dd-teal-deep)]"
+              className="group inline-flex h-12 items-center justify-center gap-3 bg-[var(--dd-teal)] px-6 font-semibold text-white shadow-[0_18px_45px_rgba(21,149,150,.28)] hover:-translate-y-1 hover:bg-[var(--dd-teal-deep)]"
             >
               Get Started Now
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -592,113 +591,51 @@ function HeroSection() {
 
             <a
               href="#solutions"
-              className="group inline-flex min-h-14 items-center gap-3 border border-[var(--dd-line-strong)] bg-[var(--dd-card)] px-7 font-semibold text-[var(--dd-title)] backdrop-blur-xl hover:-translate-y-1"
+              className="group inline-flex h-12 items-center justify-center gap-3 border border-[var(--dd-line-strong)] bg-[var(--dd-card-solid)] px-6 font-semibold text-[var(--dd-title)] shadow-[0_12px_32px_rgba(0,0,0,.08)] hover:-translate-y-1"
             >
               Discover Solutions
               <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
           </motion.div>
-
-          <motion.div
-            variants={reveal}
-            className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-[var(--dd-line)] pt-6"
-          >
-            {[
-              ["Secure", "Role-based access"],
-              ["Searchable", "Structured indexing"],
-              ["Connected", "End-to-end workflow"],
-            ].map(([title, text]) => (
-              <div key={title}>
-                <p className="text-sm font-bold text-[var(--dd-title)]">
-                  {title}
-                </p>
-                <p className="mt-1 text-xs text-[var(--dd-muted)]">{text}</p>
-              </div>
-            ))}
-          </motion.div>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.94, x: 50 }}
+          initial={{ opacity: 0, scale: 0.96, x: 42 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative min-h-[500px] sm:min-h-[600px] lg:min-h-[700px]"
+          transition={{
+            duration: 0.9,
+            delay: 0.12,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="relative min-h-[310px] sm:min-h-[410px] lg:h-[68%] lg:min-h-[430px] lg:max-h-[520px]"
         >
           <motion.div
-            animate={reduceMotion ? undefined : { y: [0, -12, 0] }}
+            animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute inset-x-0 top-6 h-[74%] overflow-hidden rounded-[48%_48%_46%_54%/56%_42%_58%_44%] border border-[var(--dd-line)] bg-[var(--dd-card-solid)] shadow-[var(--dd-shadow)] sm:top-0"
+            className="relative h-full overflow-hidden rounded-[38px] border border-[var(--dd-line)] bg-[var(--dd-card-solid)] p-2 shadow-[var(--dd-shadow)] sm:p-3"
           >
-            <img
-              src="https://www.digidoccloud.com/assets/img/service/archivingneon-resize_11zon.png"
-              alt="DIGIDOC document management environment"
-              className="dd-image h-full w-full object-cover object-center"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_30%,rgba(21,149,150,.12)_100%)]" />
-          </motion.div>
+            <div className="relative h-full overflow-hidden rounded-[30px] bg-[#071519]">
+              <img
+                src="https://www.digidoccloud.com/assets/img/service/archivingneon-resize_11zon.png"
+                alt="DIGIDOC document management environment"
+                className="dd-image h-full w-full object-cover object-[center_48%]"
+              />
 
-          <motion.div
-            animate={
-              reduceMotion ? undefined : { y: [0, 10, 0], rotate: [-1, 1, -1] }
-            }
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="dd-card absolute bottom-16 left-0 w-[78%] max-w-[360px] rounded-3xl p-5 sm:left-4"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[var(--dd-muted)]">
-                  Live document flow
-                </p>
-                <p className="mt-1 text-lg font-semibold text-[var(--dd-title)]">
-                  Contract approval
-                </p>
-              </div>
-              <div className="grid h-11 w-11 place-items-center rounded-full bg-[var(--dd-teal-soft)] text-[var(--dd-teal)]">
-                <Workflow className="h-5 w-5" />
-              </div>
-            </div>
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_45%,rgba(21,149,150,.16)_100%)]" />
 
-            <div className="mt-5 grid grid-cols-4 gap-2">
-              {["Upload", "Review", "Approve", "Archive"].map(
-                (item, index) => (
-                  <div key={item} className="text-center">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.5 + index * 0.12 }}
-                      className={`mx-auto grid h-8 w-8 place-items-center rounded-full text-xs font-bold ${
-                        index < 3
-                          ? "bg-[var(--dd-teal)] text-white"
-                          : "border border-[var(--dd-line-strong)] text-[var(--dd-teal)]"
-                      }`}
-                    >
-                      {index + 1}
-                    </motion.div>
-                    <p className="mt-2 text-[9px] text-[var(--dd-muted)]">
-                      {item}
-                    </p>
-                  </div>
-                ),
-              )}
-            </div>
-          </motion.div>
+              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-4 rounded-2xl border border-white/15 bg-black/35 px-4 py-3 text-white backdrop-blur-md">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">
+                    Secure workflow
+                  </p>
+                  <p className="mt-1 text-sm font-semibold sm:text-base">
+                    Capture. Approve. Archive.
+                  </p>
+                </div>
 
-          <motion.div
-            animate={reduceMotion ? undefined : { x: [0, 8, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="dd-card absolute right-0 top-[58%] hidden w-56 rounded-2xl p-4 sm:block"
-          >
-            <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--dd-teal)] text-white">
-                <FileCheck2 className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-[var(--dd-title)]">
-                  Approved
-                </p>
-                <p className="text-xs text-[var(--dd-muted)]">
-                  Contract-2026.pdf
-                </p>
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[var(--dd-teal)]">
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
               </div>
             </div>
           </motion.div>

@@ -113,16 +113,16 @@ const heroFeatures: FeatureItem[] = [
     title: "Multi-User",
     text: "Give every team controlled access to the data they need.",
   },
-  {
-    icon: ShieldCheck,
-    title: "Cloud Security",
-    text: "Protect records with permissions, backups and audit trails.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Scalable Pricing",
-    text: "Start with essential modules and expand as you grow.",
-  },
+  // {
+  //   icon: ShieldCheck,
+  //   title: "Cloud Security",
+  //   text: "Protect records with permissions, backups and audit trails.",
+  // },
+  // {
+  //   icon: TrendingUp,
+  //   title: "Scalable Pricing",
+  //   text: "Start with essential modules and expand as you grow.",
+  // },
 ];
 
 const modules: ModuleItem[] = [
@@ -665,7 +665,7 @@ function ThemeStyles() {
 
 function HeroSection() {
   return (
-    <section className="ec-hero-shell relative isolate overflow-hidden px-4 pb-24 pt-28 text-white sm:px-6 lg:min-h-[760px] lg:px-8 lg:pb-28 lg:pt-32">
+    <section className="ec-hero-shell relative isolate overflow-hidden px-4 pb-12 pt-12 text-white sm:px-6 sm:pb-14 sm:pt-14 lg:min-h-[540px] lg:px-8 lg:pb-9 lg:pt-9">
       <motion.div
         aria-hidden="true"
         animate={{ x: [0, 28, 0], y: [0, -18, 0], scale: [1, 1.08, 1] }}
@@ -692,43 +692,41 @@ function HeroSection() {
             Eccountant Cloud ERP
           </div> */}
 
-          <h1 className="mt-6 text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-6xl">
+          <h1 className="mt-1 text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-5xl">
             Do more with Eccountant
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/[0.76] sm:text-lg">
+          <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-white/[0.76] sm:text-lg">
             A connected cloud ERP for finance, sales, inventory, purchasing,
             production, people and management reporting.
           </p>
         </motion.div>
 
-        <div className="relative mx-auto mt-14 max-w-[1100px] lg:min-h-[430px]">
+        <div className="relative mx-auto mt-7 max-w-[1100px] lg:min-h-[270px]">
           <motion.div
             initial={{ opacity: 0, scale: 0.82 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.18, duration: 0.75, type: "spring" }}
-            className="relative z-20 mx-auto grid h-52 w-52 place-items-center rounded-full border-[10px] border-white/10 bg-white text-center shadow-[0_30px_80px_rgba(0,0,0,.24)] sm:h-60 sm:w-60"
+            className="relative z-20 mx-auto grid h-40 w-40 place-items-center rounded-full border-[8px] border-white/10 bg-white p-5 text-center shadow-[0_24px_65px_rgba(0,0,0,.22)] sm:h-44 sm:w-44"
           >
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-[-15px] rounded-full border border-dashed border-[#75C6EC]/55"
+              className="absolute inset-[-11px] rounded-full border border-dashed border-[#75C6EC]/55"
             />
 
-            <div>
-              <div className="mx-auto grid h-16 w-20 place-items-center rounded-[46%_54%_56%_44%] bg-[#4298C7] text-3xl font-bold text-white shadow-[0_14px_34px_rgba(66,152,199,.30)]">
-                E
-              </div>
-              <div className="mt-3 text-2xl font-bold tracking-[-0.045em] text-[#4298C7]">
-                ccountant
-              </div>
-              <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#648396]">
-                Cloud Business ERP
-              </div>
-            </div>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZdHTVsdXF7rWCVAsegFm3PW5Cyi18ea-cJYli_XGx8g&s=10"
+              alt="Eccountant Cloud ERP"
+              className="h-auto max-h-24 w-full max-w-[132px] object-contain"
+              style={{ filter: "none" }}
+              loading="eager"
+              decoding="async"
+              referrerPolicy="no-referrer"
+            />
           </motion.div>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:absolute lg:inset-0 lg:mt-0 lg:grid-cols-2 lg:content-between lg:justify-between">
+          <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:absolute lg:inset-0 lg:mt-0 lg:grid-cols-2 lg:content-between lg:justify-between">
             {heroFeatures.map((feature, index) => {
               const Icon = feature.icon;
               const alignRight = index % 2 === 1;
@@ -739,13 +737,13 @@ function HeroSection() {
                   initial={{ opacity: 0, x: alignRight ? 28 : -28 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.32 + index * 0.08, duration: 0.55 }}
-                  className={`ec-hero-feature relative flex max-w-[360px] items-start gap-4 rounded-2xl p-4 text-left text-white backdrop-blur-md lg:w-[360px] ${
+                  className={`ec-hero-feature relative flex max-w-[340px] items-start gap-3 rounded-2xl p-3 text-left text-white backdrop-blur-md lg:w-[340px] ${
                     alignRight ? "lg:justify-self-end" : "lg:justify-self-start"
                   }`}
                 >
                   <motion.div
                     whileHover={{ rotate: [0, -8, 8, 0], scale: 1.08 }}
-                    className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white text-[#2479AA]"
+                    className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-[#2479AA]"
                   >
                     <Icon className="h-5 w-5" />
                   </motion.div>
@@ -765,7 +763,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.82, duration: 0.55 }}
-          className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row"
+          className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <Link
             to="/contact"
@@ -1450,7 +1448,7 @@ function SectionIntro({
           align === "center" ? "justify-center" : ""
         }`}
       >
-        <Sparkles className="h-4 w-4" />
+        {/* <Sparkles className="h-4 w-4" /> */}
         {eyebrow}
       </div>
 

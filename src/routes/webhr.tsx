@@ -61,6 +61,13 @@ export const Route = createFileRoute("/webhr")({
 const PURPLE_BRIGHT = "#9B39F0";
 const CYAN = "#37C6F4";
 
+const ROUTES = {
+  contact: "/contact",
+  webHr: "/webhr",
+  hrAutomation: "/HRMS",
+  primeHrms: "/prime-hrms",
+} as const;
+
 type ThemeMode = "light" | "dark";
 type IconText = { icon: LucideIcon; title: string; text: string };
 
@@ -337,33 +344,44 @@ function isDarkColor(value: string) {
 function headerIsDark() {
   if (typeof window === "undefined") return false;
 
-  return [
+  const selectors = [
     "header",
-    "nav",
     "[data-header]",
     ".site-header",
     ".navbar",
     ".main-header",
-  ]
+  ];
+
+  return selectors
     .flatMap((selector) =>
       Array.from(document.querySelectorAll<HTMLElement>(selector)),
     )
     .slice(0, 12)
     .some((element) => {
-      const classText = String(element.className || "").toLowerCase();
+      const classTokens = String(element.className || "")
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter((token) => !token.startsWith("dark:"));
 
-      if (
-        classText.includes("bg-black") ||
-        classText.includes("bg-[#000") ||
-        classText.includes("dark") ||
-        classText.includes("night")
-      ) {
-        return true;
-      }
+      const hasExplicitDarkClass =
+        classTokens.includes("dark") ||
+        classTokens.includes("night") ||
+        classTokens.includes("bg-black") ||
+        classTokens.some(
+          (token) =>
+            token.startsWith("bg-[#000") ||
+            token.startsWith("bg-[#030303") ||
+            token.startsWith("bg-[#050505"),
+        );
+
+      if (hasExplicitDarkClass) return true;
 
       const style = window.getComputedStyle(element);
+
       return (
-        isDarkColor(style.backgroundColor) || isDarkColor(style.borderColor)
+        isDarkColor(style.backgroundColor) ||
+        isDarkColor(style.borderColor)
       );
     });
 }
@@ -403,8 +421,10 @@ function readTheme(): ThemeMode {
 
   const value = `${attributes} ${stored}`;
 
-  if (headerIsDark() || /\b(dark|night|black)\b/.test(value)) return "dark";
+  if (/\b(dark|night|black)\b/.test(value)) return "dark";
   if (/\b(light|day|off-white|offwhite|cream)\b/.test(value)) return "light";
+
+  if (headerIsDark()) return "dark";
 
   return window.matchMedia?.("(prefers-color-scheme: dark)").matches
     ? "dark"
@@ -477,6 +497,7 @@ function WebHr() {
 
         <main className="wh-page min-h-screen overflow-hidden bg-[var(--wh-bg)] text-[var(--wh-text)] selection:bg-[#9B39F0] selection:text-white">
           <HeroSection />
+          <WebHrRouteNav />
           <TrustSection />
           <IntegrationSection />
           <AffordableSection />
@@ -520,6 +541,19 @@ function WebHrStyles() {
         --wh-shadow: 0 22px 70px rgba(62,31,104,.12);
         --wh-overlay: rgba(248,248,251,.94);
         --wh-phone: #22172d;
+        --wh-suite-bg: rgba(255,255,255,.96);
+        --wh-suite-soft: #faf8fc;
+        --wh-suite-title: #251d2c;
+        --wh-suite-muted: #8b7f93;
+        --wh-suite-border: #e8e0ee;
+        --wh-live-bg: #ecfdf5;
+        --wh-live-text: #059669;
+        --wh-device-shell: #ffffff;
+        --wh-device-border: #1b0e2a;
+        --wh-device-screen: #f6f2fa;
+        --wh-device-text: #25152f;
+        --wh-device-muted: #7c7185;
+        --wh-device-tile-border: #e3d9ec;
         background: #f8f8fb !important;
         color: #30273b !important;
       }
@@ -538,6 +572,19 @@ function WebHrStyles() {
         --wh-shadow: 0 28px 80px rgba(0,0,0,.52);
         --wh-overlay: rgba(5,3,8,.94);
         --wh-phone: #060407;
+        --wh-suite-bg: rgba(15,10,21,.97);
+        --wh-suite-soft: rgba(255,255,255,.045);
+        --wh-suite-title: #fffaff;
+        --wh-suite-muted: rgba(211,195,222,.72);
+        --wh-suite-border: rgba(255,255,255,.11);
+        --wh-live-bg: rgba(16,185,129,.12);
+        --wh-live-text: #6ee7b7;
+        --wh-device-shell: #0d0912;
+        --wh-device-border: #2b1b38;
+        --wh-device-screen: #17101f;
+        --wh-device-text: #fffaff;
+        --wh-device-muted: #baaac5;
+        --wh-device-tile-border: rgba(255,255,255,.11);
         background: #050308 !important;
         color: #f1e9f6 !important;
       }
@@ -577,11 +624,61 @@ function WebHrStyles() {
         background: linear-gradient(135deg, #021421 0%, #06334a 55%, #020d14 100%) !important;
       }
 
-      .wh-hero-gradient {
+      .wh-wrap[data-wh-theme="light"] .wh-hero-gradient {
         background:
-          radial-gradient(circle at 17% 18%, rgba(155,57,240,.50), transparent 31%),
-          radial-gradient(circle at 88% 6%, rgba(55,198,244,.30), transparent 26%),
-          linear-gradient(125deg, #26005d 0%, #5310ba 50%, #18003f 100%);
+          radial-gradient(circle at 17% 18%, rgba(178,98,255,.48), transparent 31%),
+          radial-gradient(circle at 88% 6%, rgba(86,214,255,.34), transparent 27%),
+          linear-gradient(125deg, #4b13a5 0%, #7130d7 52%, #245d9b 100%);
+      }
+
+      .wh-wrap[data-wh-theme="dark"] .wh-hero-gradient {
+        background:
+          radial-gradient(circle at 17% 18%, rgba(155,57,240,.38), transparent 31%),
+          radial-gradient(circle at 88% 6%, rgba(55,198,244,.22), transparent 26%),
+          linear-gradient(125deg, #16002f 0%, #35106f 50%, #071d32 100%);
+      }
+
+      .wh-suite-dashboard {
+        background: var(--wh-suite-bg);
+        color: var(--wh-suite-title);
+        border-color: var(--wh-suite-border);
+      }
+
+      .wh-suite-panel {
+        background: var(--wh-suite-soft);
+        color: var(--wh-suite-title);
+        border-color: var(--wh-suite-border);
+      }
+
+      .wh-suite-muted {
+        color: var(--wh-suite-muted);
+      }
+
+      .wh-live-pill {
+        background: var(--wh-live-bg);
+        color: var(--wh-live-text);
+      }
+
+      .wh-hero-device {
+        background: var(--wh-device-shell);
+        border-color: var(--wh-device-border);
+      }
+
+      .wh-hero-device-notch {
+        background: var(--wh-device-border);
+      }
+
+      .wh-hero-device-screen {
+        background: var(--wh-device-screen);
+        color: var(--wh-device-text);
+      }
+
+      .wh-hero-device-muted {
+        color: var(--wh-device-muted);
+      }
+
+      .wh-hero-device-tile {
+        border-color: var(--wh-device-tile-border);
       }
 
       .wh-dot-grid {
@@ -608,6 +705,14 @@ function WebHrStyles() {
 
       .wh-wrap[data-wh-theme="dark"] img {
         filter: brightness(.70) saturate(.88) contrast(1.08);
+      }
+
+      .wh-page {
+        scroll-behavior: smooth;
+      }
+
+      .wh-route-fade {
+        mask-image: linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
       }
 
       .wh-page,
@@ -640,98 +745,178 @@ function WebHrStyles() {
 }
 
 function HeroSection() {
+  const stats = [
+    ["30,000+", "Companies onboard"],
+    ["190+", "Countries globally"],
+    ["1M+", "Employees served"],
+  ];
+
   return (
-    <section className="wh-hero-gradient relative isolate min-h-[760px] overflow-hidden pb-16 pt-28 text-white lg:min-h-[820px] lg:pb-20 lg:pt-32">
-      <div className="wh-dot-grid absolute inset-0 -z-10 opacity-35" />
+    <section className="wh-hero-gradient relative isolate min-h-[520px] overflow-hidden px-4 py-10 text-white sm:min-h-[540px] sm:px-6 sm:py-12 lg:h-[500px] lg:min-h-[500px] lg:max-h-[500px] lg:px-8 lg:py-7">
+      <motion.div
+        aria-hidden="true"
+        animate={{ backgroundPosition: ["0px 0px", "36px 36px"] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+        className="wh-dot-grid absolute inset-0 -z-10 opacity-30"
+      />
+
       <motion.div
         aria-hidden="true"
         animate={{ rotate: 360 }}
-        transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-        className="absolute -right-36 -top-36 h-[32rem] w-[32rem] rounded-full border border-dashed border-white/20"
+        transition={{ duration: 34, repeat: Infinity, ease: "linear" }}
+        className="absolute -right-28 -top-28 h-[23rem] w-[23rem] rounded-full border border-dashed border-white/20"
       />
+
       <motion.div
         aria-hidden="true"
-        animate={{ x: [0, 36, 0], y: [0, -24, 0], scale: [1, 1.1, 1] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -left-28 bottom-0 h-80 w-80 rounded-full bg-[#37C6F4]/18 blur-[130px]"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 42, repeat: Infinity, ease: "linear" }}
+        className="absolute right-[8%] top-[16%] hidden h-20 w-20 rounded-full border border-dashed border-[#7FE2FF]/30 sm:block"
       />
 
-      <div className="wh-container grid items-center gap-12 lg:grid-cols-[.92fr_1.08fr]">
-        <motion.div
-          initial={{ opacity: 0, x: -36 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative z-10"
-        >
-          {/* <div className="mb-7 flex items-center gap-4">
-            <div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/20 bg-white/12 text-xl font-bold shadow-xl backdrop-blur-xl">
-              W
-            </div>
-            <div>
-              <div className="text-3xl font-bold tracking-[-0.055em]">
-                Web<span className="text-[#7FE2FF]">HR</span>
-              </div>
-              <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/65">
-                Cloud Social HR
-              </div>
-            </div>
-          </div> */}
+      <motion.div
+        aria-hidden="true"
+        animate={{ x: [0, 34, 0], y: [0, -22, 0], scale: [1, 1.1, 1] }}
+        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-[#37C6F4]/18 blur-[120px]"
+      />
 
+      <motion.div
+        aria-hidden="true"
+        animate={{ x: [0, -26, 0], y: [0, 18, 0], scale: [1.08, 1, 1.08] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute right-[28%] top-0 h-64 w-64 rounded-full bg-[#C35DFF]/18 blur-[115px]"
+      />
+
+      <div className="wh-container relative z-10 grid h-full items-center gap-8 lg:grid-cols-[.88fr_1.12fr] lg:gap-10">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.085,
+                delayChildren: 0.06,
+              },
+            },
+          }}
+          className="relative z-10 max-w-[620px]"
+        >
           {/* <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, duration: 0.6 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-xl"
+            variants={{
+              hidden: { opacity: 0, y: 14, scale: 0.96 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: { duration: 0.5 },
+              },
+            }}
+            className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] backdrop-blur-xl"
           >
-            <Sparkles className="h-4 w-4 text-[#7FE2FF]" />
-            All-in-one HR software
+            <Sparkles className="h-3.5 w-3.5 text-[#7FE2FF]" />
+            All-in-one social HR platform
           </motion.div> */}
 
-          <h1 className="max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.055em] sm:text-5xl lg:text-[68px] xl:text-[76px]">
-            Social HR software for your complete workforce
-          </h1>
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 24, scale: 0.98 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: {
+                  duration: 0.7,
+                  ease: [0.22, 1, 0.36, 1],
+                },
+              },
+            }}
+            className="max-w-3xl text-[38px] font-semibold leading-[1.01] tracking-[-0.055em] sm:text-5xl lg:text-[54px]"
+          >
+            Social HR software for your{" "}
+            <motion.span
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+              className="bg-[linear-gradient(90deg,#7FE2FF,#FFFFFF,#C98AFF,#7FE2FF)] bg-[length:240%_100%] bg-clip-text text-transparent"
+            >
+              complete workforce
+            </motion.span>
+          </motion.h1>
 
-          <p className="mt-6 max-w-xl text-base leading-8 text-white/78 sm:text-lg">
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 18 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.58 },
+              },
+            }}
+            className="mt-4 max-w-xl text-sm leading-6 text-white/76 sm:text-base sm:leading-7"
+          >
             Automate recruitment, onboarding, payroll, attendance, leave,
             performance and employee self service through one connected WebHR
             environment.
-          </p>
+          </motion.p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 16 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.55 },
+              },
+            }}
+            className="mt-5 flex flex-wrap gap-3"
+          >
             <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-semibold text-[#5510B9] shadow-[0_18px_50px_rgba(0,0,0,.22)] transition hover:-translate-y-1 hover:bg-[#F4EAFF]"
+              to={ROUTES.contact}
+              className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#5510B9] shadow-[0_15px_40px_rgba(0,0,0,.22)] transition hover:-translate-y-1 hover:bg-[#F4EAFF]"
             >
               Start Your HR Project
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
+
             <a
               href="#suite"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-7 py-3.5 font-semibold text-white backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/16"
+              className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/16"
             >
               Explore WebHR
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </a>
-          </div>
+          </motion.div>
 
-          <div className="mt-10 grid max-w-xl grid-cols-3 gap-4 border-t border-white/16 pt-7">
-            {[
-              ["30,000+", "Companies onboard"],
-              ["190+", "Countries globally"],
-              ["1M+", "Employees served"],
-            ].map(([value, label], index) => (
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 16 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.55 },
+              },
+            }}
+            className="mt-5 grid max-w-xl grid-cols-3 gap-2.5 border-t border-white/16 pt-4"
+          >
+            {stats.map(([value, label], index) => (
               <motion.div
                 key={value}
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 + index * 0.08 }}
+                transition={{ delay: 0.42 + index * 0.08 }}
+                whileHover={{ y: -3 }}
+                className="rounded-xl border border-white/10 bg-white/[0.055] px-3 py-2.5 backdrop-blur-md"
               >
-                <div className="text-xl font-semibold sm:text-2xl">{value}</div>
-                <div className="mt-1 text-[10px] leading-4 text-white/60 sm:text-xs">
+                <div className="text-base font-semibold sm:text-lg">{value}</div>
+                <div className="mt-1 text-[9px] leading-3.5 text-white/58 sm:text-[10px]">
                   {label}
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
 
         <HeroVisual />
@@ -741,70 +926,114 @@ function HeroSection() {
 }
 
 function HeroVisual() {
+  const quickApps = [
+    [CalendarDays, "Leave"],
+    [WalletCards, "Payroll"],
+    [Clock3, "Time"],
+    [Target, "Goals"],
+  ];
+
   return (
     <motion.div
-      initial={{ opacity: 0, x: 42, scale: 0.96 }}
+      initial={{ opacity: 0, x: 42, scale: 0.95 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
-      transition={{ delay: 0.15, duration: 0.9, ease: "easeOut" }}
-      className="relative mx-auto min-h-[560px] w-full max-w-[680px]"
+      transition={{
+        delay: 0.12,
+        duration: 0.86,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="relative mx-auto hidden h-[390px] w-full max-w-[650px] lg:block"
     >
       <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-0 top-4 w-[78%] overflow-hidden rounded-[2.2rem] border border-white/20 bg-white/10 p-3 shadow-2xl backdrop-blur-xl"
+        animate={{ y: [0, -8, 0], rotate: [-0.45, 0.45, -0.45] }}
+        transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute right-0 top-4 w-[76%] overflow-hidden rounded-[1.8rem] border border-white/20 bg-white/10 p-2.5 shadow-2xl backdrop-blur-xl"
       >
-        <img
+        <motion.img
+          animate={{ scale: [1.02, 1.055, 1.02] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
           src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1500&q=90"
           alt="Professional HR team using WebHR"
-          className="h-[400px] w-full rounded-[1.7rem] object-cover"
+          className="h-[250px] w-full rounded-[1.35rem] object-cover"
         />
-        <div className="absolute inset-3 rounded-[1.7rem] bg-gradient-to-t from-[#16042B]/78 via-transparent to-transparent" />
+
+        <div className="absolute inset-2.5 rounded-[1.35rem] bg-gradient-to-t from-[#16042B]/82 via-[#16042B]/12 to-transparent" />
+
+        <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.18em] text-white/62">
+              WebHR workspace
+            </p>
+            <p className="mt-1 text-base font-semibold text-white">
+              Connected people operations
+            </p>
+          </div>
+
+          <motion.span
+            animate={{ scale: [1, 1.14, 1] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+            className="grid h-9 w-9 place-items-center rounded-full bg-[#37C6F4] text-[#102A38]"
+          >
+            <UserCheck className="h-4 w-4" />
+          </motion.span>
+        </div>
       </motion.div>
 
       <motion.div
-        animate={{ y: [0, 12, 0], rotate: [-1.5, 1.5, -1.5] }}
-        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-4 left-2 w-[260px] rounded-[2.2rem] border-[10px] border-[#1B0E2A] bg-white p-4 shadow-[0_30px_70px_rgba(0,0,0,.28)]"
+        animate={{ y: [0, 9, 0], rotate: [-1.2, 1.2, -1.2] }}
+        transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut" }}
+        className="wh-hero-device absolute bottom-0 left-3 w-[225px] rounded-[1.8rem] border-[8px] p-3 shadow-[0_26px_65px_rgba(0,0,0,.30)]"
       >
-        <div className="mx-auto mb-4 h-1.5 w-16 rounded-full bg-[#1B0E2A]" />
-        <div className="rounded-[1.6rem] bg-[#F6F2FA] p-4 text-[#25152F]">
+        <div className="wh-hero-device-notch mx-auto mb-3 h-1.5 w-14 rounded-full" />
+
+        <div className="wh-hero-device-screen rounded-[1.35rem] p-3">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] text-[#7C7185]">Welcome back</p>
-              <p className="font-semibold">Sarah Malik</p>
+              <p className="wh-hero-device-muted text-[9px]">Welcome back</p>
+              <p className="text-sm font-semibold">Sarah Malik</p>
             </div>
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-[#9B39F0] text-white">
-              <UserCheck className="h-4 w-4" />
+
+            <div className="grid h-8 w-8 place-items-center rounded-full bg-[#9B39F0] text-white">
+              <UserCheck className="h-3.5 w-3.5" />
             </div>
           </div>
-          <div className="mt-4 rounded-2xl bg-[#6C22D9] p-4 text-white">
-            <p className="text-[9px] uppercase tracking-[0.16em] text-white/65">
+
+          <div className="mt-3 rounded-xl bg-[#6C22D9] p-3 text-white">
+            <p className="text-[8px] uppercase tracking-[0.16em] text-white/65">
               Attendance
             </p>
-            <div className="mt-2 flex items-end justify-between">
+
+            <div className="mt-1.5 flex items-end justify-between">
               <div>
-                <div className="text-2xl font-semibold">09:04</div>
-                <div className="text-[10px] text-white/70">Checked in</div>
+                <div className="text-xl font-semibold">09:04</div>
+                <div className="text-[9px] text-white/70">Checked in</div>
               </div>
-              <ScanFace className="h-7 w-7" />
+
+              <motion.div
+                animate={{ scale: [1, 1.12, 1], opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 2.3, repeat: Infinity }}
+              >
+                <ScanFace className="h-6 w-6" />
+              </motion.div>
             </div>
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-2">
-            {[
-              [CalendarDays, "Leave"],
-              [WalletCards, "Payroll"],
-              [Clock3, "Time"],
-              [Target, "Goals"],
-            ].map(([Icon, label]) => {
+
+          <div className="mt-2.5 grid grid-cols-2 gap-1.5">
+            {quickApps.map(([Icon, label], index) => {
               const AppIcon = Icon as LucideIcon;
+
               return (
-                <div
+                <motion.div
                   key={label as string}
-                  className="rounded-xl border border-[#E3D9EC] p-2 text-center"
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.38 + index * 0.07 }}
+                  whileHover={{ y: -2, scale: 1.03 }}
+                  className="wh-hero-device-tile rounded-lg border p-1.5 text-center"
                 >
-                  <AppIcon className="mx-auto h-4 w-4 text-[#9B39F0]" />
-                  <div className="mt-1 text-[9px]">{label as string}</div>
-                </div>
+                  <AppIcon className="mx-auto h-3.5 w-3.5 text-[#9B39F0]" />
+                  <div className="mt-1 text-[8px]">{label as string}</div>
+                </motion.div>
               );
             })}
           </div>
@@ -812,26 +1041,38 @@ function HeroVisual() {
       </motion.div>
 
       <motion.div
-        animate={{ x: [0, 10, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-3 top-10 rounded-2xl border border-white/20 bg-white/14 p-4 shadow-xl backdrop-blur-xl"
+        animate={{ x: [0, 9, 0], y: [0, -3, 0] }}
+        transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-2 top-7 rounded-xl border border-white/20 bg-white/14 p-3 shadow-xl backdrop-blur-xl"
       >
-        <BellRing className="h-5 w-5 text-[#7FE2FF]" />
-        <p className="mt-2 text-xs font-semibold">Live approvals</p>
+        <motion.div
+          animate={{ rotate: [0, -10, 10, 0] }}
+          transition={{ duration: 2.6, repeat: Infinity, repeatDelay: 1.5 }}
+        >
+          <BellRing className="h-4 w-4 text-[#7FE2FF]" />
+        </motion.div>
+        <p className="mt-1.5 text-[10px] font-semibold">Live approvals</p>
       </motion.div>
 
       <motion.div
-        animate={{ x: [0, -9, 0] }}
-        transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-20 right-0 rounded-2xl border border-white/20 bg-white/14 p-4 shadow-xl backdrop-blur-xl"
+        animate={{ x: [0, -8, 0], y: [0, 4, 0] }}
+        transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-16 right-0 rounded-xl border border-white/20 bg-white/14 p-3 shadow-xl backdrop-blur-xl"
       >
-        <div className="flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#37C6F4] text-[#102A38]">
-            <BarChart3 className="h-5 w-5" />
+        <div className="flex items-center gap-2.5">
+          <div className="grid h-9 w-9 place-items-center rounded-lg bg-[#37C6F4] text-[#102A38]">
+            <BarChart3 className="h-4 w-4" />
           </div>
+
           <div>
-            <p className="text-[10px] text-white/65">Workforce active</p>
-            <p className="font-semibold">96.2%</p>
+            <p className="text-[9px] text-white/65">Workforce active</p>
+            <motion.p
+              animate={{ opacity: [0.72, 1, 0.72] }}
+              transition={{ duration: 2.4, repeat: Infinity }}
+              className="text-sm font-semibold"
+            >
+              96.2%
+            </motion.p>
           </div>
         </div>
       </motion.div>
@@ -839,9 +1080,52 @@ function HeroVisual() {
   );
 }
 
+function WebHrRouteNav() {
+  const links = [
+    ["Trust", "#trust"],
+    ["Integrations", "#integrations"],
+    ["Employee Experience", "#experience"],
+    ["HR Suite", "#suite"],
+    ["Modules", "#modules"],
+    ["Implementation", "#implementation"],
+    ["Reviews", "#reviews"],
+    ["FAQ", "#faq"],
+  ];
+
+  return (
+    <nav
+      aria-label="WebHR page navigation"
+      className="relative z-20 overflow-x-auto border-y border-[var(--wh-border)] bg-[var(--wh-card-soft)] px-4 text-[var(--wh-text)] backdrop-blur-xl sm:px-6"
+    >
+      <div className="wh-container flex min-h-14 w-max min-w-full items-center gap-2 py-2">
+        {links.map(([label, href], index) => (
+          <motion.a
+            key={href}
+            href={href}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.06 + index * 0.04 }}
+            whileHover={{ y: -2 }}
+            className="shrink-0 rounded-full border border-[var(--wh-border)] bg-[var(--wh-card)] px-4 py-2 text-xs font-semibold text-[var(--wh-body)] transition hover:border-[#9B39F0]/45 hover:text-[#9B39F0]"
+          >
+            {label}
+          </motion.a>
+        ))}
+
+        <Link
+          to={ROUTES.hrAutomation}
+          className="ml-auto shrink-0 rounded-full bg-[#9B39F0] px-4 py-2 text-xs font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#7625C8]"
+        >
+          HR Automation Services
+        </Link>
+      </div>
+    </nav>
+  );
+}
+
 function TrustSection() {
   return (
-    <section className="bg-[var(--wh-bg)] py-16">
+    <section id="trust" className="scroll-mt-24 bg-[var(--wh-bg)] py-16">
       <div className="wh-container">
         <div className="grid gap-6 border-b border-[var(--wh-border)] pb-10 sm:grid-cols-3">
           {[
@@ -938,7 +1222,7 @@ function TrustSection() {
 
 function IntegrationSection() {
   return (
-    <section className="wh-alt overflow-hidden bg-[var(--wh-alt)] py-24">
+    <section id="integrations" className="wh-alt scroll-mt-24 overflow-hidden bg-[var(--wh-alt)] py-24">
       <div className="wh-container grid items-center gap-14 lg:grid-cols-[.85fr_1.15fr]">
         <motion.div
           initial={{ opacity: 0, x: -24 }}
@@ -1015,7 +1299,7 @@ function IntegrationSection() {
 
 function AffordableSection() {
   return (
-    <section className="bg-[var(--wh-bg)] py-24">
+    <section id="experience" className="scroll-mt-24 bg-[var(--wh-bg)] py-24">
       <div className="wh-container">
         <SectionHeading
           eyebrow="HR for everyone"
@@ -1190,7 +1474,7 @@ function InteractiveSuite() {
   };
 
   return (
-    <section id="suite" className="wh-blue-section overflow-hidden py-24 text-white">
+    <section id="suite" className="wh-blue-section scroll-mt-24 overflow-hidden py-24 text-white">
       <div className="wh-container">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#8BE7FF]">
@@ -1307,16 +1591,16 @@ function DashboardPreview({ active }: { active: (typeof moduleTabs)[number] }) {
       initial={{ opacity: 0, y: 20, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="relative rounded-[2rem] border border-white/16 bg-white/95 p-5 text-[#251D2C] shadow-[0_30px_90px_rgba(0,0,0,.28)]"
+      className="wh-suite-dashboard relative rounded-[2rem] border p-5 shadow-[0_30px_90px_rgba(0,0,0,.28)]"
     >
-      <div className="flex items-center justify-between border-b border-[#E8E0EE] pb-4">
+      <div className="flex items-center justify-between border-b border-[var(--wh-suite-border)] pb-4">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#8B7F93]">
+          <p className="wh-suite-muted text-[10px] font-semibold uppercase tracking-[0.18em]">
             WebHR Workspace
           </p>
           <h3 className="mt-1 text-lg font-semibold">{active.label} Overview</h3>
         </div>
-        <div className="flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-600">
+        <div className="wh-live-pill flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold">
           <span className="h-2 w-2 rounded-full bg-emerald-500" /> Live
         </div>
       </div>
@@ -1328,19 +1612,19 @@ function DashboardPreview({ active }: { active: (typeof moduleTabs)[number] }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.07 }}
-            className="rounded-2xl border border-[#E8E0EE] bg-[#FAF8FC] p-4"
+            className="wh-suite-panel rounded-2xl border p-4"
           >
-            <p className="text-[10px] text-[#8B7F93]">{metric.label}</p>
+            <p className="wh-suite-muted text-[10px]">{metric.label}</p>
             <p className="mt-2 text-xl font-semibold">{metric.value}</p>
           </motion.div>
         ))}
       </div>
 
       <div className="mt-4 grid gap-4 md:grid-cols-[1.3fr_.7fr]">
-        <div className="rounded-2xl border border-[#E8E0EE] bg-[#FAF8FC] p-5">
+        <div className="wh-suite-panel rounded-2xl border p-5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.16em] text-[#8B7F93]">
+              <p className="wh-suite-muted text-[10px] uppercase tracking-[0.16em]">
                 Monthly activity
               </p>
               <p className="mt-1 font-semibold">Performance trend</p>
@@ -1371,10 +1655,10 @@ function DashboardPreview({ active }: { active: (typeof moduleTabs)[number] }) {
           ].map(([label, value]) => (
             <div
               key={label}
-              className="rounded-2xl border border-[#E8E0EE] bg-[#FAF8FC] p-4"
+              className="wh-suite-panel rounded-2xl border p-4"
             >
-              <p className="text-[10px] text-[#8B7F93]">{label}</p>
-              <p className="mt-2 text-2xl font-semibold text-[#6C22D9]">{value}</p>
+              <p className="wh-suite-muted text-[10px]">{label}</p>
+              <p className="mt-2 text-2xl font-semibold text-[#6C22D9] dark:text-[#C58AFF]">{value}</p>
             </div>
           ))}
         </div>
@@ -1385,7 +1669,7 @@ function DashboardPreview({ active }: { active: (typeof moduleTabs)[number] }) {
 
 function ModulesSection() {
   return (
-    <section className="bg-[var(--wh-bg)] py-24">
+    <section id="modules" className="scroll-mt-24 bg-[var(--wh-bg)] py-24">
       <div className="wh-container">
         <SectionHeading
           eyebrow="WebHR modules"
@@ -1431,7 +1715,7 @@ function ModulesSection() {
 
 function ImplementationSection() {
   return (
-    <section className="wh-alt bg-[var(--wh-alt)] py-24">
+    <section id="implementation" className="wh-alt scroll-mt-24 bg-[var(--wh-alt)] py-24">
       <div className="wh-container">
         <SectionHeading
           eyebrow="Implementation roadmap"
@@ -1478,7 +1762,7 @@ function TestimonialsSection() {
     );
 
   return (
-    <section className="bg-[var(--wh-bg)] py-24">
+    <section id="reviews" className="scroll-mt-24 bg-[var(--wh-bg)] py-24">
       <div className="wh-container">
         <SectionHeading
           eyebrow="Customer experience"
@@ -1553,7 +1837,7 @@ function TestimonialsSection() {
 
 function BenefitsSection() {
   return (
-    <section className="wh-alt bg-[var(--wh-alt)] py-24">
+    <section id="benefits" className="wh-alt scroll-mt-24 bg-[var(--wh-alt)] py-24">
       <div className="wh-container grid items-center gap-14 lg:grid-cols-[.78fr_1.22fr]">
         <div>
           <SectionHeading
@@ -1563,7 +1847,7 @@ function BenefitsSection() {
             align="left"
           />
           <Link
-            to="/contact"
+            to={ROUTES.contact}
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#9B39F0] px-6 py-3.5 font-semibold text-white transition hover:-translate-y-1 hover:bg-[#6F22C7]"
           >
             Discuss Your Requirements
@@ -1595,7 +1879,7 @@ function BenefitsSection() {
 
 function FaqSection() {
   return (
-    <section className="bg-[var(--wh-bg)] py-24">
+    <section id="faq" className="scroll-mt-24 bg-[var(--wh-bg)] py-24">
       <div className="wh-container grid gap-12 lg:grid-cols-[.7fr_1.3fr]">
         <SectionHeading
           eyebrow="Frequently asked questions"
@@ -1661,7 +1945,7 @@ function FaqItem({
 
 function CtaSection() {
   return (
-    <section className="bg-[var(--wh-bg)] py-24">
+    <section id="webhr-contact" className="scroll-mt-24 bg-[var(--wh-bg)] py-24">
       <div className="wh-container">
         <div className="relative overflow-hidden rounded-[3rem] bg-[linear-gradient(120deg,#28005D_0%,#6C22D9_58%,#1A8BB7_100%)] px-7 py-12 text-white shadow-[0_35px_100px_rgba(75,22,140,.30)] sm:px-12 sm:py-16">
           <div className="wh-dot-grid absolute inset-0 opacity-20" />
@@ -1686,7 +1970,7 @@ function CtaSection() {
             </div>
 
             <Link
-              to="/contact"
+              to={ROUTES.contact}
               className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 font-semibold text-[#6F22C7] transition hover:-translate-y-1 hover:bg-[#F4EAFF]"
             >
               Start Your WebHR Project
@@ -1725,7 +2009,7 @@ function SectionHeading({
           align === "center" ? "justify-center" : ""
         }`}
       >
-        <Sparkles className="h-4 w-4" />
+        {/* <Sparkles className="h-4 w-4" /> */}
         {eyebrow}
       </div>
       <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-[-0.04em] text-[var(--wh-title)] sm:text-4xl lg:text-5xl">

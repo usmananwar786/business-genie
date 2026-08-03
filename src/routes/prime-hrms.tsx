@@ -742,35 +742,35 @@ function ThemeStyles() {
 
 function HeroSection() {
   return (
-    <section className="prime-soft-bg relative isolate overflow-hidden pb-20 pt-28 sm:pt-32 lg:min-h-[820px] lg:pb-24 lg:pt-36">
+    <section className="prime-soft-bg relative isolate overflow-hidden px-4 py-10 sm:px-6 sm:py-12 lg:h-[500px] lg:min-h-[500px] lg:max-h-[500px] lg:px-8 lg:py-6">
       <motion.div
         animate={{ x: [0, 24, 0], y: [0, -18, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -left-36 top-24 -z-10 h-[30rem] w-[30rem] rounded-full bg-[#E9B8F7]/30 blur-[155px]"
+        className="absolute -left-28 top-10 -z-10 h-[22rem] w-[22rem] rounded-full bg-[#E9B8F7]/30 blur-[125px]"
       />
 
       <motion.div
         animate={{ x: [0, -18, 0], y: [0, 20, 0], scale: [1.05, 1, 1.05] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -right-28 bottom-0 -z-10 h-[28rem] w-[28rem] rounded-full bg-[#D8CFFC]/35 blur-[145px]"
+        className="absolute -right-20 bottom-0 -z-10 h-[21rem] w-[21rem] rounded-full bg-[#D8CFFC]/35 blur-[120px]"
       />
 
-      <div className="prime-container grid items-center gap-14 lg:grid-cols-[.92fr_1.08fr]">
+      <div className="prime-container grid items-center gap-8 lg:h-full lg:grid-cols-[.92fr_1.08fr] lg:gap-10">
         <motion.div
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75 }}
         >
-          <div className="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-[var(--prime-title)] sm:text-base">
+          <div className="mb-3 inline-flex items-center gap-2 text-xs font-semibold text-[var(--prime-title)] sm:text-sm">
             <span className="h-2.5 w-2.5 rounded-full bg-[#F6A01A] shadow-[0_0_18px_rgba(246,160,26,.7)]" />
             Complete HRMS for modern organizations
           </div>
 
-          <h1 className="prime-heading max-w-4xl text-[42px] font-bold leading-[1.04] tracking-[-0.045em] text-[var(--prime-title)] sm:text-6xl lg:text-[76px]">
+          <h1 className="prime-heading max-w-3xl text-[38px] font-bold leading-[1.03] tracking-[-0.045em] text-[var(--prime-title)] sm:text-5xl lg:text-[54px]">
             Automate HR with a smarter, faster HRMS
           </h1>
 
-          <div className="mt-8 space-y-4">
+          <div className="mt-5 space-y-2.5">
             {heroBenefits.map((item, index) => {
               const Icon = item.icon;
               return (
@@ -779,7 +779,7 @@ function HeroSection() {
                   initial={{ opacity: 0, x: -18 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 + index * 0.08 }}
-                  className="flex items-start gap-4 text-base text-[var(--prime-body)] sm:text-lg"
+                  className="flex items-start gap-3 text-sm text-[var(--prime-body)] sm:text-base"
                 >
                   <Icon className="mt-0.5 h-5 w-5 shrink-0 text-[var(--prime-title)]" />
                   <span>
@@ -791,10 +791,10 @@ function HeroSection() {
             })}
           </div>
 
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-3">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-md bg-[#F6D76B] px-6 py-3.5 font-semibold text-[#17151A] shadow-[0_16px_40px_rgba(246,160,26,.22)] transition hover:-translate-y-1 hover:bg-[#F9E28E]"
+              className="inline-flex items-center gap-2 rounded-md bg-[#F6D76B] px-5 py-2.5 text-sm font-semibold text-[#17151A] shadow-[0_14px_34px_rgba(246,160,26,.20)] transition hover:-translate-y-1 hover:bg-[#F9E28E]"
             >
               Schedule Free Demo
               <ArrowRight className="h-4 w-4" />
@@ -802,7 +802,7 @@ function HeroSection() {
 
             <a
               href="#suite"
-              className="inline-flex items-center gap-2 rounded-md bg-[#151515] px-6 py-3.5 font-semibold text-white transition hover:-translate-y-1 hover:bg-black"
+              className="inline-flex items-center gap-2 rounded-md bg-[#151515] px-5 py-2.5 text-sm font-semibold !text-white transition hover:-translate-y-1 hover:bg-black"
             >
               Explore HR Suite
             </a>
@@ -823,12 +823,12 @@ function HeroDashboard() {
       initial={{ opacity: 0, x: 44, scale: 0.94 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ delay: 0.12, duration: 0.9 }}
-      className="relative min-h-[560px]"
+      className="relative min-h-[390px] lg:min-h-[410px]"
     >
       <motion.div
         animate={{ rotate: [-2, 0, -2], y: [0, -8, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="prime-card absolute left-2 top-24 w-[68%] rounded-2xl p-5 sm:left-7"
+        className="prime-card absolute left-2 top-16 w-[68%] rounded-2xl p-4 sm:left-5"
       >
         <div className="flex items-center justify-between">
           <div>
@@ -837,16 +837,16 @@ function HeroDashboard() {
           </div>
           <Fingerprint className="h-5 w-5 text-[#8B5CF6]" />
         </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-[.8fr_1.2fr]">
-          <div className="relative mx-auto grid h-36 w-36 place-items-center rounded-full bg-[conic-gradient(#8B5CF6_0_70%,#F6A01A_70%_78%,rgba(139,92,246,.14)_78%_100%)]">
-            <div className="grid h-24 w-24 place-items-center rounded-full bg-[var(--prime-card)] text-center">
+        <div className="mt-4 grid gap-3 sm:grid-cols-[.8fr_1.2fr]">
+          <div className="relative mx-auto grid h-28 w-28 place-items-center rounded-full bg-[conic-gradient(#8B5CF6_0_70%,#F6A01A_70%_78%,rgba(139,92,246,.14)_78%_100%)]">
+            <div className="grid h-20 w-20 place-items-center rounded-full bg-[var(--prime-card)] text-center">
               <div>
                 <div className="text-2xl font-bold text-[var(--prime-title)]">94.8%</div>
                 <div className="text-[10px] text-[var(--prime-muted)]">Attendance</div>
               </div>
             </div>
           </div>
-          <div className="flex h-36 items-end gap-2">
+          <div className="flex h-28 items-end gap-2">
             {bars.map((height, index) => (
               <motion.div
                 key={index}
@@ -864,10 +864,10 @@ function HeroDashboard() {
       <motion.div
         animate={{ rotate: [2, 0, 2], y: [0, 10, 0] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="prime-card absolute right-0 top-10 w-[45%] rounded-2xl p-4"
+        className="prime-card absolute right-0 top-4 w-[43%] rounded-2xl p-3"
       >
         <div className="text-xs uppercase tracking-[0.16em] text-[var(--prime-muted)]">Today</div>
-        <div className="mt-4 space-y-3">
+        <div className="mt-3 space-y-2">
           {["Active employees", "New joiners", "Open positions"].map((label, index) => (
             <div key={label} className="flex items-center justify-between rounded-xl bg-[var(--prime-alt)] px-3 py-2">
               <span className="text-xs text-[var(--prime-body)]">{label}</span>
@@ -880,7 +880,7 @@ function HeroDashboard() {
       <motion.div
         animate={{ y: [0, -12, 0], x: [0, 5, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="prime-card absolute bottom-12 left-12 w-[48%] rounded-2xl p-5"
+        className="prime-card absolute bottom-8 left-8 w-[48%] rounded-2xl p-4"
       >
         <div className="flex items-center justify-between">
           <div>
@@ -889,7 +889,7 @@ function HeroDashboard() {
           </div>
           <CalendarDays className="h-5 w-5 text-[#F6A01A]" />
         </div>
-        <div className="mt-4 space-y-2">
+        <div className="mt-3 space-y-1.5">
           {["Ahmed Ali", "Sara Khan", "Bilal Raza"].map((name, index) => (
             <div key={name} className="flex items-center justify-between text-xs">
               <span className="text-[var(--prime-body)]">{name}</span>
@@ -904,10 +904,10 @@ function HeroDashboard() {
       <motion.div
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="prime-card absolute bottom-4 right-5 w-[38%] rounded-2xl p-4"
+        className="prime-card absolute bottom-2 right-3 w-[36%] rounded-2xl p-3"
       >
         <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-full bg-[#2563EB] text-white">
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-[#2563EB] text-white">
             <UserCheck className="h-5 w-5" />
           </div>
           <div>
@@ -1974,7 +1974,7 @@ function SectionIntro({
           align === "center" ? "justify-center" : ""
         }`}
       >
-        <Sparkles className="h-4 w-4" />
+        {/* <Sparkles className="h-4 w-4" /> */}
         {eyebrow}
       </div>
 

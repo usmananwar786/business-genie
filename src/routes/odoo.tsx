@@ -951,9 +951,30 @@ function Odoo() {
 
         <main className={UI.page}>
 
-        <section className="odoo-reference-hero relative isolate min-h-[690px] overflow-hidden px-4 pb-48 pt-32 sm:px-6 sm:pb-52 sm:pt-36 lg:min-h-[760px] lg:px-8 lg:pb-56 lg:pt-40">
-          <div className="container-x relative z-10">
-            <div className="relative mx-auto max-w-[1240px] text-center">
+        <section className="odoo-reference-hero relative isolate min-h-[480px] overflow-hidden px-4 py-10 sm:min-h-[500px] sm:px-6 sm:py-12 lg:h-[500px] lg:min-h-[500px] lg:max-h-[500px] lg:px-8 lg:py-7">
+          <motion.div
+            aria-hidden="true"
+            animate={{ x: [0, 34, 0], y: [0, -18, 0], scale: [1, 1.08, 1] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#00A09D]/12 blur-[105px] dark:bg-[#00A09D]/16"
+          />
+
+          <motion.div
+            aria-hidden="true"
+            animate={{ x: [0, -28, 0], y: [0, 20, 0], scale: [1.06, 1, 1.06] }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -right-20 bottom-6 h-72 w-72 rounded-full bg-[#875A7B]/12 blur-[115px] dark:bg-[#875A7B]/18"
+          />
+
+          <motion.div
+            aria-hidden="true"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 26, repeat: Infinity, ease: "linear" }}
+            className="absolute left-[12%] top-[18%] hidden h-16 w-16 rounded-full border border-dashed border-[#00A09D]/30 sm:block"
+          />
+
+          <div className="container-x relative z-10 lg:flex lg:h-full lg:items-center">
+            <div className="relative mx-auto w-full max-w-[1240px] text-center">
               {/* <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -971,19 +992,23 @@ function Odoo() {
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08, duration: 0.7 }}
-                className="odoo-handwritten mx-auto max-w-[1180px] text-[40px]  lg:-mt-10 font-bold leading-[1.18] tracking-[-0.045em] text-[#111827] sm:text-[56px] md:text-[68px] lg:text-[78px] xl:text-[88px] dark:text-[#F8F4F7]"
+                className="odoo-handwritten mx-auto max-w-[1080px] text-[38px] font-bold leading-[1.12] tracking-[-0.045em] text-[#111827] sm:text-[50px] md:text-[60px] lg:text-[66px] xl:text-[72px] dark:text-[#F8F4F7]"
               >
                 All your business on{" "}
-                <span className="odoo-brush-highlight">
+                <motion.span
+                  className="odoo-brush-highlight"
+                  animate={{ rotate: [0, -0.8, 0], scale: [1, 1.015, 1] }}
+                  transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
+                >
                   <span className="relative z-10">one connected platform.</span>
-                </span>
+                </motion.span>
               </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.65 }}
-                className="odoo-handwritten mx-auto mt-5 max-w-[900px] text-[28px] font-semibold leading-tight text-[#111827] sm:mt-7 sm:text-[38px] md:text-[48px] lg:text-[56px] dark:text-[#F8F4F7]"
+                className="odoo-handwritten mx-auto mt-4 max-w-[820px] text-[25px] font-semibold leading-tight text-[#111827] sm:mt-5 sm:text-[32px] md:text-[38px] lg:text-[42px] dark:text-[#F8F4F7]"
               >
                 Simple, smart and{" "}
                 <span className="odoo-teal-underline">built to scale!</span>
@@ -993,11 +1018,11 @@ function Odoo() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.34, duration: 0.6 }}
-                className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+                className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
               >
                 <Link
                   to="/contact"
-                  className="inline-flex min-h-14 items-center justify-center gap-2 rounded-[4px] bg-[#714B67] px-7 py-4 text-base font-semibold text-white shadow-[0_14px_34px_rgba(113,75,103,0.22)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#875A7B]"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[4px] bg-[#714B67] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(113,75,103,0.22)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#875A7B]"
                 >
                   Start your Odoo journey
                   <ArrowRight className="h-4 w-4" />
@@ -1005,7 +1030,7 @@ function Odoo() {
 
                 <a
                   href="#modules"
-                  className="odoo-outline-btn inline-flex min-h-14 items-center justify-center gap-2 rounded-[4px] border px-7 py-4 text-base font-semibold transition-all duration-300 hover:-translate-y-1 hover:border-[#00A09D]/45"
+                  className="odoo-outline-btn inline-flex min-h-11 items-center justify-center gap-2 rounded-[4px] border px-6 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-1 hover:border-[#00A09D]/45"
                 >
                   Explore Odoo apps
                 </a>
@@ -1015,7 +1040,7 @@ function Odoo() {
                 initial={{ opacity: 0, rotate: -8, y: 12 }}
                 animate={{ opacity: 1, rotate: -4, y: 0 }}
                 transition={{ delay: 0.52, duration: 0.65 }}
-                className="odoo-reference-note odoo-handwritten mx-auto mt-9 max-w-[360px] text-center text-[22px] font-semibold leading-[1.22] lg:absolute lg:-right-4 lg:bottom-[-10px] lg:mt-0 lg:text-left lg:text-[27px]"
+                className="odoo-reference-note odoo-handwritten mx-auto mt-5 max-w-[330px] text-center text-[18px] font-semibold leading-[1.2] lg:absolute lg:right-2 lg:bottom-[-2px] lg:mt-0 lg:text-left lg:text-[21px]"
               >
                 One ERP for sales, finance, stock, people and reports.
               </motion.div>
@@ -1027,7 +1052,7 @@ function Odoo() {
                 viewBox="0 0 150 112"
                 fill="none"
                 aria-hidden="true"
-                className="absolute bottom-[44px] right-[215px] hidden h-[108px] w-[145px] lg:block"
+                className="absolute bottom-[28px] right-[185px] hidden h-[82px] w-[112px] lg:block"
               >
                 <motion.path
                   d="M8 10C56 19 83 44 112 78"
@@ -1386,7 +1411,7 @@ function SectionIntro({
       <div
         className={`inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] ${UI.eyebrow}`}
       >
-        <Sparkles className="h-4 w-4 text-[#00A09D]" />
+        {/* <Sparkles className="h-4 w-4 text-[#00A09D]" /> */}
         {eyebrow}
       </div>
 

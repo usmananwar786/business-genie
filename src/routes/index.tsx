@@ -247,7 +247,7 @@ function Hero() {
             transition={{ duration: 0.55 }}
             className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--home-hero-badge-border)] bg-[var(--home-hero-badge-bg)] px-3 py-1.5 text-left text-[9px] uppercase tracking-[0.14em] text-[var(--home-hero-badge-text)] transition-all duration-300 hover:border-[var(--brand-orange)]/50 hover:text-[var(--brand-orange)] sm:mb-6 sm:px-4 sm:text-[11px] sm:tracking-[0.22em] md:text-xs"
           >
-            <Sparkles className="h-3.5 w-3.5 shrink-0" />
+            {/* <Sparkles className="h-3.5 w-3.5 shrink-0" /> */}
             Business Automation Partner
           </motion.div>
 

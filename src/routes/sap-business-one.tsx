@@ -442,15 +442,15 @@ function SapStyles() {
 
 function HeroSection() {
   return (
-    <section className="sap-green-hero relative isolate overflow-hidden pt-28 text-white lg:min-h-[660px] lg:pt-32">
+    <section className="sap-green-hero relative isolate overflow-hidden px-4 py-10 text-white sm:px-6 sm:py-10 lg:h-[500px] lg:min-h-[500px] lg:max-h-[500px] lg:px-8 lg:py-7">
       <motion.div
         aria-hidden="true"
         animate={{ x: [0, 35, 0], y: [0, -20, 0], scale: [1, 1.08, 1] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -left-36 top-10 -z-10 h-[30rem] w-[30rem] rounded-full bg-white/10 blur-[130px]"
+        className="absolute -left-28 top-6 -z-10 h-[22rem] w-[22rem] rounded-full bg-white/10 blur-[110px]"
       />
 
-      <div className="sap-container grid items-center gap-12 pb-16 lg:grid-cols-[.92fr_1.08fr] lg:pb-20">
+      <div className="sap-container grid items-center gap-8 lg:h-full lg:grid-cols-[.92fr_1.08fr] lg:gap-10">
         <motion.div
           initial={{ opacity: 0, x: -34 }}
           animate={{ opacity: 1, x: 0 }}
@@ -458,24 +458,24 @@ function HeroSection() {
           className="relative z-10"
         >
           
-          <h1 className="mt-4 max-w-2xl text-4xl font-semibold leading-[1.06] tracking-[-0.045em] sm:text-5xl lg:text-[66px]">
+          <h1 className="mt-3 max-w-2xl text-4xl font-semibold leading-[1.04] tracking-[-0.045em] sm:text-5xl lg:text-[52px]">
             A single, affordable ERP solution for managing your entire company
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-8 text-white/78 sm:text-lg">
+          <p className="mt-4 max-w-xl text-sm leading-6 text-white/78 sm:text-base sm:leading-7">
             Gain better control over accounting, sales, purchasing, inventory,
             production and reporting with one connected business platform.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-3">
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-[3px] bg-white px-6 py-3.5 font-semibold text-[#12683a] shadow-lg transition hover:-translate-y-1"
+              className="inline-flex items-center gap-2 rounded-[3px] bg-white px-5 py-2.5 text-sm font-semibold text-[#12683a] shadow-lg transition hover:-translate-y-1"
             >
               Contact us
               <ArrowRight className="h-4 w-4" />
             </Link>
             <a
               href="#quote"
-              className="inline-flex items-center gap-2 rounded-[3px] border border-white/45 bg-white/10 px-6 py-3.5 font-semibold text-white backdrop-blur-md transition hover:-translate-y-1 hover:bg-white/16"
+              className="inline-flex items-center gap-2 rounded-[3px] border border-white/45 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition hover:-translate-y-1 hover:bg-white/16"
             >
               Request a quote
             </a>
@@ -486,7 +486,7 @@ function HeroSection() {
           initial={{ opacity: 0, x: 40, scale: 0.96 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ delay: 0.15, duration: 0.75 }}
-          className="relative lg:-mr-20"
+          className="relative mx-auto w-full max-w-[580px] lg:-mr-8"
         >
           <SapDashboard />
         </motion.div>
@@ -515,13 +515,13 @@ function SapDashboard() {
   );
 
   return (
-    <div className="sap-dashboard-grid relative overflow-hidden rounded-l-[2rem] border border-white/30 bg-white/95 p-4 shadow-[0_30px_80px_rgba(0,0,0,.18)] sm:p-6 dark:bg-[#10161a]/95">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="sap-dashboard-grid relative overflow-hidden rounded-[1.5rem] border border-white/30 bg-white/95 p-3 shadow-[0_24px_65px_rgba(0,0,0,.17)] sm:p-4 dark:bg-[#10161a]/95">
+      <div className="mb-3 flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
             SAP Business One
           </p>
-          <h2 className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">
+          <h2 className="mt-1 text-base font-semibold text-slate-900 dark:text-white">
             Business cockpit
           </h2>
         </div>
@@ -529,7 +529,7 @@ function SapDashboard() {
           Live
         </span>
       </div>
-      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-3">
+      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-2">
         {cards.map(([label, value, Icon], index) => {
           const CardIcon = Icon as LucideIcon;
           return (
@@ -539,10 +539,10 @@ function SapDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 + index * 0.04 }}
               whileHover={{ y: -4, scale: 1.02 }}
-              className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm dark:border-white/10 dark:bg-white/[0.045]"
+              className="rounded-lg border border-slate-200 bg-white p-2.5 shadow-sm dark:border-white/10 dark:bg-white/[0.045]"
             >
               <CardIcon className="h-4 w-4 text-[#0A6ED1] dark:text-[#59D9F7]" />
-              <p className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
+              <p className="mt-2 text-base font-semibold text-slate-900 dark:text-white">
                 <AnimatedDashboardValue
                   value={value as string}
                   delay={220 + index * 85}
@@ -824,7 +824,7 @@ function QuoteSection() {
           className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-br from-[#0A6ED1] via-[#3189df] to-[#7a5cff] p-8 text-white sm:p-10"
         >
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/15 blur-[90px]" />
-          <Sparkles className="h-8 w-8" />
+          {/* <Sparkles className="h-8 w-8" /> */}
           <h2 className="mt-6 max-w-lg text-3xl font-semibold leading-tight sm:text-4xl">
             Request a quote tailored to your business
           </h2>

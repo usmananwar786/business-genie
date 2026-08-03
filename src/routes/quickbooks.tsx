@@ -8,10 +8,8 @@ import {
 import {
   AnimatePresence,
   motion,
-  useReducedMotion,
   useScroll,
   useSpring,
-  useTransform,
 } from "framer-motion";
 import * as LucideIcons from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
@@ -34,7 +32,6 @@ const getIcon = (name: string): AppIcon => iconLibrary[name] ?? fallbackIcon;
 
 const ArrowRight = getIcon("ArrowRight");
 const ArrowUpRight = getIcon("ArrowUpRight");
-const BadgeCheck = getIcon("BadgeCheck");
 const Banknote = getIcon("Banknote");
 const BarChart3 = getIcon("BarChart3");
 const BellRing = getIcon("BellRing");
@@ -58,12 +55,10 @@ const LockKeyhole = getIcon("LockKeyhole");
 const PackageCheck = getIcon("PackageCheck");
 const PieChart = getIcon("PieChart");
 const Receipt = getIcon("Receipt");
-const RefreshCw = getIcon("RefreshCw");
 const ScanLine = getIcon("ScanLine");
 const ShieldCheck = getIcon("ShieldCheck");
 const ShoppingBag = getIcon("ShoppingBag");
-const Sparkles = getIcon("Sparkles");
-const TrendingUp = getIcon("TrendingUp");
+// const Sparkles = getIcon("Sparkles");
 const UploadCloud = getIcon("UploadCloud");
 const UserRoundCog = getIcon("UserRoundCog");
 const Users = getIcon("Users");
@@ -549,39 +544,35 @@ function QuickBooksStyles() {
 
       .qb-shell[data-qb-theme="light"] .qb-hero-overlay {
         background:
-          linear-gradient(90deg, rgba(2,12,4,.98) 0%, rgba(2,12,4,.93) 44%, rgba(2,12,4,.68) 72%, rgba(2,12,4,.46) 100%),
-          linear-gradient(180deg, rgba(2,12,4,.20) 0%, rgba(2,12,4,.52) 100%);
+          linear-gradient(180deg, rgba(2,12,4,.68) 0%, rgba(2,12,4,.62) 48%, rgba(2,12,4,.78) 100%),
+          radial-gradient(circle at 50% 38%, rgba(44,160,28,.12), transparent 44%);
       }
 
       .qb-shell[data-qb-theme="dark"] .qb-hero-overlay {
-        background: linear-gradient(90deg, rgba(1,6,2,.97) 0%, rgba(1,6,2,.88) 45%, rgba(1,6,2,.45) 76%, rgba(1,6,2,.30) 100%);
+        background:
+          linear-gradient(180deg, rgba(1,6,2,.82) 0%, rgba(1,6,2,.74) 48%, rgba(1,6,2,.88) 100%),
+          radial-gradient(circle at 50% 38%, rgba(111,225,100,.08), transparent 44%);
       }
 
       .qb-hero-copy-panel {
         position: relative;
         isolation: isolate;
-        width: fit-content;
-        max-width: 100%;
-        padding: 1.5rem;
-        margin: -1.5rem;
+        width: min(56rem, calc(100% - 2rem));
+        margin-inline: auto;
+        padding: clamp(1.5rem, 3vw, 2.5rem);
         border-radius: 1.75rem;
-      }
-
-      .qb-shell[data-qb-theme="light"] .qb-hero-copy-panel {
-        background: linear-gradient(90deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.76) 72%, rgba(0,0,0,.42) 100%);
-        border: 1px solid rgba(255,255,255,.22);
-        box-shadow: 0 24px 70px rgba(0,0,0,.34);
-        backdrop-filter: blur(4px);
-      }
-
-      .qb-shell[data-qb-theme="light"] .qb-hero-mini-card {
-        background: rgba(3,18,5,.92) !important;
-        border-color: rgba(255,255,255,.42) !important;
-        box-shadow: 0 18px 45px rgba(0,0,0,.44) !important;
+        text-align: center;
+        background: rgba(0,0,0,.52);
+        border: 1px solid rgba(255,255,255,.18);
+        box-shadow: 0 24px 70px rgba(0,0,0,.28);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
       }
 
       .qb-shell[data-qb-theme="dark"] .qb-hero-copy-panel {
-        background: linear-gradient(90deg, rgba(0,0,0,.30) 0%, rgba(0,0,0,.12) 76%, transparent 100%);
+        background: rgba(0,0,0,.40);
+        border-color: rgba(255,255,255,.12);
+        box-shadow: 0 24px 70px rgba(0,0,0,.36);
       }
 
       .qb-hero-copy {
@@ -672,208 +663,71 @@ function ScrollProgress() {
 }
 
 function HeroSection() {
-  const reduceMotion = useReducedMotion();
-  const { scrollY } = useScroll();
-  const imageY = useTransform(scrollY, [0, 900], [0, reduceMotion ? 0 : 110]);
-  const contentY = useTransform(scrollY, [0, 700], [0, reduceMotion ? 0 : 48]);
-  const contentOpacity = useTransform(scrollY, [0, 720], [1, 0.45]);
-
   return (
     <section
       id="overview"
-      className="qb-anchor relative isolate overflow-hidden bg-[var(--qb-bg)] p-0"
+      className="qb-anchor relative isolate h-[calc(100svh-80px)] min-h-[520px] overflow-hidden bg-[var(--qb-bg)]"
     >
-      <div className="w-full">
-        <div className="relative min-h-[680px] overflow-hidden border-0 shadow-none sm:min-h-[710px] lg:min-h-[730px]">
-          <motion.img
-            aria-hidden="true"
-            style={{ y: imageY, scale: 1.05 }}
-            src="https://images.unsplash.com/photo-1554224154-22dec7ec8818?auto=format&fit=crop&w=2200&q=90"
-            alt="Accounting professional reviewing financial reports and business records"
-            className="absolute inset-0 h-[106%] w-full object-cover object-[center_46%]"
-          />
+      <img
+        src="https://images.unsplash.com/photo-1554224154-22dec7ec8818?auto=format&fit=crop&w=2200&q=90"
+        alt="Accounting documents and financial reporting workspace"
+        className="absolute inset-0 h-full w-full object-cover object-[center_42%]"
+        loading="eager"
+        decoding="async"
+        fetchPriority="high"
+      />
 
-          <div className="qb-hero-overlay absolute inset-0" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_24%,rgba(111,225,100,.17),transparent_31%)]" />
-          <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-[#061506]/65 to-transparent" />
+      <div className="qb-hero-overlay absolute inset-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,rgba(111,225,100,.13),transparent_34%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#061506]/58 to-transparent" />
 
-          <motion.div
-            aria-hidden="true"
-            animate={
-              reduceMotion
-                ? undefined
-                : { x: [0, 70, 0], y: [0, -35, 0], scale: [1, 1.12, 1] }
-            }
-            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -left-32 top-24 h-80 w-80 rounded-full bg-[#2CA01C]/25 blur-[120px]"
-          />
-
-          <motion.div
-            style={{ y: contentY, opacity: contentOpacity }}
-            className="relative z-10 mx-auto flex min-h-[680px] w-full max-w-[1440px] flex-col justify-between px-6 py-9 sm:min-h-[710px] sm:px-10 sm:py-10 lg:min-h-[730px] lg:px-16 lg:py-11 xl:px-20"
-          >
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={stagger}
-              className="qb-hero-copy-panel max-w-4xl"
-            >
-              <motion.h1
-                variants={reveal}
-                className="qb-hero-copy max-w-4xl text-5xl font-semibold leading-[.98] tracking-[-0.06em] sm:text-6xl lg:text-[5.9rem]"
-              >
-                One platform
-                <span className="qb-hero-copy-accent block">Complete visibility</span>
-              </motion.h1>
-
-              <motion.p
-                variants={reveal}
-                className="qb-hero-copy-muted mt-7 max-w-2xl text-base leading-8 sm:text-lg"
-              >
-                Your books are only the beginning. Connect invoicing, banking,
-                expenses, inventory, projects and reporting around the way your
-                business actually operates.
-              </motion.p>
-
-              <motion.div variants={reveal} className="mt-9 flex flex-wrap gap-3">
-                <Link
-                  to={ROUTES.contact}
-                  className="group inline-flex items-center gap-2 rounded-full bg-[#2CA01C] px-6 py-3.5 font-semibold text-white shadow-[0_18px_50px_rgba(44,160,28,.35)] transition hover:-translate-y-1 hover:bg-[#238717]"
-                >
-                  Start QuickBooks consultation
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-                <a
-                  href="#features"
-                  className="group inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3.5 font-semibold text-white backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/16"
-                >
-                  Explore features
-                  <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
-                </a>
-              </motion.div>
-            </motion.div>
-
-            <div className="mt-8 grid items-end gap-6 lg:grid-cols-[1fr_420px]">
-              <motion.div
-                variants={stagger}
-                initial="hidden"
-                animate="visible"
-                className="grid max-w-2xl gap-3 sm:grid-cols-3"
-              >
-                {[
-                  ["Cloud accounting", "Always-accessible books"],
-                  ["Connected banking", "Faster reconciliation"],
-                  ["Business reporting", "Decision-ready insight"],
-                ].map(([title, text]) => (
-                  <motion.div
-                    key={title}
-                    variants={reveal}
-                    whileHover={{ y: -5 }}
-                    className="qb-hero-mini-card rounded-2xl border border-white/35 bg-[#061506]/85 p-4 shadow-[0_16px_42px_rgba(0,0,0,.38)] backdrop-blur-xl"
-                  >
-                    <BadgeCheck className="h-5 w-5 text-[#75D96B]" />
-                    <p className="mt-3 text-sm font-semibold text-white">{title}</p>
-                    <p className="mt-1 text-xs leading-5 text-white/78">{text}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              <div className="lg:-translate-y-8">
-                <HeroFinancePanel />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function HeroFinancePanel() {
-  const reduceMotion = useReducedMotion();
-  const rows = [
-    { label: "Income", value: "$132,680", icon: TrendingUp, width: "88%" },
-    { label: "Expenses", value: "$61,420", icon: Receipt, width: "54%" },
-    { label: "Open invoices", value: "$18,960", icon: FileText, width: "37%" },
-  ];
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 48, scale: 0.94, y: 0 }}
-      animate={{
-        opacity: 1,
-        x: 0,
-        scale: 1,
-        y: reduceMotion ? 0 : [0, -9, 0],
-      }}
-      transition={{
-        opacity: { delay: 0.45, duration: 0.85 },
-        x: { delay: 0.45, duration: 0.85, ease: [0.22, 1, 0.36, 1] },
-        scale: { delay: 0.45, duration: 0.85, ease: [0.22, 1, 0.36, 1] },
-        y: { delay: 1.3, duration: 5.5, repeat: Infinity, ease: "easeInOut" },
-      }}
-      className="rounded-[1.75rem] border border-white/22 bg-white/92 p-5 text-[#0C2C0B] shadow-[0_24px_80px_rgba(0,0,0,.28)] backdrop-blur-2xl"
-    >
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#5B7158]">
-            Business overview
-          </p>
-          <h2 className="mt-1 text-lg font-semibold">Financial snapshot</h2>
-        </div>
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[1380px] items-center justify-center px-5 py-6 sm:px-8 lg:px-12 xl:px-16">
         <motion.div
-          animate={reduceMotion ? undefined : { rotate: 360 }}
-          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          className="grid h-10 w-10 place-items-center rounded-xl bg-[#2CA01C]/12 text-[#2CA01C]"
+          initial="hidden"
+          animate="visible"
+          variants={stagger}
+          className="qb-hero-copy-panel"
         >
-          <RefreshCw className="h-5 w-5" />
+          <motion.h1
+            variants={reveal}
+            className="qb-hero-copy mx-auto max-w-4xl text-4xl font-semibold leading-[.98] tracking-[-0.055em] sm:text-5xl lg:text-[4.8rem]"
+          >
+            One platform
+            <span className="qb-hero-copy-accent block">Complete visibility</span>
+          </motion.h1>
+
+          <motion.p
+            variants={reveal}
+            className="qb-hero-copy-muted mx-auto mt-5 max-w-3xl text-sm leading-6 sm:text-base sm:leading-7 lg:text-lg"
+          >
+            Your books are only the beginning. Connect invoicing, banking,
+            expenses, inventory, projects and reporting around the way your
+            business actually operates.
+          </motion.p>
+
+          <motion.div
+            variants={reveal}
+            className="mt-7 flex flex-wrap items-center justify-center gap-3"
+          >
+            <Link
+              to={ROUTES.contact}
+              className="group inline-flex min-h-11 items-center gap-2 rounded-full bg-[#2CA01C] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_42px_rgba(44,160,28,.34)] transition hover:-translate-y-1 hover:bg-[#238717]"
+            >
+              Start QuickBooks consultation
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+
+            <a
+              href="#features"
+              className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/30 bg-white/12 px-6 py-3 text-sm font-semibold text-white backdrop-blur-xl transition hover:-translate-y-1 hover:bg-white/18"
+            >
+              Explore features
+              <ChevronDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
+            </a>
+          </motion.div>
         </motion.div>
       </div>
-
-      <div className="mt-5 space-y-3">
-        {rows.map((row, index) => {
-          const Icon = row.icon;
-          return (
-            <motion.div
-              key={row.label}
-              initial={{ opacity: 0, x: 18 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.62 + index * 0.09 }}
-              className="rounded-2xl border border-[#2CA01C]/12 bg-white p-4"
-            >
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#2CA01C]/10 text-[#2CA01C]">
-                    <Icon className="h-4 w-4" />
-                  </span>
-                  <span className="text-sm font-medium text-[#355033]">{row.label}</span>
-                </div>
-                <span className="font-semibold">{row.value}</span>
-              </div>
-              <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#2CA01C]/10">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: row.width }}
-                  transition={{ delay: 0.75 + index * 0.1, duration: 0.8 }}
-                  className="h-full rounded-full bg-gradient-to-r from-[#1E7A16] to-[#75D96B]"
-                />
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      <div className="mt-4 flex items-center justify-between rounded-2xl bg-[#0C2C0B] px-4 py-3 text-white">
-        <div>
-          <p className="text-xs text-white/60">Books status</p>
-          <p className="mt-1 text-sm font-semibold">Updated and ready to review</p>
-        </div>
-        <span className="relative flex h-3 w-3">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#75D96B] opacity-75" />
-          <span className="relative inline-flex h-3 w-3 rounded-full bg-[#75D96B]" />
-        </span>
-      </div>
-    </motion.div>
+    </section>
   );
 }
 
@@ -898,7 +752,7 @@ function TrustRail() {
       >
         {[...items, ...items].map((item, index) => (
           <div key={`${item}-${index}`} className="flex items-center gap-3">
-            <Sparkles className="h-4 w-4 text-[#B9FFB2]" />
+            {/* <Sparkles className="h-4 w-4 text-[#B9FFB2]" /> */}
             <span className="text-xs font-semibold uppercase tracking-[0.20em]">
               {item}
             </span>
@@ -1666,7 +1520,7 @@ function SectionIntro({
           align === "center" ? "justify-center" : ""
         }`}
       >
-        <Sparkles className="h-4 w-4" />
+        {/* <Sparkles className="h-4 w-4" /> */}
         {eyebrow}
       </div>
 

@@ -658,7 +658,7 @@ function HeroSection() {
   ];
 
   return (
-    <section className="d365-hero relative isolate overflow-hidden px-4 pb-14 pt-24 sm:px-6 sm:pb-16 sm:pt-28 lg:min-h-[600px] lg:px-8 lg:pb-20 lg:pt-32">
+    <section className="d365-hero relative isolate overflow-hidden px-4 py-12 sm:px-6 sm:py-14 lg:h-[calc(100svh-80px)] lg:min-h-[480px] lg:max-h-[650px] lg:px-8 lg:py-8">
       <motion.div
         aria-hidden="true"
         animate={{ rotate: [0, 12, 0], scale: [1, 1.05, 1] }}
@@ -783,7 +783,7 @@ function HeroSection() {
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 whitespace-nowrap rounded-lg bg-white px-4 py-3 text-xs font-semibold text-[#7b2f7e] shadow-xl dark:bg-[#111824] dark:text-[#eec8ff] sm:text-sm"
               >
-                <Sparkles className="h-4 w-4" />
+                {/* <Sparkles className="h-4 w-4" /> */}
                 Across one connected platform
               </motion.div>
             </div>
