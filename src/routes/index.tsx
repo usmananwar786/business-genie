@@ -1196,7 +1196,7 @@ function Home() {
               className="group relative w-full overflow-hidden rounded-2xl border border-white/10 sm:rounded-3xl"
             >
               <img
-                src="/business-automation (2).jpg"
+                src="/business-automation.jpg"
                 alt="ERP, HRMS and Digital Marketing Automation"
                 className="h-[240px] w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 min-[375px]:h-[280px] sm:h-[380px] md:h-[440px] lg:h-[520px] xl:h-[560px] 2xl:h-[620px]"
               />

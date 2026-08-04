@@ -1078,10 +1078,16 @@ const tools = [
   "Figma",
   "SEO Tools",
 ];
-function parseThemeRgb(value: string) {
-  const match = value.match(
-    /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:\s*[,/]\s*([\d.]+))?\s*\)/i,
-  );
+const portfolioHeroContent = {
+  title: "Professional work across ERP,",
+  highlightedTitle: "marketing and digital products",
+  description:
+    "A premium portfolio showcase of business systems, digital marketing campaigns, websites, UI/UX design and automation solutions.",
+  buttonLabel: "Contact Us",
+};
+
+function parseHeroRgb(value: string) {
+  const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
 
   if (!match) return null;
 
@@ -1089,14 +1095,13 @@ function parseThemeRgb(value: string) {
     r: Number(match[1]),
     g: Number(match[2]),
     b: Number(match[3]),
-    alpha: match[4] !== undefined ? Number(match[4]) : 1,
   };
 }
 
-function isDarkThemeRgb(value: string) {
-  const rgb = parseThemeRgb(value);
+function isHeroDarkRgb(value: string) {
+  const rgb = parseHeroRgb(value);
 
-  if (!rgb || rgb.alpha <= 0.05) return null;
+  if (!rgb) return null;
 
   const brightness =
     (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
@@ -1104,62 +1109,39 @@ function isDarkThemeRgb(value: string) {
   return brightness < 145;
 }
 
-function getExplicitThemeValue(element: HTMLElement | null) {
-  if (!element) return null;
+function getCurrentPortfolioThemeIsDark() {
+  if (typeof window === "undefined") return false;
 
-  const attributeValue = [
-    element.getAttribute("data-theme"),
-    element.getAttribute("data-mode"),
-    element.getAttribute("data-color-scheme"),
+  const html = document.documentElement;
+  const body = document.body;
+  const appRoot =
+    document.querySelector<HTMLElement>("#root") ??
+    document.querySelector<HTMLElement>("[data-theme]") ??
+    document.querySelector<HTMLElement>("main");
+
+  const directThemeValues = [
+    html.className,
+    body.className,
+    appRoot?.className,
+    html.getAttribute("data-theme"),
+    body.getAttribute("data-theme"),
+    appRoot?.getAttribute("data-theme"),
+    html.getAttribute("data-mode"),
+    body.getAttribute("data-mode"),
+    appRoot?.getAttribute("data-mode"),
+    html.getAttribute("data-color-scheme"),
+    body.getAttribute("data-color-scheme"),
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
 
-  if (/\b(dark|night)\b/.test(attributeValue)) return true;
-  if (/\b(light|day)\b/.test(attributeValue)) return false;
+  if (/\b(dark|night)\b/.test(directThemeValues)) return true;
+  if (/\b(light|day)\b/.test(directThemeValues)) return false;
 
-  // Check exact class tokens only. This avoids treating Tailwind classes such
-  // as "dark:bg-black" as proof that dark mode is currently active.
-  if (element.classList.contains("dark") || element.classList.contains("night")) {
-    return true;
-  }
+  const storageValues: string[] = [];
 
-  if (element.classList.contains("light") || element.classList.contains("day")) {
-    return false;
-  }
-
-  return null;
-}
-
-function checkDarkTheme() {
-  if (typeof window === "undefined") return false;
-
-  const html = document.documentElement;
-  const body = document.body;
-  const root = document.querySelector<HTMLElement>("#root");
-  const main = document.querySelector<HTMLElement>("main");
-  const themeElement = document.querySelector<HTMLElement>(
-    "[data-theme], [data-mode], [data-color-scheme]",
-  );
-
-  const candidates = Array.from(
-    new Set(
-      [themeElement, html, body, root, main].filter(Boolean) as HTMLElement[],
-    ),
-  );
-
-  // 1. Prefer an explicit theme attribute or exact theme class.
-  for (const element of candidates) {
-    const explicitTheme = getExplicitThemeValue(element);
-
-    if (explicitTheme !== null) return explicitTheme;
-  }
-
-  // 2. Read any theme-related localStorage key used by the application.
   try {
-    const storageValues: string[] = [];
-
     for (let index = 0; index < window.localStorage.length; index += 1) {
       const key = window.localStorage.key(index);
 
@@ -1176,30 +1158,34 @@ function checkDarkTheme() {
         storageValues.push(window.localStorage.getItem(key) ?? "");
       }
     }
-
-    const storedTheme = storageValues.join(" ").toLowerCase();
-
-    if (/\b(dark|night)\b/.test(storedTheme)) return true;
-    if (/\b(light|day)\b/.test(storedTheme)) return false;
   } catch {
-    // localStorage can be unavailable in restricted browser modes.
+    // Ignore storage errors in restricted browser modes.
   }
 
-  // 3. Check the browser-resolved color scheme and visible backgrounds.
-  // Transparent backgrounds are ignored rather than treated as black.
-  for (const element of candidates) {
+  const storedTheme = storageValues.join(" ").toLowerCase();
+
+  if (/\b(dark|night)\b/.test(storedTheme)) return true;
+  if (/\b(light|day)\b/.test(storedTheme)) return false;
+
+  const elementsToCheck = [
+    body,
+    html,
+    appRoot,
+    document.querySelector<HTMLElement>("main"),
+  ].filter(Boolean) as HTMLElement[];
+
+  for (const element of elementsToCheck) {
     const styles = window.getComputedStyle(element);
     const colorScheme = styles.colorScheme.toLowerCase();
 
     if (colorScheme.includes("dark")) return true;
     if (colorScheme.includes("light")) return false;
 
-    const backgroundIsDark = isDarkThemeRgb(styles.backgroundColor);
+    const backgroundIsDark = isHeroDarkRgb(styles.backgroundColor);
 
     if (backgroundIsDark !== null) return backgroundIsDark;
   }
 
-  // 4. Final fallback: operating-system/browser preference.
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 }
 
@@ -1209,8 +1195,8 @@ function PortfolioHeroImage() {
   useEffect(() => {
     let lastTheme: boolean | null = null;
 
-    const updateThemeImage = () => {
-      const nextTheme = checkDarkTheme();
+    const updateTheme = () => {
+      const nextTheme = getCurrentPortfolioThemeIsDark();
 
       if (nextTheme !== lastTheme) {
         lastTheme = nextTheme;
@@ -1218,9 +1204,9 @@ function PortfolioHeroImage() {
       }
     };
 
-    updateThemeImage();
+    updateTheme();
 
-    const observer = new MutationObserver(updateThemeImage);
+    const observer = new MutationObserver(updateTheme);
 
     observer.observe(document.documentElement, {
       attributes: true,
@@ -1236,7 +1222,6 @@ function PortfolioHeroImage() {
 
     observer.observe(document.body, {
       attributes: true,
-      childList: true,
       subtree: true,
       attributeFilter: [
         "class",
@@ -1248,14 +1233,11 @@ function PortfolioHeroImage() {
     });
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleClick = () => window.setTimeout(updateThemeImage, 0);
+    mediaQuery.addEventListener("change", updateTheme);
+    window.addEventListener("storage", updateTheme);
+    window.addEventListener("themechange", updateTheme);
 
-    mediaQuery.addEventListener("change", updateThemeImage);
-    document.addEventListener("click", handleClick, true);
-    window.addEventListener("storage", updateThemeImage);
-    window.addEventListener("themechange", updateThemeImage);
-
-    const intervalId = window.setInterval(updateThemeImage, 250);
+    const intervalId = window.setInterval(updateTheme, 250);
 
     const darkImage = new Image();
     darkImage.src = portfolioHeroDark;
@@ -1265,10 +1247,9 @@ function PortfolioHeroImage() {
 
     return () => {
       observer.disconnect();
-      mediaQuery.removeEventListener("change", updateThemeImage);
-      document.removeEventListener("click", handleClick, true);
-      window.removeEventListener("storage", updateThemeImage);
-      window.removeEventListener("themechange", updateThemeImage);
+      mediaQuery.removeEventListener("change", updateTheme);
+      window.removeEventListener("storage", updateTheme);
+      window.removeEventListener("themechange", updateTheme);
       window.clearInterval(intervalId);
     };
   }, []);
@@ -1279,29 +1260,84 @@ function PortfolioHeroImage() {
 
   return (
     <section
-      aria-label="Business Genie Consulting portfolio"
+      aria-labelledby="portfolio-hero-title"
       className={`relative w-full overflow-hidden ${
-        isDarkMode ? "bg-[#050505]" : "bg-[#f4f7fc]"
+        isDarkMode ? "bg-[#050505]" : "bg-[#f7f2e9]"
       }`}
     >
-      <motion.img
-        key={activeHeroImage}
-        src={activeHeroImage}
-        alt="Business Genie Consulting portfolio"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
-        loading="eager"
-        decoding="sync"
-        draggable={false}
-        onError={(event) => {
-          console.error(
-            "Portfolio hero image failed to load:",
-            event.currentTarget.src,
-          );
-        }}
-        className="block h-auto w-full select-none object-cover object-center"
-      />
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative min-h-[500px] w-full sm:min-h-[560px] lg:min-h-0"
+      >
+        <img
+          key={activeHeroImage}
+          src={activeHeroImage}
+          alt=""
+          aria-hidden="true"
+          width={2048}
+          height={742}
+          loading="eager"
+          decoding="sync"
+          draggable={false}
+          onError={(event) => {
+            console.error(
+              "Portfolio hero image failed to load:",
+              event.currentTarget.src,
+            );
+          }}
+          className="absolute inset-0 h-full w-full select-none object-cover object-[72%_center] lg:static lg:h-auto lg:object-center"
+        />
+
+        {/* Light and dark overlays only improve text readability. */}
+        <div
+          className={`pointer-events-none absolute inset-0 ${
+            isDarkMode
+              ? "bg-gradient-to-r from-black/90 via-black/58 to-transparent"
+              : "bg-gradient-to-r from-[#fffaf2]/95 via-[#fffaf2]/70 to-transparent"
+          }`}
+        />
+
+        <div className="absolute inset-0 z-10 flex items-center">
+          <div className="container-x w-full py-14 sm:py-16 lg:py-12">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.12, ease: "easeOut" }}
+              className="max-w-4xl lg:max-w-[62%]"
+            >
+              <h1
+                id="portfolio-hero-title"
+                className={`text-4xl font-bold leading-[1.05] tracking-[-0.035em] sm:text-5xl lg:text-6xl xl:text-7xl ${
+                  isDarkMode ? "text-white" : "text-[#0b0b0b]"
+                }`}
+              >
+                {portfolioHeroContent.title}
+                <span className="mt-1 block text-[var(--brand-orange)]">
+                  {portfolioHeroContent.highlightedTitle}
+                </span>
+              </h1>
+
+              <p
+                className={`mt-6 max-w-3xl text-base font-semibold leading-relaxed sm:text-lg lg:text-xl ${
+                  isDarkMode ? "text-white/80" : "text-black/80"
+                }`}
+              >
+                {portfolioHeroContent.description}
+              </p>
+
+              <Link
+                to="/contact"
+                className="btn-shine mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-orange px-5 py-2.5 text-sm font-semibold text-black shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
+              >
+                {portfolioHeroContent.buttonLabel}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
     </section>
   );
 }
@@ -1309,7 +1345,7 @@ function PortfolioHeroImage() {
 function Portfolio() {
   return (
     <SiteLayout>
-      {/* Theme-aware Portfolio Hero Image */}
+      {/* Theme-aware portfolio hero with two images and editable text */}
       <PortfolioHeroImage />
 
       {/* Premium Portfolio Stats */}
