@@ -166,7 +166,7 @@ function Counter({
 
 function Hero() {
   return (
-    <section className="home-hero-light relative flex min-h-[100svh] items-center overflow-hidden bg-[var(--home-hero-bg)] pb-12 pt-24 sm:pb-14 sm:pt-28 lg:min-h-[92vh] lg:py-24">
+    <section className="home-hero-light relative flex min-h-[82svh] items-center overflow-hidden bg-[var(--home-hero-bg)] pb-10 pt-20 sm:min-h-[84svh] sm:pb-12 sm:pt-24 lg:min-h-[80vh] lg:py-16 xl:min-h-[82vh] xl:py-20">
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
         <video
@@ -241,15 +241,15 @@ function Hero() {
 
       <div className="relative container-x grid w-full min-w-0 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
         <div className="min-w-0">
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55 }}
             className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--home-hero-badge-border)] bg-[var(--home-hero-badge-bg)] px-3 py-1.5 text-left text-[9px] uppercase tracking-[0.14em] text-[var(--home-hero-badge-text)] transition-all duration-300 hover:border-[var(--brand-orange)]/50 hover:text-[var(--brand-orange)] sm:mb-6 sm:px-4 sm:text-[11px] sm:tracking-[0.22em] md:text-xs"
           >
-            {/* <Sparkles className="h-3.5 w-3.5 shrink-0" /> */}
+            <Sparkles className="h-3.5 w-3.5 shrink-0" />
             Business Automation Partner
-          </motion.div>
+          </motion.div> */}
 
           <motion.h1
             initial={{ opacity: 0, y: 26 }}
@@ -1196,7 +1196,7 @@ function Home() {
               className="group relative w-full overflow-hidden rounded-2xl border border-white/10 sm:rounded-3xl"
             >
               <img
-                src="/business-automation.jpg"
+                src="/business-automation (2).jpg"
                 alt="ERP, HRMS and Digital Marketing Automation"
                 className="h-[240px] w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 min-[375px]:h-[280px] sm:h-[380px] md:h-[440px] lg:h-[520px] xl:h-[560px] 2xl:h-[620px]"
               />
