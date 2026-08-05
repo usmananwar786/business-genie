@@ -372,9 +372,9 @@
 //   );
 // }
 
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { HardHat } from "lucide-react";
+import { ArrowRight, HardHat } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { IconType } from "react-icons";
 import {
@@ -660,41 +660,126 @@ function IndustriesHero() {
     };
   }, []);
 
-  const activeHeroImage = isDarkMode
-    ? industriesHeroDark
-    : industriesHeroLight;
-
   return (
     <section
       aria-label="Industries We Serve"
-      className={`relative w-full overflow-hidden ${
-        isDarkMode ? "bg-[#071522]" : "bg-[#f4f7fc]"
+      className={`relative isolate w-full overflow-hidden transition-colors duration-500 ${
+        isDarkMode ? "bg-[#050606]" : "bg-[#f4ebe1]"
       }`}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full"
-      >
+      <div className="relative min-h-[520px] w-full sm:min-h-[550px] lg:min-h-[clamp(500px,31vw,600px)]">
+        {/* Both images stay mounted so day/night switching is smooth. */}
         <img
-          key={activeHeroImage}
-          src={activeHeroImage}
-          alt="Industries We Serve"
-          width={1717}
-          height={458}
+          src={industriesHeroLight}
+          alt=""
+          aria-hidden="true"
+          width={1894}
+          height={715}
           loading="eager"
-          decoding="sync"
+          decoding="async"
           draggable={false}
-          onError={(event) => {
-            console.error(
-              "Industries hero image failed to load:",
-              event.currentTarget.src,
-            );
-          }}
-          className="block h-auto w-full select-none object-cover"
+          className={`pointer-events-none absolute inset-0 h-full w-full select-none object-cover object-center transition-opacity duration-500 ${
+            isDarkMode ? "opacity-0" : "opacity-100"
+          }`}
         />
-      </motion.div>
+
+        <img
+          src={industriesHeroDark}
+          alt=""
+          aria-hidden="true"
+          width={1896}
+          height={736}
+          loading="eager"
+          decoding="async"
+          draggable={false}
+          className={`pointer-events-none absolute inset-0 h-full w-full select-none object-cover object-center transition-opacity duration-500 ${
+            isDarkMode ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        {/*
+          The supplied artwork already contains the full composition.
+          This layer hides its old left-side text so the heading, paragraph
+          and button below are real responsive frontend elements.
+        */}
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 z-[1] hidden lg:block ${
+            isDarkMode
+              ? "bg-[linear-gradient(90deg,#050606_0%,#050606_43%,rgba(5,6,6,0.99)_48%,rgba(5,6,6,0.93)_53%,rgba(5,6,6,0.56)_58%,rgba(5,6,6,0)_66%)]"
+              : "bg-[linear-gradient(90deg,#f4ebe1_0%,#f4ebe1_43%,rgba(244,235,225,0.99)_48%,rgba(244,235,225,0.94)_53%,rgba(244,235,225,0.60)_58%,rgba(244,235,225,0)_66%)]"
+          }`}
+        />
+
+        {/* Mobile readability overlay */}
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 z-[1] lg:hidden ${
+            isDarkMode
+              ? "bg-[linear-gradient(180deg,rgba(5,6,6,0.99)_0%,rgba(5,6,6,0.96)_58%,rgba(5,6,6,0.72)_100%)]"
+              : "bg-[linear-gradient(180deg,rgba(244,235,225,0.99)_0%,rgba(244,235,225,0.96)_58%,rgba(244,235,225,0.74)_100%)]"
+          }`}
+        />
+
+        <div className="relative z-10 mx-auto flex min-h-[520px] w-full max-w-[1920px] items-center px-5 py-10 sm:min-h-[550px] sm:px-8 sm:py-12 lg:min-h-[clamp(500px,31vw,600px)] lg:px-[5vw] lg:py-[2.5vw]">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+            className="w-full max-w-[820px] lg:w-[48%]"
+          >
+            <h1
+              className={`font-bold tracking-[-0.045em] text-[clamp(3.2rem,5vw,6rem)] leading-[0.98] ${
+                isDarkMode ? "text-white" : "text-[#171412]"
+              }`}
+            >
+              <span className="block">We serve</span>
+              <span className="mt-2 block sm:mt-3">
+                multiple{" "}
+                <span className="text-[#f4770b]">industries</span>
+              </span>
+            </h1>
+
+            <div
+              aria-hidden="true"
+              className="mt-7 h-[3px] w-24 rounded-full bg-[linear-gradient(90deg,#f4770b_0%,rgba(244,119,11,0.08)_100%)] sm:w-28"
+            />
+
+            <p
+              className={`mt-6 max-w-[720px] text-[clamp(1.05rem,1.55vw,1.9rem)] leading-[1.35] ${
+                isDarkMode ? "text-white/70" : "text-[#68635f]"
+              }`}
+            >
+              Delivering professional solutions tailored to your business needs
+              across diverse sectors.
+            </p>
+
+            <motion.div
+              className="mt-10 sm:mt-12"
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.985 }}
+            >
+              <Link
+                to="/services"
+                aria-label="View our services"
+                style={{
+                  color: "#111111",
+                  backgroundColor: "#f57c00",
+                }}
+className="group inline-flex items-center justify-center gap-3 rounded-full bg-[#f77b00] px-7 py-2.5 text-lg font-semibold text-black transition-all duration-300 hover:-translate-y-1 hover:bg-[#ff8a0a] sm:px-9 sm:py-3"              >
+                <span className="!text-[#111111]">Our Services</span>
+
+                <ArrowRight
+                  aria-hidden="true"
+                  strokeWidth={2.2}
+                  style={{ color: "#111111", stroke: "#111111" }}
+                  className="h-5 w-5 shrink-0 !text-[#111111] transition-transform duration-300 group-hover:translate-x-1.5 sm:h-6 sm:w-6"
+                />
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

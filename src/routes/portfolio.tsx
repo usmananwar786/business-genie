@@ -821,8 +821,7 @@ import {
 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Section } from "@/components/layout/Section";
-import portfolioHeroDark from "@/assets/portfolio-header-night.png";
-import portfolioHeroLight from "@/assets/portfolio-header-day.png";
+import portfolioHeroImage from "@/assets/portfolio-header-bg.png";
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({
@@ -856,7 +855,7 @@ const stats: {
     number: 20,
     suffix: "+",
     label: "Industries Covered",
-    desc: "Retail, , SaaS, ecommerce, real estate and more.",
+    desc: "Retail, SaaS, ecommerce, real estate and more.",
     to: "/contact",
   },
   {
@@ -1237,107 +1236,130 @@ function PortfolioHeroImage() {
     window.addEventListener("storage", updateTheme);
     window.addEventListener("themechange", updateTheme);
 
-    const intervalId = window.setInterval(updateTheme, 250);
-
-    const darkImage = new Image();
-    darkImage.src = portfolioHeroDark;
-
-    const lightImage = new Image();
-    lightImage.src = portfolioHeroLight;
+    const heroImage = new Image();
+    heroImage.src = portfolioHeroImage;
 
     return () => {
       observer.disconnect();
       mediaQuery.removeEventListener("change", updateTheme);
       window.removeEventListener("storage", updateTheme);
       window.removeEventListener("themechange", updateTheme);
-      window.clearInterval(intervalId);
     };
   }, []);
-
-  const activeHeroImage = isDarkMode
-    ? portfolioHeroDark
-    : portfolioHeroLight;
 
   return (
     <section
       aria-labelledby="portfolio-hero-title"
-      className={`relative w-full overflow-hidden ${
-        isDarkMode ? "bg-[#050505]" : "bg-[#f7f2e9]"
+      className={`relative isolate w-full overflow-hidden border-b transition-colors duration-500 ${
+        isDarkMode
+          ? "border-white/10 bg-[#080808]"
+          : "border-black/[0.06] bg-[#f8f1e8]"
       }`}
     >
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative min-h-[500px] w-full sm:min-h-[560px] lg:min-h-0"
-      >
+      <div className="relative min-h-[500px] w-full sm:min-h-[520px] lg:min-h-[440px] xl:min-h-[460px]">
+        {/*
+          One image is used for both themes. On desktop it is contained on the
+          right instead of being stretched across the full header, so it stays
+          sharp and the composition looks cleaner.
+        */}
         <img
-          key={activeHeroImage}
-          src={activeHeroImage}
-          alt=""
-          aria-hidden="true"
-          width={2048}
-          height={742}
+          src={portfolioHeroImage}
+          alt="Portfolio of digital marketing, ERP, web and UI/UX projects"
+          width={1916}
+          height={821}
           loading="eager"
-          decoding="sync"
+          decoding="async"
           draggable={false}
-          onError={(event) => {
-            console.error(
-              "Portfolio hero image failed to load:",
-              event.currentTarget.src,
-            );
-          }}
-          className="absolute inset-0 h-full w-full select-none object-cover object-[72%_center] lg:static lg:h-auto lg:object-center"
-        />
-
-        {/* Light and dark overlays only improve text readability. */}
-        <div
-          className={`pointer-events-none absolute inset-0 ${
+          className={`pointer-events-none absolute inset-0 h-full w-full select-none object-cover object-[72%_center] transition-[filter,opacity] duration-500 md:object-contain md:object-right ${
             isDarkMode
-              ? "bg-gradient-to-r from-black/90 via-black/58 to-transparent"
-              : "bg-gradient-to-r from-[#fffaf2]/95 via-[#fffaf2]/70 to-transparent"
+              ? "brightness-[0.42] contrast-[1.08] saturate-[0.82] opacity-80"
+              : "brightness-100 contrast-100 saturate-100 opacity-100"
           }`}
         />
 
-        <div className="absolute inset-0 z-10 flex items-center">
-          <div className="container-x w-full py-14 sm:py-16 lg:py-12">
+        {/* Desktop readability gradient */}
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 hidden md:block ${
+            isDarkMode
+              ? "bg-[linear-gradient(90deg,#080808_0%,rgba(8,8,8,0.98)_30%,rgba(8,8,8,0.90)_45%,rgba(8,8,8,0.52)_61%,rgba(8,8,8,0.08)_79%,rgba(8,8,8,0)_100%)]"
+              : "bg-[linear-gradient(90deg,#f8f1e8_0%,rgba(248,241,232,0.98)_30%,rgba(248,241,232,0.90)_45%,rgba(248,241,232,0.50)_61%,rgba(248,241,232,0.07)_79%,rgba(248,241,232,0)_100%)]"
+          }`}
+        />
+
+        {/* Stronger mobile overlay because the artwork sits behind the text */}
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 md:hidden ${
+            isDarkMode
+              ? "bg-[linear-gradient(180deg,rgba(8,8,8,0.90)_0%,rgba(8,8,8,0.72)_55%,rgba(8,8,8,0.94)_100%)]"
+              : "bg-[linear-gradient(180deg,rgba(248,241,232,0.92)_0%,rgba(248,241,232,0.74)_55%,rgba(248,241,232,0.95)_100%)]"
+          }`}
+        />
+
+        <div className="relative z-10 flex min-h-[500px] items-center sm:min-h-[520px] lg:min-h-[440px] xl:min-h-[460px]">
+          <div className="container-x w-full py-10 sm:py-12 lg:py-10">
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.12, ease: "easeOut" }}
-              className="max-w-4xl lg:max-w-[62%]"
+              initial={{ opacity: 0, x: -22 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.62, ease: "easeOut" }}
+              className="max-w-[760px] lg:max-w-[54%] xl:max-w-[50%]"
             >
+              {/* <div
+                className={`mb-4 inline-flex items-center rounded-full border px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] backdrop-blur-md ${
+                  isDarkMode
+                    ? "border-white/15 bg-white/[0.05] text-white/70"
+                    : "border-black/10 bg-white/60 text-[#5b554f]"
+                }`}
+              >
+                Portfolio & Case Studies
+              </div> */}
+
               <h1
                 id="portfolio-hero-title"
-                className={`text-4xl font-bold leading-[1.05] tracking-[-0.035em] sm:text-5xl lg:text-6xl xl:text-7xl ${
-                  isDarkMode ? "text-white" : "text-[#0b0b0b]"
+                className={`font-bold leading-[1.06] tracking-[-0.038em] text-[clamp(2.35rem,3.25vw,3.8rem)] ${
+                  isDarkMode ? "text-white" : "text-[#111111]"
                 }`}
               >
                 {portfolioHeroContent.title}
-                <span className="mt-1 block text-[var(--brand-orange)]">
+                <span className="mt-1.5 block text-[var(--brand-orange)]">
                   {portfolioHeroContent.highlightedTitle}
                 </span>
               </h1>
 
               <p
-                className={`mt-6 max-w-3xl text-base font-semibold leading-relaxed sm:text-lg lg:text-xl ${
-                  isDarkMode ? "text-white/80" : "text-black/80"
+                className={`mt-5 max-w-[680px] text-base leading-[1.65] sm:text-lg lg:text-[1.08rem] ${
+                  isDarkMode ? "text-white/74" : "text-[#5c5752]"
                 }`}
               >
                 {portfolioHeroContent.description}
               </p>
 
-              <Link
-                to="/contact"
-                className="btn-shine mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-orange px-5 py-2.5 text-sm font-semibold text-black shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
-              >
-                {portfolioHeroContent.buttonLabel}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <Link
+                  to="/contact"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-[#f77b00] px-6 py-2.5 text-sm font-semibold text-black shadow-[0_14px_32px_rgba(247,123,0,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#ff8a0b] sm:text-base"
+                >
+                  Get Free Consultation
+                  <ArrowRight className="h-4.5 w-4.5 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+
+                <Link
+                  to="/portfolio"
+                  className={`group inline-flex items-center gap-2.5 rounded-full border px-6 py-2.5 text-sm font-semibold backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 sm:text-base ${
+                    isDarkMode
+                      ? "border-white/15 bg-white/[0.05] text-white/85 hover:border-[var(--brand-orange)]/55 hover:text-[var(--brand-orange)]"
+                      : "border-black/10 bg-white/65 text-[#161616] hover:border-[var(--brand-orange)]/55 hover:text-[var(--brand-orange)]"
+                  }`}
+                >
+                  Explore Our Work
+                  <ArrowUpRight className="h-4.5 w-4.5 transition-transform duration-300 group-hover:rotate-12" />
+                </Link>
+              </div>
             </motion.div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
@@ -1345,7 +1367,7 @@ function PortfolioHeroImage() {
 function Portfolio() {
   return (
     <SiteLayout>
-      {/* Theme-aware portfolio hero with two images and editable text */}
+      {/* Single-image portfolio hero with theme-aware overlay and readable text */}
       <PortfolioHeroImage />
 
       {/* Premium Portfolio Stats */}
